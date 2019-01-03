@@ -1,0 +1,17 @@
+Language:        Java
+AlignConsecutiveAssignments: true
+AlignTrailingComments: true
+AlignOperands: true
+AlignEscapedNewlinesLeft: true
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortBlocksOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: true
+ColumnLimit: 140
+ConstructorInitializerIndentWidth: 1
+IndentWidth: 4
+PenaltyBreakComment: 140
+ReflowComments: false
+TabWidth: 4
+
+

@@ -1,5 +1,6 @@
 package frc.team3324.robot;
 
+import frc.team3324.robot.DriveTrain.Commands.Auto.JaciPathfinding;
 import frc.team3324.robot.DriveTrain.DriveTrain;
 
 import edu.wpi.first.wpilibj.CameraServer;
@@ -81,6 +82,7 @@ public class Robot extends TimedRobot {
             firstLetter = gameData.charAt(0);
             if (positionString.equals("Default position")) {
                 infoString = "Drive forward (default)";
+                selectedCommand = new JaciPathfinding("LLeft");
             } else if (firstLetter == 'L' && positionString.equals("Left position")) {
                 infoString = "LLeft";
             }

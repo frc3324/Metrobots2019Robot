@@ -14,8 +14,7 @@ public class DriveArc extends Command {
     private double circleAngle, circleRadius;
     private double leftSideSpeed, rightSideSpeed;
     private double innerSpeed;
-    private double leftDistance, rightDistance, innerDistance, outerDistance;
-    private double encoderDifference;
+    private double outerDistance;
 
     private boolean isFinished;
 
@@ -33,7 +32,6 @@ public class DriveArc extends Command {
 
         innerSpeed = ((circleRadius * (2 / Constants.DriveTrain.DISTANCE_BETWEEN_WHEELS)) - 1) /
                      ((circleRadius * (2 / Constants.DriveTrain.DISTANCE_BETWEEN_WHEELS)) + 1);
-        innerDistance = (circleAngle / 360) * (2 * Math.PI) * ((circleRadius - (Constants.DriveTrain.DISTANCE_BETWEEN_WHEELS / 2)));
         outerDistance = (circleAngle / 360) * (2 * Math.PI) * ((circleRadius + (Constants.DriveTrain.DISTANCE_BETWEEN_WHEELS / 2)));
     }
 
@@ -57,8 +55,7 @@ public class DriveArc extends Command {
     		 *  leftDistance and rightDistance are in inches, and are not yet converted to encoder pulses.
     		*/
 
-            leftDistance  = innerDistance;
-            rightDistance = outerDistance;
+            double rightDistance = outerDistance;
 
             /*
     		 * Encoder pulse count is used to check that the robot has traveled the correct distance.
@@ -77,7 +74,7 @@ public class DriveArc extends Command {
     		 * the command will be keep running until complete.
     		 */
 
-            encoderDifference = (rightDistance * (Constants.DriveTrain.ENCODER_CONVERSION_RATE)) - DriveTrain.getRightDistance();
+            double encoderDifference = rightDistance - DriveTrain.rEncoder.getDistance();
 
             if (Math.abs(encoderDifference) < 0.5) {
                 isFinished = true;
@@ -94,9 +91,8 @@ public class DriveArc extends Command {
     		 * When turning right, the left wheels have to travel more than the right wheels.
     		 * The math is the same as the left turn, except the wheels are switched.
     		 */
-            leftDistance      = outerDistance;
-            rightDistance     = innerDistance;
-            encoderDifference = (leftDistance * (Constants.DriveTrain.ENCODER_CONVERSION_RATE) - DriveTrain.getLeftDistance());
+            double leftDistance      = outerDistance;
+            double encoderDifference = (leftDistance - DriveTrain.lEncoder.getDistance());
 
             if (Math.abs(encoderDifference) < 0.1 || encoderDifference < 0) {
                 isFinished = true;

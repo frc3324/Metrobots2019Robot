@@ -26,7 +26,7 @@ public class OI {
     /**
      * Primary driver buttons assignments
      */
-    public static final Button PRIMARY_A_BUTTON     = new JoystickButton(primaryController, BUTTON_A);
+    private static final Button PRIMARY_A_BUTTON     = new JoystickButton(primaryController, BUTTON_A);
     public static final Button PRIMARY_RIGHT_BUMPER = new JoystickButton(primaryController, RIGHT_BUMPER);
 
     /**

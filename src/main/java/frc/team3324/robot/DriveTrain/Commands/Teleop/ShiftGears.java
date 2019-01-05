@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ShiftGears extends Command {
 
-    boolean gearShifterStatus = false;
+    private boolean gearShifterStatus = false;
 
     public ShiftGears() {
         super("ShiftGears");
@@ -28,7 +28,7 @@ public class ShiftGears extends Command {
         }
     }
 
-    protected boolean isFinished() { return false; }
+    protected boolean isFinished() { return true; }
 
     protected void end() {}
 

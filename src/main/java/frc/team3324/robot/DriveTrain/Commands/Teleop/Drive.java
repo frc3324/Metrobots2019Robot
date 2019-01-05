@@ -12,6 +12,7 @@ public class Drive extends Command {
     protected void execute() {
         double leftY  = OI.primaryController.getY(GenericHID.Hand.kLeft);  // Get the Y (Up/Down) value of the LEFT Joystick
         double rightX = OI.primaryController.getX(GenericHID.Hand.kRight); // Get the X (Left/Right) value of the LEFT Joystick
+
         if (OI.PRIMARY_RIGHT_BUMPER.get()) {
             Robot.mDriveTrain.mDrive.curvatureDrive(leftY, -rightX, true);
         } else if (leftY > 0.1) {
@@ -22,16 +23,8 @@ public class Drive extends Command {
     }
 
     @Override
-    protected void initialize() {}
-
-    @Override
-    protected void end() {}
-
-    @Override
     protected boolean isFinished() {
         return false;
     }
 
-    @Override
-    protected void interrupted() {}
 }

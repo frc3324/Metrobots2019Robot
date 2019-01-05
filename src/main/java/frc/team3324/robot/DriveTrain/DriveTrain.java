@@ -18,46 +18,27 @@ public class DriveTrain extends Subsystem {
 
     private DoubleSolenoid gearShifter = new DoubleSolenoid(0, 1);
 
-    private static Encoder lEncoder =
+    public static Encoder lEncoder =
         new Encoder(Constants.DriveTrain.LEFT_ENCODER_PORT_A, Constants.DriveTrain.LEFT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);
-    private static Encoder rEncoder =
+    public static Encoder rEncoder =
         new Encoder(Constants.DriveTrain.RIGHT_ENCODER_PORT_A, Constants.DriveTrain.RIGHT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);
-    private double distancePerPulse = Constants.DriveTrain.CIRCUMFERENCE / Constants.DriveTrain.ACTUAL_PULSES;
 
     private static AHRS gyro = new AHRS(SPI.Port.kMXP);
 
-    WPI_VictorSPX flMotor        = new WPI_VictorSPX(Constants.DriveTrain.FL_MOTOR_PORT);
-    WPI_VictorSPX blMotor        = new WPI_VictorSPX(Constants.DriveTrain.BL_MOTOR_PORT);
-    SpeedControllerGroup lMotors = new SpeedControllerGroup(flMotor, blMotor);
+    private WPI_VictorSPX flMotor        = new WPI_VictorSPX(Constants.DriveTrain.FL_MOTOR_PORT);
+    private WPI_VictorSPX blMotor        = new WPI_VictorSPX(Constants.DriveTrain.BL_MOTOR_PORT);
+    private SpeedControllerGroup lMotors = new SpeedControllerGroup(flMotor, blMotor);
 
-    WPI_VictorSPX frMotor        = new WPI_VictorSPX(Constants.DriveTrain.FR_MOTOR_PORT);
-    WPI_VictorSPX brMotor        = new WPI_VictorSPX(Constants.DriveTrain.BR_MOTOR_PORT);
-    SpeedControllerGroup rMotors = new SpeedControllerGroup(frMotor, brMotor);
+    private WPI_VictorSPX frMotor        = new WPI_VictorSPX(Constants.DriveTrain.FR_MOTOR_PORT);
+    private WPI_VictorSPX brMotor        = new WPI_VictorSPX(Constants.DriveTrain.BR_MOTOR_PORT);
+    private SpeedControllerGroup rMotors = new SpeedControllerGroup(frMotor, brMotor);
 
     public DifferentialDrive mDrive = new DifferentialDrive(lMotors, rMotors);
 
     public DriveTrain() {
         mDrive.setSafetyEnabled(true);
-        lEncoder.setDistancePerPulse(distancePerPulse);
-        rEncoder.setDistancePerPulse(distancePerPulse);
-    }
-
-    public static double getLeftDistance() { return lEncoder.getDistance(); }
-
-    /**
-     * Get distance of the right encoder in inches
-     * @return
-     */
-    public static double getRightDistance() { return rEncoder.getDistance(); }
-
-    public static int getLeftDistanceRaw() {
-        final int rawLDistance = lEncoder.getRaw();
-        return rawLDistance;
-    }
-
-    public static int getRightDistanceRaw() {
-        final int rawLDistance = rEncoder.getRaw();
-        return rawLDistance;
+        lEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);
+        rEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);
     }
 
     /**
@@ -71,9 +52,9 @@ public class DriveTrain extends Subsystem {
     /**
      * Print the encoder values, left (L Encoder Distance) and right (R Encoder Distance)
      */
-    public void printEncoder() {
-        SmartDashboard.putNumber("L Encoder Distance", getLeftDistance());
-        SmartDashboard.putNumber("R Encoder Distance", getRightDistance());
+    public void printEncoderDistance() {
+        SmartDashboard.putNumber("L Encoder Distance", lEncoder.getDistance());
+        SmartDashboard.putNumber("R Encoder Distance", rEncoder.getDistance());
     }
 
     /**

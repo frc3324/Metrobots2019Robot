@@ -1,6 +1,6 @@
 package frc.team3324.robot.DriveTrain.Commands.Teleop;
 
-import frc.team3324.robot.OI;
+import frc.team3324.robot.util.OI;
 import frc.team3324.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;

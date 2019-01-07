@@ -1,11 +1,14 @@
 package frc.team3324.robot.DriveTrain;
 
-import frc.team3324.robot.Constants;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.team3324.robot.util.Constants;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -15,6 +18,20 @@ import frc.team3324.robot.DriveTrain.Commands.Teleop.Drive;
 
 // Identify Drivetrain as a subsystem (class)
 public class DriveTrain extends Subsystem {
+    private ShuffleboardTab sensorTab = Shuffleboard.getTab("Encoder Values");
+    private NetworkTableEntry leftDistance = sensorTab.add("Left Encoder Distance", 0).withPosition(0,0).getEntry();
+    private NetworkTableEntry rightDistance = sensorTab.add("Right Encoder Distance", 0).withPosition(1,0).getEntry();
+    private NetworkTableEntry rightRaw = sensorTab.add("Right Encoder Raw", 0).withPosition(2, 0).getEntry();
+    private NetworkTableEntry leftRaw = sensorTab.add("Left Encoder Raw", 0).withPosition(3,0).getEntry();
+    private NetworkTableEntry rightRate = sensorTab.add("Right Encoder Rate", 0).withPosition(4,0).getEntry();
+    private NetworkTableEntry leftRate = sensorTab.add("Left Encoder Rate", 0).withPosition(5,0).withWidget(BuiltInWidgets.kGraph).getEntry();
+
+    private NetworkTableEntry leftDistanceGraph = sensorTab.add("Left Encoder Distance Graph", 0).withPosition(0,1).withWidget(BuiltInWidgets.kGraph).getEntry();
+    private NetworkTableEntry rightDistanceGraph = sensorTab.add("Right Encoder Distance Graph", 0).withPosition(1,1).withWidget(BuiltInWidgets.kGraph).getEntry();
+    private NetworkTableEntry rightRawGraph = sensorTab.add("Right Encoder Raw Graph", 0).withPosition(2, 1).withWidget(BuiltInWidgets.kGraph).getEntry();
+    private NetworkTableEntry leftRawGraph = sensorTab.add("Left Encoder Raw Graph", 0).withPosition(3,1).withWidget(BuiltInWidgets.kGraph).getEntry();
+    private NetworkTableEntry rightRateGraph = sensorTab.add("Right Encoder Rate Graph", 0).withPosition(4,1).withWidget(BuiltInWidgets.kGraph).getEntry();
+    private NetworkTableEntry leftRateGraph = sensorTab.add("Left Encoder Rate Graph", 0).withPosition(5,1).withWidget(BuiltInWidgets.kGraph).getEntry();
 
     private DoubleSolenoid gearShifter = new DoubleSolenoid(0, 1);
 
@@ -53,10 +70,20 @@ public class DriveTrain extends Subsystem {
      * Print the encoder values, left (L Encoder Distance) and right (R Encoder Distance)
      */
     public void printEncoderDistance() {
-        SmartDashboard.putNumber("L Encoder Distance", lEncoder.getDistance());
-        SmartDashboard.putNumber("R Encoder Distance", rEncoder.getDistance());
-    }
+        rightDistance.setDouble(rEncoder.getDistance());
+        leftDistance.setDouble(lEncoder.getDistance());
+        rightRaw.setDouble(rEncoder.getRaw());
+        leftRaw.setDouble(lEncoder.getRaw());
+        rightRate.setDouble(rEncoder.getRate());
+        leftRate.setDouble(lEncoder.getRate());
 
+        rightDistanceGraph.setDouble(rEncoder.getDistance());
+        leftDistanceGraph.setDouble(lEncoder.getDistance());
+        rightRawGraph.setDouble(rEncoder.getRaw());
+        leftRawGraph.setDouble(lEncoder.getRaw());
+        rightRateGraph.setDouble(rEncoder.getRate());
+        leftRateGraph.setDouble(lEncoder.getRate());
+    }
     /**
      * Reset the gyro to zero
      * Avoid usage at all costs

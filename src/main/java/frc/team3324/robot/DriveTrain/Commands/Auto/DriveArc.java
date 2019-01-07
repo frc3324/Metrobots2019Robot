@@ -1,6 +1,6 @@
 package frc.team3324.robot.DriveTrain.Commands.Auto;
 
-import frc.team3324.robot.Constants;
+import frc.team3324.robot.util.Constants;
 import frc.team3324.robot.DriveTrain.DriveTrain;
 import frc.team3324.robot.Robot;
 

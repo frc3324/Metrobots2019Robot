@@ -1,6 +1,9 @@
 package frc.team3324.robot.DriveTrain.Commands.Auto;
 
-import frc.team3324.robot.Constants;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.team3324.robot.util.Constants;
 import frc.team3324.robot.DriveTrain.DriveTrain;
 import frc.team3324.robot.Robot;
 
@@ -14,56 +17,53 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
-/**
- *
- */
+import java.io.File;
+
 public class JaciPathfinding extends Command {
+    public enum path {
+        TOP_HATCH
+    }
+
+    private ShuffleboardTab pathfinderTab = Shuffleboard.getTab("Pathfinder");
+    private NetworkTableEntry leftOutput = pathfinderTab.add("Left Motor Output", 0).withPosition(0,0).getEntry();
+    private NetworkTableEntry rightOutput = pathfinderTab.add("Right Motor Output", 0).withPosition(1,0).getEntry();
+    private NetworkTableEntry finished = pathfinderTab.add("Finished", false).withPosition(2,0).getEntry();
+
+    private NetworkTableEntry desiredHeading = pathfinderTab.add("Desired Heading", 0).withPosition(0,1).getEntry();
+    private NetworkTableEntry heading = pathfinderTab.add("Current Heading",0).withPosition(1,1).getEntry();
+    private NetworkTableEntry angleError = pathfinderTab.add("Angle Difference",0).withPosition(2,1).getEntry();
+    private NetworkTableEntry headingCorrectSpeed = pathfinderTab.add("Heading Correct Speed",0).withPosition(3,1).getEntry();
+
 
     private double angleDifference, turn;
 
     private EncoderFollower left;
     private EncoderFollower right;
 
-    public JaciPathfinding(String path) {
-        Waypoint[] Defaultpoints = new Waypoint[] {
+    public JaciPathfinding(path path) {
+        Waypoint[] defaultPoints = new Waypoint[] {
             new Waypoint(0, 0,
                          0), // Waypoint @ x=-0, y=-0, exit angle= 0 degrees
             new Waypoint(3.048, 0, 0),
         };
-        Waypoint[] LMiddlepoints = new Waypoint[] {
-            new Waypoint(0, 0, 0), new Waypoint(3.556, 1.2192, 0),
-        };
-        Waypoint[] RMiddlepoints = new Waypoint[] {
-            new Waypoint(0, 0, 0), new Waypoint(3.556, -1.9812, 0),
-        };
-        Waypoint[] LLLeftpoints = new Waypoint[] {
-            new Waypoint(0, 0,
-                         0), // Waypoint @ x=-0, y=-0, exit angle= 0 degrees
-            new Waypoint(4.2672, 0.4064, Pathfinder.d2r(90)),
-        };
-        Waypoint[] RRRightpoints = new Waypoint[] {
-            new Waypoint(0, 0, 0), new Waypoint(4.2672, -1.8288, 90),
+        Waypoint[] topFirstHatch = new Waypoint[] {
+                new Waypoint(feetToMeters(1.322), feetToMeters(17.946), 0),
+                new Waypoint(feetToMeters(21.639), feetToMeters(17.215), Pathfinder.d2r(270))
         };
 
-        Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_LOW, 0.01,
+        Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST, 0.01,
                                                          Constants.DriveTrain.LOW_GEAR_MAX_VELOCITY * 0.7, 4.5, 9);
         Trajectory trajectory;
-
         switch (path) {
-        case "LLLeft":
-            trajectory = Pathfinder.generate(LLLeftpoints, config);
-            break;
-        case "RRRight":
-            trajectory = Pathfinder.generate(RRRightpoints, config);
-            break;
-        case "RMiddle":
-            trajectory = Pathfinder.generate(RMiddlepoints, config);
-            break;
-        case "LMiddle":
-            trajectory = Pathfinder.generate(LMiddlepoints, config);
+        case TOP_HATCH:
+            trajectory = Pathfinder.generate(topFirstHatch, config);
+            File myFile = new File("/home/lvuser/topHatch.traj");
+            Pathfinder.writeToFile(myFile, trajectory);
+            SmartDashboard.putBoolean("Running Top Hatch", true);
             break;
         default:
-            trajectory = Pathfinder.generate(Defaultpoints, config);
+            trajectory = Pathfinder.generate(defaultPoints, config);
+            break;
         }
         TankModifier modifier = new TankModifier(trajectory).modify(Constants.DriveTrain.DISTANCE_BETWEEN_WHEELS);
         left                  = new EncoderFollower(modifier.getLeftTrajectory());
@@ -79,16 +79,22 @@ public class JaciPathfinding extends Command {
     }
 
     private Notifier notifier = new Notifier(() -> {
+        SmartDashboard.putBoolean("Running", true);
         double lOutput         = left.calculate(DriveTrain.lEncoder.getRaw());
         double rOutput         = right.calculate(DriveTrain.rEncoder.getRaw());
         double gyroHeading     = -Robot.mDriveTrain.getYaw();       // Assuming the gyro is giving a value in degrees
-        double desired_heading = Pathfinder.r2d(left.getHeading()); // Should also be in degrees
-        angleDifference        = Pathfinder.boundHalfDegrees(desired_heading - gyroHeading);
+        double desiredHeading = Pathfinder.r2d(left.getHeading()); // Should also be in degrees
+        angleDifference        = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
         turn                   = 1.2 * (-1.0 / 80.0) * angleDifference;
-        SmartDashboard.putNumber("lOutput", lOutput);
-        SmartDashboard.putNumber("rOutput", rOutput);
-        SmartDashboard.putBoolean("JaciFinished", left.isFinished() && right.isFinished());
-        Robot.mDriveTrain.mDrive.tankDrive(-(lOutput + turn), -(rOutput - turn), false);
+        Robot.mDriveTrain.mDrive.tankDrive((lOutput + turn), (rOutput - turn), false);
+
+        leftOutput.setDouble(lOutput);
+        rightOutput.setDouble(rOutput);
+        finished.setBoolean(left.isFinished() && right.isFinished() && angleDifference < 3);
+        this.desiredHeading.setDouble(desiredHeading);
+        heading.setDouble(gyroHeading);
+        angleError.setDouble(angleDifference);
+        headingCorrectSpeed.setDouble(turn);
     });
 
     // Called just before this Command runs the first time
@@ -96,7 +102,7 @@ public class JaciPathfinding extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-            return left.isFinished();
+            return left.isFinished() && right.isFinished() && angleDifference < 3;
     }
 
     // Called once after isFinished returns true
@@ -105,5 +111,9 @@ public class JaciPathfinding extends Command {
         SmartDashboard.putBoolean("JaciFinished", true);
         Robot.mDriveTrain.mDrive.tankDrive(0, 0, false);
         Robot.mDriveTrain.setCoastMode();
+    }
+
+    private double feetToMeters(double feet) {
+       return feet * 0.3048;
     }
 }

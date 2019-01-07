@@ -1,4 +1,4 @@
-package frc.team3324.robot;
+package frc.team3324.robot.util;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -46,8 +46,7 @@ public class OI {
 
     /**
      * Controller buttons.
-     *
-     * aButton -> PressureSwitch*
+     * aButton -> Shift gears
      */
     public OI() {
         PRIMARY_A_BUTTON.whenPressed(new ShiftGears());

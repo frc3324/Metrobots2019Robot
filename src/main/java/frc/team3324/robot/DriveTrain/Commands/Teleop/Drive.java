@@ -1,6 +1,6 @@
 package frc.team3324.robot.DriveTrain.Commands.Teleop;
 
-import frc.team3324.robot.OI;
+import frc.team3324.robot.util.OI;
 import frc.team3324.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -14,11 +14,11 @@ public class Drive extends Command {
         double rightX = OI.primaryController.getX(GenericHID.Hand.kRight); // Get the X (Left/Right) value of the LEFT Joystick
 
         if (OI.PRIMARY_RIGHT_BUMPER.get()) {
-            Robot.mDriveTrain.mDrive.curvatureDrive(leftY, -rightX, true);
-        } else if (leftY > 0.1) {
-            Robot.mDriveTrain.mDrive.curvatureDrive(leftY, -rightX, true);
+            Robot.mDriveTrain.mDrive.curvatureDrive(leftY, rightX, true);
+        } else if (leftY < 0.1) {
+            Robot.mDriveTrain.mDrive.curvatureDrive(leftY, rightX, true);
         } else {
-            Robot.mDriveTrain.mDrive.curvatureDrive(leftY, -rightX, false);
+            Robot.mDriveTrain.mDrive.curvatureDrive(leftY, rightX, false);
         }
     }
 

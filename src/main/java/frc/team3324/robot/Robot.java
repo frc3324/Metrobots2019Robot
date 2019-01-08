@@ -9,10 +9,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.TimedRobot;
 
-/**
- * Main robot code<br>
- * <br>
- */
 public class Robot extends TimedRobot {
     /*
      * Instantiate subsystems

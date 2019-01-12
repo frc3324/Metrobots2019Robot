@@ -1,4 +1,4 @@
-package frc.team3324.robot.drivetrain.commands.Teleop;
+package frc.team3324.robot.drivetrain.commands.teleop;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.util.OI;

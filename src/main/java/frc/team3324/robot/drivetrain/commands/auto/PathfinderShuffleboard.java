@@ -1,4 +1,4 @@
-package frc.team3324.robot.drivetrain.commands.Auto;
+package frc.team3324.robot.drivetrain.commands.auto;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;

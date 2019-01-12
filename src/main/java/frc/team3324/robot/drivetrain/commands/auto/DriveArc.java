@@ -1,4 +1,4 @@
-package frc.team3324.robot.drivetrain.commands.Auto;
+package frc.team3324.robot.drivetrain.commands.auto;
 
 import frc.team3324.robot.util.Constants;
 import frc.team3324.robot.drivetrain.DriveTrain;

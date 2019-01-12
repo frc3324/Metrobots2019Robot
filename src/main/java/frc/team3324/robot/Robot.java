@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.team3324.robot.arm.Arm;
-import frc.team3324.robot.drivetrain.commands.Auto.JaciPathfinding;
+import frc.team3324.robot.drivetrain.commands.auto.JaciPathfinding;
 import frc.team3324.robot.drivetrain.DriveTrain;
-import frc.team3324.robot.drivetrain.commands.Auto.PathGenerator;
+import frc.team3324.robot.drivetrain.commands.auto.PathGenerator;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Scheduler.getInstance().add(new JaciPathfinding(PathGenerator.path.LEFT_CLOSE_ROCKET, false, false));
+        Scheduler.getInstance().add(new JaciPathfinding(PathGenerator.path.DEFAULT, false, false));
     }
 
     public void autonomousPeriodic() { Scheduler.getInstance().run(); }

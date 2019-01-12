@@ -1,4 +1,4 @@
-package frc.team3324.robot.drivetrain.commands.Auto;
+package frc.team3324.robot.drivetrain.commands.auto;
 
 import frc.team3324.robot.util.Constants;
 import frc.team3324.robot.drivetrain.DriveTrain;
@@ -13,8 +13,8 @@ import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
-import static frc.team3324.robot.drivetrain.commands.Auto.PathfinderShuffleboard.*;
-import static frc.team3324.robot.drivetrain.commands.Auto.PathGenerator.*;
+import static frc.team3324.robot.drivetrain.commands.auto.PathfinderShuffleboard.*;
+import static frc.team3324.robot.drivetrain.commands.auto.PathGenerator.*;
 
 public class JaciPathfinding extends Command {
 
@@ -49,7 +49,6 @@ public class JaciPathfinding extends Command {
         right.configurePIDVA(0.3, 0.0, 0, 1 / Constants.DriveTrain.LOW_GEAR_MAX_VELOCITY, 0);
         Robot.driveTrain.clearGyro();
         Robot.driveTrain.setBrakeMode();
-        //notifier.startPeriodic(0.01);
     }
     protected void execute() {
         followPath();

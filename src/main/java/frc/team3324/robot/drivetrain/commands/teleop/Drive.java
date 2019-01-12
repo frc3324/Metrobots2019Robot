@@ -1,4 +1,4 @@
-package frc.team3324.robot.drivetrain.commands.Teleop;
+package frc.team3324.robot.drivetrain.commands.teleop;
 
 import frc.team3324.robot.util.OI;
 import frc.team3324.robot.Robot;

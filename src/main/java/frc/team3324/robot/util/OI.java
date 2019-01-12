@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import frc.team3324.robot.drivetrain.commands.Teleop.ShiftGears;
-import frc.team3324.robot.drivetrain.commands.Auto.JaciPathfinding;
-import frc.team3324.robot.drivetrain.commands.Auto.PathGenerator;
+import frc.team3324.robot.drivetrain.commands.teleop.ShiftGears;
+import frc.team3324.robot.drivetrain.commands.auto.JaciPathfinding;
+import frc.team3324.robot.drivetrain.commands.auto.PathGenerator;
 
 /**
  * This class is the glue that binds the controls on the physical operator

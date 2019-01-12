@@ -1,4 +1,4 @@
-package frc.team3324.robot.drivetrain.commands.Auto;
+package frc.team3324.robot.drivetrain.commands.auto;
 
 import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -60,7 +60,7 @@ public class PathGenerator {
                         break;
                 }
             } catch (Exception CouldNotRunAuto) {
-                BadLog.createValue("Auto Read Failed", "true");
+                BadLog.createValue("auto Read Failed", "true");
                 System.err.println("Pathfinder Read Failed");
                 trajectory = Pathfinder.generate(defaultPoints, config);
             }

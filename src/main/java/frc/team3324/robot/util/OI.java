@@ -3,6 +3,8 @@ package frc.team3324.robot.util;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.team3324.robot.DriveTrain.Commands.Auto.JaciPathfinding;
+import frc.team3324.robot.DriveTrain.Commands.Auto.PathGenerator;
 import frc.team3324.robot.DriveTrain.Commands.Teleop.ShiftGears;
 
 /**
@@ -27,6 +29,7 @@ public class OI {
      * Primary driver buttons assignments
      */
     private static final Button PRIMARY_A_BUTTON     = new JoystickButton(primaryController, BUTTON_A);
+    private static final Button PRIMARY_X_BUTTON = new JoystickButton(primaryController, BUTTON_X);
     public static final Button PRIMARY_RIGHT_BUMPER = new JoystickButton(primaryController, RIGHT_BUMPER);
 
     /**
@@ -49,7 +52,9 @@ public class OI {
      * aButton -> Shift gears
      */
     public OI() {
-        PRIMARY_A_BUTTON.whenPressed(new ShiftGears());
+        PRIMARY_RIGHT_BUMPER.whenPressed(new ShiftGears());
+        PRIMARY_X_BUTTON.whenPressed(new JaciPathfinding(PathGenerator.path.DEFAULT, true, false));
+        PRIMARY_A_BUTTON.whenPressed(new JaciPathfinding(PathGenerator.path.LEFT_CLOSE_ROCKET, true ,true));
         //Secondary button commands
     }
 }

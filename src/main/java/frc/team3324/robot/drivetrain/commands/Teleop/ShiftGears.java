@@ -1,5 +1,6 @@
 package frc.team3324.robot.drivetrain.commands.Teleop;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.util.OI;
 import frc.team3324.robot.Robot;
 
@@ -17,6 +18,7 @@ public class ShiftGears extends Command {
     protected void initialize() {}
 
     protected void execute() {
+        SmartDashboard.putBoolean("SHIFTING", true);
         if (OI.primaryController.getAButton()) {
             if (gearShifterStatus) {
                 Robot.driveTrain.setHighGear();

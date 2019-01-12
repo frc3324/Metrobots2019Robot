@@ -8,12 +8,17 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.drivetrain.commands.Auto.JaciPathfinding;
 import frc.team3324.robot.drivetrain.DriveTrain;
+import frc.team3324.robot.drivetrain.commands.Auto.PathGenerator;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.team3324.robot.util.OI;
 
 public class Robot extends TimedRobot {
+    public Robot() {
+        super(0.01);
+    }
     /*
      * Instantiate subsystems
      */
@@ -21,7 +26,7 @@ public class Robot extends TimedRobot {
     public static DriveTrain driveTrain;
     public static Arm arm;
     public static BadLog logger;
-
+    public static OI oi = new OI();
 
     public void robotInit() {
         logger = BadLog.init("/home/lvuser/log1.bag", true);
@@ -48,7 +53,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Scheduler.getInstance().add(new JaciPathfinding(JaciPathfinding.path.TOP_HATCH));
+        Scheduler.getInstance().add(new JaciPathfinding(PathGenerator.path.LEFT_CLOSE_ROCKET, false, false));
     }
 
     public void autonomousPeriodic() { Scheduler.getInstance().run(); }

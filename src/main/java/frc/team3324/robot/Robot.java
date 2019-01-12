@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
 
     public void disabledInit() {
         CameraServer.getInstance().startAutomaticCapture();
-        CameraServer.getInstance().putVideo("Camera output", 1280, 720);
+        CameraServer.getInstance().putVideo("Camera output", 240, 144);
     }
 
     @Override

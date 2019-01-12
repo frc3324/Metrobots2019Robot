@@ -3,7 +3,7 @@ package frc.team3324.robot.util;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.team3324.robot.DriveTrain.Commands.Teleop.ShiftGears;
+import frc.team3324.robot.drivetrain.commands.Teleop.ShiftGears;
 
 /**
  * This class is the glue that binds the controls on the physical operator

@@ -1,7 +1,7 @@
-package frc.team3324.robot.DriveTrain.Commands.Auto;
+package frc.team3324.robot.drivetrain.commands.Auto;
 
 import frc.team3324.robot.util.Constants;
-import frc.team3324.robot.DriveTrain.DriveTrain;
+import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -19,14 +19,14 @@ public class DriveArc extends Command {
     private boolean isFinished;
 
     public DriveArc(double angle, double radius) {
-        requires(Robot.mDriveTrain);
+        requires(Robot.driveTrain);
         circleAngle  = angle;
         circleRadius = radius;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Robot.mDriveTrain.mDrive.tankDrive(0.0, 0.0, false);
+        Robot.driveTrain.mDrive.tankDrive(0.0, 0.0, false);
 
         DriveTrain.clearEncoder();
 
@@ -108,14 +108,14 @@ public class DriveArc extends Command {
             leftSideSpeed  = 0;
             rightSideSpeed = 0;
         }
-        Robot.mDriveTrain.mDrive.tankDrive(-leftSideSpeed, -rightSideSpeed, false);
+        Robot.driveTrain.mDrive.tankDrive(-leftSideSpeed, -rightSideSpeed, false);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() { return isFinished; }
 
     // Called once after isFinished returns true
-    protected void end() { Robot.mDriveTrain.mDrive.tankDrive(0.0, 0.0, false); }
+    protected void end() { Robot.driveTrain.mDrive.tankDrive(0.0, 0.0, false); }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run

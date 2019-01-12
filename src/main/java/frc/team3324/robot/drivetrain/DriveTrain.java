@@ -1,5 +1,6 @@
-package frc.team3324.robot.DriveTrain;
+package frc.team3324.robot.drivetrain;
 
+import badlog.lib.BadLog;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -14,7 +15,9 @@ import edu.wpi.first.wpilibj.SPI;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import com.kauailabs.navx.frc.AHRS;
-import frc.team3324.robot.DriveTrain.Commands.Teleop.Drive;
+import frc.team3324.robot.drivetrain.commands.Teleop.Drive;
+
+import static frc.team3324.robot.Robot.pdp;
 
 // Identify Drivetrain as a subsystem (class)
 public class DriveTrain extends Subsystem {
@@ -24,7 +27,7 @@ public class DriveTrain extends Subsystem {
     private NetworkTableEntry rightRaw = sensorTab.add("Right Encoder Raw", 0).withPosition(2, 0).getEntry();
     private NetworkTableEntry leftRaw = sensorTab.add("Left Encoder Raw", 0).withPosition(3,0).getEntry();
     private NetworkTableEntry rightRate = sensorTab.add("Right Encoder Rate", 0).withPosition(4,0).getEntry();
-    private NetworkTableEntry leftRate = sensorTab.add("Left Encoder Rate", 0).withPosition(5,0).withWidget(BuiltInWidgets.kGraph).getEntry();
+    private NetworkTableEntry leftRate = sensorTab.add("Left Encoder Rate", 0).withPosition(5,0).getEntry();
 
     private NetworkTableEntry leftDistanceGraph = sensorTab.add("Left Encoder Distance Graph", 0).withPosition(0,1).withWidget(BuiltInWidgets.kGraph).getEntry();
     private NetworkTableEntry rightDistanceGraph = sensorTab.add("Right Encoder Distance Graph", 0).withPosition(1,1).withWidget(BuiltInWidgets.kGraph).getEntry();
@@ -53,6 +56,19 @@ public class DriveTrain extends Subsystem {
     public DifferentialDrive mDrive = new DifferentialDrive(lMotors, rMotors);
 
     public DriveTrain() {
+        BadLog.createTopic("drivetrain/Total Current", "Amps", () -> getTotalCurrent());
+        BadLog.createTopic("drivetrain/FL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT));
+        BadLog.createTopic("drivetrain/BL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.BL_PDP_MOTOR_PORT));
+        BadLog.createTopic("drivetrain/FR Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FR_PDP_MOTOR_PORT));
+        BadLog.createTopic("drivetrain/BR Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.BR_PDP_MOTOR_PORT));
+
+        BadLog.createTopic("drivetrain/Left Raw", "Ticks", () -> (double) lEncoder.getRaw());
+        BadLog.createTopic("drivetrain/Right Raw", "Ticks", () -> (double) rEncoder.getRaw());
+        BadLog.createTopic("drivetrain/Left Distance", "m", () -> lEncoder.getDistance());
+        BadLog.createTopic("drivetrain/Right Distance", "m", () ->rEncoder.getDistance());
+        BadLog.createTopic("drivetrain/Left Rate", "m/s", () -> lEncoder.getRate());
+        BadLog.createTopic("drivetrain/Right Rate", "m/s", () -> rEncoder.getRate());
+
         mDrive.setSafetyEnabled(true);
         lEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);
         rEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);
@@ -111,4 +127,12 @@ public class DriveTrain extends Subsystem {
     public void setLowGear() { gearShifter.set(DoubleSolenoid.Value.kReverse); }
 
     protected void initDefaultCommand() { setDefaultCommand(new Drive()); }
+
+    public double getTotalCurrent() {
+        return pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT) +
+                pdp.getCurrent(Constants.DriveTrain.BL_PDP_MOTOR_PORT) +
+                pdp.getCurrent(Constants.DriveTrain.FR_PDP_MOTOR_PORT) +
+                pdp.getCurrent(Constants.DriveTrain.BR_PDP_MOTOR_PORT);
+    }
+
 }

@@ -1,10 +1,10 @@
-package frc.team3324.robot.DriveTrain.Commands.Auto;
+package frc.team3324.robot.drivetrain.commands.Auto;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.team3324.robot.util.Constants;
-import frc.team3324.robot.DriveTrain.DriveTrain;
+import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.Robot;
 
 import edu.wpi.first.wpilibj.Notifier;
@@ -74,19 +74,19 @@ public class JaciPathfinding extends Command {
                                Constants.DriveTrain.WHEEL_DIAMETER_METERS);
         left.configurePIDVA(0.3, 0.0, 0, 1 / Constants.DriveTrain.LOW_GEAR_MAX_VELOCITY, 0);
         right.configurePIDVA(0.3, 0.0, 0, 1 / Constants.DriveTrain.LOW_GEAR_MAX_VELOCITY, 0);
-        Robot.mDriveTrain.clearGyro();
-        Robot.mDriveTrain.setBrakeMode();
+        Robot.driveTrain.clearGyro();
+        Robot.driveTrain.setBrakeMode();
     }
 
     private Notifier notifier = new Notifier(() -> {
         SmartDashboard.putBoolean("Running", true);
         double lOutput         = left.calculate(DriveTrain.lEncoder.getRaw());
         double rOutput         = right.calculate(DriveTrain.rEncoder.getRaw());
-        double gyroHeading     = -Robot.mDriveTrain.getYaw();       // Assuming the gyro is giving a value in degrees
+        double gyroHeading     = -Robot.driveTrain.getYaw();       // Assuming the gyro is giving a value in degrees
         double desiredHeading = Pathfinder.r2d(left.getHeading()); // Should also be in degrees
         angleDifference        = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
         turn                   = 1.2 * (-1.0 / 80.0) * angleDifference;
-        Robot.mDriveTrain.mDrive.tankDrive((lOutput + turn), (rOutput - turn), false);
+        Robot.driveTrain.mDrive.tankDrive((lOutput + turn), (rOutput - turn), false);
 
         leftOutput.setDouble(lOutput);
         rightOutput.setDouble(rOutput);
@@ -109,8 +109,8 @@ public class JaciPathfinding extends Command {
     protected void end() {
         notifier.stop();
         SmartDashboard.putBoolean("JaciFinished", true);
-        Robot.mDriveTrain.mDrive.tankDrive(0, 0, false);
-        Robot.mDriveTrain.setCoastMode();
+        Robot.driveTrain.mDrive.tankDrive(0, 0, false);
+        Robot.driveTrain.setCoastMode();
     }
 
     private double feetToMeters(double feet) {

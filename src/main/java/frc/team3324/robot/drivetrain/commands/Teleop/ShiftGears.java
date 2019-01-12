@@ -1,4 +1,4 @@
-package frc.team3324.robot.DriveTrain.Commands.Teleop;
+package frc.team3324.robot.drivetrain.commands.Teleop;
 
 import frc.team3324.robot.util.OI;
 import frc.team3324.robot.Robot;
@@ -11,7 +11,7 @@ public class ShiftGears extends Command {
 
     public ShiftGears() {
         super("ShiftGears");
-        requires(Robot.mDriveTrain);
+        requires(Robot.driveTrain);
     }
 
     protected void initialize() {}
@@ -19,10 +19,10 @@ public class ShiftGears extends Command {
     protected void execute() {
         if (OI.primaryController.getAButton()) {
             if (gearShifterStatus) {
-                Robot.mDriveTrain.setHighGear();
+                Robot.driveTrain.setHighGear();
                 gearShifterStatus = !gearShifterStatus;
             } else {
-                Robot.mDriveTrain.setLowGear();
+                Robot.driveTrain.setLowGear();
                 gearShifterStatus = !gearShifterStatus;
             }
         }

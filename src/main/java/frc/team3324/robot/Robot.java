@@ -17,7 +17,7 @@ import frc.team3324.robot.util.OI;
 
 public class Robot extends TimedRobot {
     public Robot() {
-        super(0.01);
+        super(0.02);
     }
     /*
      * Instantiate subsystems
@@ -26,13 +26,14 @@ public class Robot extends TimedRobot {
     public static DriveTrain driveTrain;
     public static Arm arm;
     public static BadLog logger;
-    public static OI oi = new OI();
+    public static OI oi;
 
     public void robotInit() {
         logger = BadLog.init("/home/lvuser/log1.bag", true);
         {
             driveTrain = new DriveTrain();
             arm = new Arm();
+            OI oi = new OI();
 
             BadLog.createTopic("System/Battery Voltage", "V", () -> RobotController.getBatteryVoltage());
             BadLog.createTopic("Match Time", "s", () -> DriverStation.getInstance().getMatchTime());

@@ -12,7 +12,6 @@ public class ShiftGears extends Command {
 
     public ShiftGears() {
         super("ShiftGears");
-        requires(Robot.driveTrain);
     }
 
     protected void initialize() {}

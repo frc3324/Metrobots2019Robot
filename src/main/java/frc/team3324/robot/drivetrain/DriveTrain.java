@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.SPI;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import com.kauailabs.navx.frc.AHRS;
-import frc.team3324.robot.drivetrain.commands.Teleop.Drive;
+import frc.team3324.robot.drivetrain.commands.teleop.Drive;
 
 import static frc.team3324.robot.Robot.pdp;
 

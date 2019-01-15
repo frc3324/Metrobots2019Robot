@@ -1,6 +1,7 @@
 package frc.team3324.robot.drivetrain;
 
 import badlog.lib.BadLog;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj.SPI;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import com.kauailabs.navx.frc.AHRS;
+import frc.team3324.robot.drivetrain.commands.teleop.Drive;
 
 import static frc.team3324.robot.Robot.pdp;
 
@@ -43,19 +45,20 @@ public class DriveTrain extends Subsystem {
     public static Encoder rEncoder =
         new Encoder(Constants.DriveTrain.RIGHT_ENCODER_PORT_A, Constants.DriveTrain.RIGHT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);
 
-    private static AHRS gyro = new AHRS(SPI.Port.kMXP);
+    public static AHRS gyro = new AHRS(SPI.Port.kMXP);
 
-    private WPI_VictorSPX flMotor        = new WPI_VictorSPX(Constants.DriveTrain.FL_MOTOR_PORT);
-    private WPI_VictorSPX blMotor        = new WPI_VictorSPX(Constants.DriveTrain.BL_MOTOR_PORT);
+    private WPI_TalonSRX flMotor        = new WPI_TalonSRX(Constants.DriveTrain.FL_MOTOR_PORT);
+    private WPI_TalonSRX blMotor        = new WPI_TalonSRX(Constants.DriveTrain.BL_MOTOR_PORT);
     private SpeedControllerGroup lMotors = new SpeedControllerGroup(flMotor, blMotor);
 
-    private WPI_VictorSPX frMotor        = new WPI_VictorSPX(Constants.DriveTrain.FR_MOTOR_PORT);
-    private WPI_VictorSPX brMotor        = new WPI_VictorSPX(Constants.DriveTrain.BR_MOTOR_PORT);
+    private WPI_TalonSRX frMotor        = new WPI_TalonSRX(Constants.DriveTrain.FR_MOTOR_PORT);
+    private WPI_TalonSRX brMotor        = new WPI_TalonSRX(Constants.DriveTrain.BR_MOTOR_PORT);
     private SpeedControllerGroup rMotors = new SpeedControllerGroup(frMotor, brMotor);
 
     public DifferentialDrive mDrive = new DifferentialDrive(lMotors, rMotors);
 
     public DriveTrain() {
+<<<<<<< HEAD
         BadLog.createTopic("drivetrain/Total Current", "Amps", () -> getTotalCurrent());
         BadLog.createTopic("drivetrain/FL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT));
         BadLog.createTopic("drivetrain/BL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.BL_PDP_MOTOR_PORT));
@@ -70,6 +73,10 @@ public class DriveTrain extends Subsystem {
         BadLog.createTopic("drivetrain/Right Rate", "m/s", () -> rEncoder.getRate());
 
 
+=======
+        rMotors.setInverted(true);
+        lMotors.setInverted(true);
+>>>>>>> bc7030e3cd6c4c24fb24326407682b835d965636
         mDrive.setSafetyEnabled(true);
         lEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);
         rEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);

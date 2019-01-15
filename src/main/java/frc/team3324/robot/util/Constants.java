@@ -9,15 +9,15 @@ package frc.team3324.robot.util;
 public class Constants {
     public class DriveTrain {
         // Motor ports
-        public final static int FL_MOTOR_PORT = 19;
-        public final static int BL_MOTOR_PORT = 18;
-        public final static int FR_MOTOR_PORT = 17;
-        public final static int BR_MOTOR_PORT = 16;
+        public final static int FL_MOTOR_PORT = 4;
+        public final static int BL_MOTOR_PORT = 0;
+        public final static int FR_MOTOR_PORT = 1;
+        public final static int BR_MOTOR_PORT = 5;
 
         public final static int FL_PDP_MOTOR_PORT = 0;
-        public final static int BL_PDP_MOTOR_PORT = 1;
-        public final static int FR_PDP_MOTOR_PORT = 2;
-        public final static int BR_PDP_MOTOR_PORT = 3;
+        public final static int BL_PDP_MOTOR_PORT = 15;
+        public final static int FR_PDP_MOTOR_PORT = 1;
+        public final static int BR_PDP_MOTOR_PORT = 14;
 
         public final static int LEFT_ENCODER_PORT_A = 0;
         public final static int LEFT_ENCODER_PORT_B = 1;

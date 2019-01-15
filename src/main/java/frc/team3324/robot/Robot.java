@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.team3324.robot.arm.Arm;
+import frc.team3324.robot.drivetrain.commands.auto.Characterizer;
 import frc.team3324.robot.drivetrain.commands.auto.JaciPathfinding;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.drivetrain.commands.auto.PathGenerator;
@@ -26,6 +27,7 @@ public class Robot extends TimedRobot {
     public static DriveTrain driveTrain;
     public static Arm arm;
     public static BadLog logger;
+    public static Characterizer characterizer;
     public static OI oi;
 
     public void robotInit() {
@@ -34,6 +36,7 @@ public class Robot extends TimedRobot {
 
             driveTrain = new DriveTrain();
             arm = new Arm();
+            characterizer = new Characterizer();
             OI oi = new OI();
             BadLog.createTopic("System/Battery Voltage", "V", () -> RobotController.getBatteryVoltage());
             BadLog.createTopic("Match Time", "s", () -> DriverStation.getInstance().getMatchTime());
@@ -41,6 +44,7 @@ public class Robot extends TimedRobot {
         logger.finishInitialization();
         Shuffleboard.startRecording();
     }
+
     public void robotPeriodic() {
         CameraServer.getInstance().getVideo();
         logger.updateTopics();

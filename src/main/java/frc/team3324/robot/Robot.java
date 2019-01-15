@@ -29,12 +29,12 @@ public class Robot extends TimedRobot {
     public static OI oi;
 
     public void robotInit() {
-        logger = BadLog.init("/home/lvuser/log1.bag", true);
+        logger = BadLog.init("/home/lvuser/log.bag" + System.currentTimeMillis(), true);
         {
+
             driveTrain = new DriveTrain();
             arm = new Arm();
             OI oi = new OI();
-
             BadLog.createTopic("System/Battery Voltage", "V", () -> RobotController.getBatteryVoltage());
             BadLog.createTopic("Match Time", "s", () -> DriverStation.getInstance().getMatchTime());
         }

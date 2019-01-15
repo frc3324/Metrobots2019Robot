@@ -69,6 +69,7 @@ public class DriveTrain extends Subsystem {
         BadLog.createTopic("drivetrain/Left Rate", "m/s", () -> lEncoder.getRate());
         BadLog.createTopic("drivetrain/Right Rate", "m/s", () -> rEncoder.getRate());
 
+
         mDrive.setSafetyEnabled(true);
         lEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);
         rEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);

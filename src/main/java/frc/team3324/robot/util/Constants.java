@@ -24,12 +24,16 @@ public class Constants {
         public final static int RIGHT_ENCODER_PORT_A = 2;
         public final static int RIGHT_ENCODER_PORT_B = 3;
 
-        public final static double WHEEL_DIAMETER_METERS = 0.15240359;
-        private final static double CIRCUMFERENCE = 2 * Math.PI * WHEEL_DIAMETER_METERS; // (Meters)
-        public final static int PULSES = 7680; // 256 (pulses) * 4 (quadature, 4 ticks/pulse) * 3 * 2.5 (gear ratios)
+        public final static double WHEEL_DIAMETER_METERS = 0.1555575;
+        private final static double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER_METERS; // (Meters)
+        public final static int PULSES = 1870; // 256 (pulses) * 4 (quadature, 4 ticks/pulse) * 3 * 2.5 (gear ratios)
+        public final static int TICKS = PULSES * 4;
         public final static double DISTANCE_PER_PULSE = CIRCUMFERENCE / PULSES;
-        public final static double DISTANCE_BETWEEN_WHEELS = 0.5715;
-        public final static double LOW_GEAR_MAX_VELOCITY = 2.4384;
+        public final static double DISTANCE_BETWEEN_WHEELS = 0.61;
+        public final static double HIGH_GEAR_MAX_VELOCITY = 3.4072;
+        public final static double HIGH_GEAR_MAX_ACCELERATION = 4.38;
+        public final static double LOW_GEAR_MAX_VELOCITY = 1.8;
+        public final static double LOW_GEAR_MAX_ACCELERATION = 6.51;
     }
 
     public class Arm {

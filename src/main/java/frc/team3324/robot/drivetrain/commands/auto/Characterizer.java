@@ -2,47 +2,35 @@ package frc.team3324.robot.drivetrain.commands.auto;
 
 import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.Robot;
 
 public class Characterizer extends Command {
 
-    private double rampingRate = 0.25;
-    private double startingVelocity = 0;
-    private double leftVoltage = 0;
-    private double rightVoltage = 0;
+    private double rampingRate = 0.05;
+    private double leftVoltage = 12;
+    private double rightVoltage = 12;
     private double leftVelocity = 0;
     private double rightVelocity = 0;
 
-    public void initialize() {
-
-    }
-
-    private double getRightVoltage() {
-        return rightVoltage;
-    }
-
-    private double getLeftVoltage() {
-        return leftVoltage;
-    }
-
-    private double getRightVelocity() {
+    public double getRightVelocity() {
         return rightVelocity;
     }
 
-    private double getLeftVelocity() {
+    public double getLeftVelocity() {
         return leftVelocity;
     }
 
     public void execute() {
-        Robot.driveTrain.mDrive.tankDrive(leftVoltage * (1/12), rightVoltage * (1/12));
+        double leftAppliedVoltage = leftVoltage/12;
+        double rightAppliedVoltage = rightVoltage/12;
+        Robot.driveTrain.mDrive.tankDrive(-leftAppliedVoltage, -rightAppliedVoltage);
         leftVoltage = leftVoltage + rampingRate;
         rightVoltage = rightVoltage + rampingRate;
         leftVelocity = Robot.driveTrain.lEncoder.getRate();
         rightVelocity = Robot.driveTrain.rEncoder.getRate();
-        BadLog.createTopic("characterizer/Right Voltage", "V", () -> getRightVoltage());
-        BadLog.createTopic("characterizer/Left Voltage", "V", () -> getLeftVoltage());
-        BadLog.createTopic("characterizer/Right Velocity", "m/s", () -> getRightVelocity());
-        BadLog.createTopic("characterizer/Left Velocity", "m/s", () -> getLeftVelocity());
+        SmartDashboard.putNumber("Voltage Left", leftAppliedVoltage);
+        SmartDashboard.putNumber("Voltage Right", rightAppliedVoltage);
 
     }
 

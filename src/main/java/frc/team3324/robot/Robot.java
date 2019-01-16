@@ -47,6 +47,7 @@ public class Robot extends TimedRobot {
 
     public void robotPeriodic() {
         CameraServer.getInstance().getVideo();
+        Robot.driveTrain.printEncoderDistance();
         logger.updateTopics();
         logger.log();
     }
@@ -65,6 +66,5 @@ public class Robot extends TimedRobot {
 
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        driveTrain.printEncoderDistance();
     }
 }

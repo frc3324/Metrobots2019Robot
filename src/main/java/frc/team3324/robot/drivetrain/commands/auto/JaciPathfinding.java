@@ -18,6 +18,7 @@ import jaci.pathfinder.modifiers.TankModifier;
 
 import static frc.team3324.robot.drivetrain.commands.auto.PathfinderShuffleboard.*;
 import static frc.team3324.robot.drivetrain.commands.auto.PathGenerator.*;
+import static frc.team3324.robot.util.Constants.DriveTrain.HIGH_GEAR_MAX_ACCELERATION;
 
 public class JaciPathfinding extends Command {
 
@@ -48,16 +49,15 @@ public class JaciPathfinding extends Command {
                 TankModifier modifier = new TankModifier(trajectory).modify(Constants.DriveTrain.DISTANCE_BETWEEN_WHEELS);
                 left = new EncoderFollower(modifier.getLeftTrajectory());
                 right = new EncoderFollower(modifier.getRightTrajectory());
-                left.configureEncoder(Robot.driveTrain.lEncoder.getRaw(), Constants.DriveTrain.PULSES,
+                left.configureEncoder(Robot.driveTrain.lEncoder.getRaw(), Constants.DriveTrain.TICKS,
                         Constants.DriveTrain.WHEEL_DIAMETER_METERS);
-                right.configureEncoder(Robot.driveTrain.rEncoder.getRaw(), Constants.DriveTrain.PULSES,
+                right.configureEncoder(Robot.driveTrain.rEncoder.getRaw(), Constants.DriveTrain.TICKS,
                         Constants.DriveTrain.WHEEL_DIAMETER_METERS);
-                left.configurePIDVA(0.3, 0, 0, 1 / Constants.DriveTrain.LOW_GEAR_MAX_VELOCITY, 0);
-                right.configurePIDVA(0.3, 0.0, 0, 1 / Constants.DriveTrain.LOW_GEAR_MAX_VELOCITY, 0);
+                left.configurePIDVA(4.2, 0, 0.2, 1 / Constants.DriveTrain.HIGH_GEAR_MAX_VELOCITY, 0.3);
+                right.configurePIDVA(4, 0.0, 0.2, 1 / Constants.DriveTrain.HIGH_GEAR_MAX_VELOCITY, 0.3);
                 Robot.driveTrain.clearGyro();
                 Robot.driveTrain.setBrakeMode();
                 notifier.startPeriodic(0.01);
-                DriverStation.reportError("Notifier Initialized", true);
             }
 
             // Make this return true when this Command no longer needs to run execute()
@@ -74,22 +74,22 @@ public class JaciPathfinding extends Command {
             }
 
             private void followPath () {
-                if (reversed) {
-                    followReversed();
-                } else {
+//                if (reversed) {
+//                    followReversed();
+//                } else if (!reversed){
                     follow();
-                }
+//                }
             }
 
             private void follow () {
                 SmartDashboard.putBoolean("Running", true);
                 double lOutput = left.calculate(Robot.driveTrain.lEncoder.getRaw());
                 double rOutput = right.calculate(Robot.driveTrain.rEncoder.getRaw());
-                double gyroHeading = -Robot.driveTrain.getYaw();       // Assuming the gyro is giving a value in degrees
+                double gyroHeading = Robot.driveTrain.getYaw();       // Assuming the gyro is giving a value in degrees
                 double desiredHeading = Pathfinder.r2d(left.getHeading()); // Should also be in degrees
                 angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
-                turn = 1.2 * (-1.0 / 80.0) * angleDifference;
-                    Robot.driveTrain.mDrive.tankDrive((lOutput + turn), (rOutput - turn), false);
+                turn = 2 * (-1.0 / 80.0) * angleDifference;
+                Robot.driveTrain.mDrive.tankDrive(-(lOutput + turn), -(rOutput - turn), false);
 
                 try {
                     updateShuffleBoard(lOutput, rOutput, gyroHeading, desiredHeading);
@@ -100,13 +100,13 @@ public class JaciPathfinding extends Command {
 
             private void followReversed () {
                 SmartDashboard.putBoolean("Running", true);
-                double lOutput = left.calculate(-Robot.driveTrain.lEncoder.getRaw());
-                double rOutput = right.calculate(-Robot.driveTrain.rEncoder.getRaw());
+                double lOutput = left.calculate(Robot.driveTrain.lEncoder.getRaw());
+                double rOutput = right.calculate(Robot.driveTrain.rEncoder.getRaw());
                 double gyroHeading = -Robot.driveTrain.getYaw();       // Assuming the gyro is giving a value in degrees
                 double desiredHeading = Pathfinder.r2d(left.getHeading()); // Should also be in degrees
                 angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
                 turn = 1.2 * (-1.0 / 80.0) * angleDifference;
-                Robot.driveTrain.mDrive.tankDrive(-(rOutput - turn), -(lOutput + turn), false);
+                Robot.driveTrain.mDrive.tankDrive((rOutput - turn), (lOutput + turn), false);
 
                 updateShuffleBoard(lOutput, rOutput, gyroHeading, desiredHeading);
             }

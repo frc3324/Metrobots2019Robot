@@ -40,7 +40,7 @@ public class PathGenerator {
         Waypoint[] defaultPoints = new Waypoint[]{
                 new Waypoint(0, 0,
                         0), // Waypoint @ x=-0, y=-0, exit angle= 0 degrees
-                new Waypoint(3, 0, 0),
+                new Waypoint(8, 0, 0),
         };
 
         Waypoint[] leftCloseHumanStation = new Waypoint[]{
@@ -114,7 +114,7 @@ public class PathGenerator {
 
 
         Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.01,
-                Constants.DriveTrain.LOW_GEAR_MAX_VELOCITY * 0.7, 4.5, 9);
+                Constants.DriveTrain.HIGH_GEAR_MAX_VELOCITY, Constants.DriveTrain.HIGH_GEAR_MAX_ACCELERATION, 9);
 
         if (readFromFile) {
             try {

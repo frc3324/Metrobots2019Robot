@@ -6,6 +6,8 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team3324.robot.Robot;
 import frc.team3324.robot.drivetrain.commands.teleop.Drive;
 import frc.team3324.robot.util.Constants;
 
@@ -47,12 +49,13 @@ public class DriveTrain extends Subsystem {
 
     public static AHRS gyro = new AHRS(SPI.Port.kMXP);
 
-    private WPI_TalonSRX flMotor = new WPI_TalonSRX(Constants.DriveTrain.FL_MOTOR_PORT);
-    private WPI_TalonSRX blMotor = new WPI_TalonSRX(Constants.DriveTrain.BL_MOTOR_PORT);
+    public WPI_TalonSRX flMotor        = new WPI_TalonSRX(Constants.DriveTrain.FL_MOTOR_PORT);
+    public WPI_TalonSRX blMotor        = new WPI_TalonSRX(Constants.DriveTrain.BL_MOTOR_PORT);
     private SpeedControllerGroup lMotors = new SpeedControllerGroup(flMotor, blMotor);
 
-    private WPI_TalonSRX frMotor = new WPI_TalonSRX(Constants.DriveTrain.FR_MOTOR_PORT);
-    private WPI_TalonSRX brMotor = new WPI_TalonSRX(Constants.DriveTrain.BR_MOTOR_PORT);
+    public WPI_TalonSRX frMotor        = new WPI_TalonSRX(Constants.DriveTrain.FR_MOTOR_PORT);
+    public WPI_TalonSRX brMotor        = new WPI_TalonSRX(Constants.DriveTrain.BR_MOTOR_PORT);
+
     private SpeedControllerGroup rMotors = new SpeedControllerGroup(frMotor, brMotor);
 
     public DifferentialDrive mDrive = new DifferentialDrive(lMotors, rMotors);
@@ -67,10 +70,13 @@ public class DriveTrain extends Subsystem {
         BadLog.createTopic("drivetrain/Left Raw", "Ticks", () -> (double) lEncoder.getRaw());
         BadLog.createTopic("drivetrain/Right Raw", "Ticks", () -> (double) rEncoder.getRaw());
         BadLog.createTopic("drivetrain/Left Distance", "m", () -> lEncoder.getDistance());
-        BadLog.createTopic("drivetrain/Right Distance", "m", () -> rEncoder.getDistance());
+        BadLog.createTopic("drivetrain/Right Distance", "m", () ->rEncoder.getDistance());
         BadLog.createTopic("drivetrain/Left Rate", "m/s", () -> lEncoder.getRate());
         BadLog.createTopic("drivetrain/Right Rate", "m/s", () -> rEncoder.getRate());
-
+        BadLog.createTopic("drivetrain/Left Voltage", "V", () -> (Robot.driveTrain.blMotor.getMotorOutputVoltage() + Robot.driveTrain.flMotor.getMotorOutputVoltage()));
+        BadLog.createTopic("drivetrain/Right Voltage", "V", () -> (Robot.driveTrain.brMotor.getMotorOutputVoltage() + Robot.driveTrain.frMotor.getMotorOutputVoltage()));
+        BadLog.createTopic("drivetrain/Right Velocity", "m/s", () -> Robot.characterizer.getRightVelocity());
+        BadLog.createTopic("drivetrain/Left Velocity", "m/s", () -> Robot.characterizer.getLeftVelocity());
 
         rMotors.setInverted(true);
         lMotors.setInverted(true);
@@ -104,6 +110,7 @@ public class DriveTrain extends Subsystem {
         leftRawGraph.setDouble(lEncoder.getRaw());
         rightRateGraph.setDouble(rEncoder.getRate());
         leftRateGraph.setDouble(lEncoder.getRate());
+
     }
 
     /**

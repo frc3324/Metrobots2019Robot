@@ -1,6 +1,5 @@
 package frc.team3324.robot.drivetrain.commands.auto;
 
-import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.Robot;

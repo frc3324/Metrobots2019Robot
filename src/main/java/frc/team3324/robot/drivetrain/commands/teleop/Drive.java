@@ -7,7 +7,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 
 public class Drive extends Command {
 
-    public Drive() { requires(Robot.driveTrain); }
+    public Drive() {
+        requires(Robot.driveTrain);
+        Robot.driveTrain.setBrakeMode();
+    }
 
     protected void execute() {
         double leftY  = OI.primaryController.getY(GenericHID.Hand.kLeft);  // Get the Y (Up/Down) value of the LEFT Joystick
@@ -18,13 +21,12 @@ public class Drive extends Command {
         } else if (leftY < 0.1) {
             Robot.driveTrain.mDrive.curvatureDrive(leftY, rightX, true);
         } else {
-            Robot.driveTrain.mDrive.curvatureDrive(leftY, rightX, false);
+            Robot.driveTrain.mDrive.curvatureDrive(leftY, rightX* 0.7, false);
         }
     }
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return OI.primaryController.getBackButton();
     }
-
 }

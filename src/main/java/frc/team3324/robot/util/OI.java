@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import frc.team3324.robot.Robot;
+import frc.team3324.robot.drivetrain.commands.auto.Odometry;
 import frc.team3324.robot.drivetrain.commands.teleop.ShiftGears;
 import frc.team3324.robot.drivetrain.commands.auto.JaciPathfinding;
 import frc.team3324.robot.drivetrain.commands.auto.PathGenerator;
@@ -33,6 +34,7 @@ public class OI {
     private static final Button PRIMARY_A_BUTTON     = new JoystickButton(primaryController, BUTTON_A);
     private static final Button PRIMARY_X_BUTTON = new JoystickButton(primaryController, BUTTON_X);
     private static final Button PRIMARY_Y_BUTTON = new JoystickButton(primaryController, BUTTON_Y);
+    private static final Button PRIMARY_B_BUTTON = new JoystickButton(primaryController, BUTTON_B);
     public static final Button PRIMARY_RIGHT_BUMPER = new JoystickButton(primaryController, RIGHT_BUMPER);
 
     /**
@@ -56,9 +58,10 @@ public class OI {
      */
     public OI() {
         PRIMARY_RIGHT_BUMPER.whenPressed(new ShiftGears());
-        PRIMARY_X_BUTTON.whenPressed(new JaciPathfinding(PathGenerator.path.DEFAULT, true, false));
-        PRIMARY_A_BUTTON.whenPressed(new JaciPathfinding(PathGenerator.path.LEFT_CLOSE_ROCKET, true ,true));
-        PRIMARY_Y_BUTTON.whenPressed(Robot.characterizer);
+        PRIMARY_X_BUTTON.whenPressed(new JaciPathfinding(PathGenerator.path.MID_LEFT_CARGO_LEFT_PS, true, true));
+        PRIMARY_A_BUTTON.whenPressed(new JaciPathfinding(PathGenerator.path.MID_HAB_LEFT_MID_CARGO, true ,false));
+        PRIMARY_Y_BUTTON.whenPressed(new JaciPathfinding(PathGenerator.path.LEFT_CLOSE_ROCKET, true, false));
+        PRIMARY_B_BUTTON.whenPressed(new Odometry(1.259 / 3.281, 17 / 3.281, 0.0));
         //Secondary button commands
     }
 }

@@ -1,19 +1,14 @@
 package frc.team3324.robot;
 
 import badlog.lib.BadLog;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.team3324.robot.arm.Arm;
-import frc.team3324.robot.drivetrain.commands.auto.Characterizer;
-import frc.team3324.robot.drivetrain.commands.auto.JaciPathfinding;
+import frc.team3324.robot.drivetrain.commands.auto.*;
 import frc.team3324.robot.drivetrain.DriveTrain;
-import frc.team3324.robot.drivetrain.commands.auto.PathGenerator;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.TimedRobot;
 import frc.team3324.robot.util.OI;
 
 public class Robot extends TimedRobot {
@@ -26,7 +21,7 @@ public class Robot extends TimedRobot {
     public static PowerDistributionPanel pdp = new PowerDistributionPanel();
     public static DriveTrain driveTrain;
     public static Arm arm;
-    public static BadLog logger;
+    private static BadLog logger;
     public static Characterizer characterizer;
     public static OI oi;
 
@@ -41,15 +36,18 @@ public class Robot extends TimedRobot {
             BadLog.createTopic("System/Battery Voltage", "V", () -> RobotController.getBatteryVoltage());
             BadLog.createTopic("Match Time", "s", () -> DriverStation.getInstance().getMatchTime());
         }
+        driveTrain.clearGyro();
         logger.finishInitialization();
         Shuffleboard.startRecording();
     }
 
     public void robotPeriodic() {
         CameraServer.getInstance().getVideo();
+        CameraServer.getInstance().getVideo();
         Robot.driveTrain.printEncoderDistance();
         logger.updateTopics();
         logger.log();
+        Scheduler.getInstance().run();
     }
 
     public void disabledInit() {
@@ -59,12 +57,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Scheduler.getInstance().add(new JaciPathfinding(PathGenerator.path.DEFAULT, false, false));
-    }
-
-    public void autonomousPeriodic() { Scheduler.getInstance().run(); }
-
-    public void teleopPeriodic() {
-        Scheduler.getInstance().run();
+//        Scheduler.getInstance().add(new levelOneTest());
     }
 }

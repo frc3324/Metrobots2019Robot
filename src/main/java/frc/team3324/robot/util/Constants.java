@@ -26,7 +26,7 @@ public class Constants {
 
         public final static double WHEEL_DIAMETER_METERS = 0.1555575;
         private final static double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER_METERS; // (Meters)
-        public final static int PULSES = 1870; // 256 (pulses) * 4 (quadature, 4 ticks/pulse) * 3 * 2.5 (gear ratios)
+        public final static int PULSES = 1870; // 256 (pulses) * 4 (quadrature, 4 ticks/pulse) * 3 * 2.5 (gear ratios)
         public final static int TICKS = PULSES * 4;
         public final static double DISTANCE_PER_PULSE = CIRCUMFERENCE / PULSES;
         public final static double DISTANCE_BETWEEN_WHEELS = 0.61;

@@ -7,8 +7,6 @@ import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.drivetrain.commands.auto.*;
 import frc.team3324.robot.drivetrain.DriveTrain;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.team3324.robot.util.FrontCamera;
 import frc.team3324.robot.util.OI;

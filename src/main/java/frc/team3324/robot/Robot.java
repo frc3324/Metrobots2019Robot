@@ -9,6 +9,8 @@ import frc.team3324.robot.drivetrain.DriveTrain;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.TimedRobot;
+import frc.team3324.robot.util.FrontCamera;
 import frc.team3324.robot.util.OI;
 
 public class Robot extends TimedRobot {
@@ -24,6 +26,7 @@ public class Robot extends TimedRobot {
     private static BadLog logger;
     public static Characterizer characterizer;
     public static OI oi;
+    public static FrontCamera frontCamera = new FrontCamera();
 
     public void robotInit() {
         logger = BadLog.init("/home/lvuser/log.bag" + System.currentTimeMillis(), true);
@@ -42,18 +45,14 @@ public class Robot extends TimedRobot {
     }
 
     public void robotPeriodic() {
-        CameraServer.getInstance().getVideo();
-        CameraServer.getInstance().getVideo();
         Robot.driveTrain.printEncoderDistance();
         logger.updateTopics();
         logger.log();
-        Scheduler.getInstance().run();
+        frontCamera.start();
     }
 
     public void disabledInit() {
-        CameraServer.getInstance().startAutomaticCapture();
-        CameraServer.getInstance().putVideo("Camera output", 1280, 720);
-    }
+       }
 
     @Override
     public void autonomousInit() {

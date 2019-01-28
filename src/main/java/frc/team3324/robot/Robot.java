@@ -46,7 +46,6 @@ public class Robot extends TimedRobot {
         Robot.driveTrain.printEncoderDistance();
         logger.updateTopics();
         logger.log();
-        frontCamera.start();
     }
 
     public void disabledInit() {
@@ -54,6 +53,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        frontCamera.start();
 //        Scheduler.getInstance().add(new levelOneTest());
     }
 }

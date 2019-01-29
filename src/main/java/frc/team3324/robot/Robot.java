@@ -1,6 +1,7 @@
 package frc.team3324.robot;
 
 import badlog.lib.BadLog;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.team3324.robot.arm.Arm;
@@ -8,7 +9,6 @@ import frc.team3324.robot.drivetrain.commands.auto.*;
 import frc.team3324.robot.drivetrain.DriveTrain;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.team3324.robot.util.FrontCamera;
 import frc.team3324.robot.util.OI;
 
 public class Robot extends TimedRobot {
@@ -24,7 +24,6 @@ public class Robot extends TimedRobot {
     private static BadLog logger;
     public static Characterizer characterizer;
     public static OI oi;
-    public static FrontCamera frontCamera = new FrontCamera();
 
     public void robotInit() {
         logger = BadLog.init("/home/lvuser/log.bag" + System.currentTimeMillis(), true);
@@ -39,13 +38,17 @@ public class Robot extends TimedRobot {
         }
         driveTrain.clearGyro();
         logger.finishInitialization();
+
         Shuffleboard.startRecording();
+        CameraServer.getInstance().startAutomaticCapture(0);
+        CameraServer.getInstance().startAutomaticCapture(1);
     }
 
     public void robotPeriodic() {
         Robot.driveTrain.printEncoderDistance();
         logger.updateTopics();
         logger.log();
+        CameraServer.getInstance().getVideo();
     }
 
     public void disabledInit() {
@@ -53,7 +56,5 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        frontCamera.start();
-//        Scheduler.getInstance().add(new levelOneTest());
     }
 }

@@ -9,9 +9,9 @@ import frc.team3324.robot.intake.CargoIntake;
 import frc.team3324.robot.drivetrain.commands.auto.*;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.util.LED;
+import frc.team3324.robot.util.FrontCamera;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.team3324.robot.util.FrontCamera;
 import frc.team3324.robot.util.OI;
 
 public class Robot extends TimedRobot {
@@ -45,7 +45,10 @@ public class Robot extends TimedRobot {
         }
         driveTrain.clearGyro();
         logger.finishInitialization();
+
         Shuffleboard.startRecording();
+        CameraServer.getInstance().startAutomaticCapture(0);
+        CameraServer.getInstance().startAutomaticCapture(1);
     }
 
     public void robotPeriodic() {
@@ -65,6 +68,7 @@ public class Robot extends TimedRobot {
         else {
             led.setStageThreeBrownout();
         }
+        CameraServer.getInstance().getVideo();
     }
 
     public void disabledInit() {

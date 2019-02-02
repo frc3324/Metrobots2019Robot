@@ -22,8 +22,5 @@ public class FrontCamera extends Command {
     }
 
     @Override
-    protected void end() {
-        Command backCamera = new BackCamera();
-        backCamera.start();
-    }
+    protected void end() { }
 }

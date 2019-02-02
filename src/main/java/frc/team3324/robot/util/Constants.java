@@ -40,4 +40,10 @@ public class Constants {
         public final static int MOTOR_PORT_ARM_LEFT = 9;
         public final static int MOTOR_PORT_ARM_RIGHT = 8;
     }
+
+    public class Climber {
+        public final static int SOLENOID_PORT_ONE = 0;
+        public final static int SOLENOID_PORT_TWO = 1;
+    }
+
 }

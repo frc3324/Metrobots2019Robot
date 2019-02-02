@@ -1,11 +1,13 @@
 package frc.team3324.robot;
 
 import badlog.lib.BadLog;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.team3324.robot.arm.Arm;
+import frc.team3324.robot.climber.Climber;
 import frc.team3324.robot.drivetrain.commands.auto.Characterizer;
 import frc.team3324.robot.drivetrain.commands.auto.JaciPathfinding;
 import frc.team3324.robot.drivetrain.DriveTrain;
@@ -14,6 +16,7 @@ import frc.team3324.robot.drivetrain.commands.auto.PathGenerator;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.team3324.robot.util.Constants;
 import frc.team3324.robot.util.OI;
 
 public class Robot extends TimedRobot {
@@ -24,8 +27,11 @@ public class Robot extends TimedRobot {
      * Instantiate subsystems
      */
     public static PowerDistributionPanel pdp = new PowerDistributionPanel();
+
     public static DriveTrain driveTrain;
     public static Arm arm;
+    public static Climber climber;
+
     public static BadLog logger;
     public static Characterizer characterizer;
     public static OI oi;
@@ -36,6 +42,7 @@ public class Robot extends TimedRobot {
 
             driveTrain = new DriveTrain();
             arm = new Arm();
+            climber = new Climber();
             characterizer = new Characterizer();
             OI oi = new OI();
             BadLog.createTopic("System/Battery Voltage", "V", () -> RobotController.getBatteryVoltage());

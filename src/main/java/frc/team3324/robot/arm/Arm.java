@@ -23,7 +23,7 @@ public class Arm extends Subsystem {
      * Move the arm at the specified speed.
      * @param speed
      */
-    public void armMovement(double speed) { armMotors.set(speed); }
+    public void setArmSpeed(double speed) { armMotors.set(speed); }
 
     public void initDefaultCommand() { setDefaultCommand(new ControlArm()); }
 }

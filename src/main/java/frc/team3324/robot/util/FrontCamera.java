@@ -13,6 +13,7 @@ public class FrontCamera extends Command {
     @Override
     protected void execute() {
         CameraServer.getInstance().getVideo("Front");
+        System.out.println("Help");
     }
 
     @Override

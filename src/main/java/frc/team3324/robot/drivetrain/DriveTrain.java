@@ -6,9 +6,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.Robot;
-import frc.team3324.robot.drivetrain.commands.auto.Odometry;
 import frc.team3324.robot.drivetrain.commands.teleop.Drive;
 import frc.team3324.robot.util.Constants;
 
@@ -17,10 +15,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.SPI;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
 import com.kauailabs.navx.frc.AHRS;
-import frc.team3324.robot.drivetrain.commands.teleop.Drive;
 
 import static frc.team3324.robot.Robot.pdp;
 
@@ -41,7 +36,7 @@ public class DriveTrain extends Subsystem {
     private NetworkTableEntry rightRateGraph = sensorTab.add("Right Encoder Rate Graph", 0).withPosition(4, 1).withWidget(BuiltInWidgets.kGraph).getEntry();
     private NetworkTableEntry leftRateGraph = sensorTab.add("Left Encoder Rate Graph", 0).withPosition(5, 1).withWidget(BuiltInWidgets.kGraph).getEntry();
 
-    private DoubleSolenoid gearShifter = new DoubleSolenoid(0, 1);
+    private DoubleSolenoid gearShifter = new DoubleSolenoid(Constants.PCM.PNEUMATICS_MODULE_NUMBER, Constants.PCM.DRIVETRAIN_PORT_FORWARD, Constants.PCM.CLIMBER_PORT_REVERSE);
 
     public static Encoder lEncoder =
             new Encoder(Constants.DriveTrain.LEFT_ENCODER_PORT_A, Constants.DriveTrain.LEFT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);

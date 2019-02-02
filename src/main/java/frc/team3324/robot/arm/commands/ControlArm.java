@@ -28,7 +28,7 @@ public class ControlArm extends Command {
     protected void execute() {
         double leftY = OI.secondaryController.getY(GenericHID.Hand.kLeft);
 
-        Robot.arm.armMovement(leftY);
+        Robot.arm.setArmSpeed(leftY);
     }
 
     // Make this return true when this Command no longer needs to run execute()

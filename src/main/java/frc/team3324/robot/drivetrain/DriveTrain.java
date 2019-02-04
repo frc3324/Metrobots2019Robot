@@ -36,7 +36,7 @@ public class DriveTrain extends Subsystem {
     private NetworkTableEntry rightRateGraph = sensorTab.add("Right Encoder Rate Graph", 0).withPosition(4, 1).withWidget(BuiltInWidgets.kGraph).getEntry();
     private NetworkTableEntry leftRateGraph = sensorTab.add("Left Encoder Rate Graph", 0).withPosition(5, 1).withWidget(BuiltInWidgets.kGraph).getEntry();
 
-    private DoubleSolenoid gearShifter = new DoubleSolenoid(Constants.PCM.PNEUMATICS_MODULE_NUMBER, Constants.PCM.DRIVETRAIN_PORT_FORWARD, Constants.PCM.CLIMBER_PORT_REVERSE);
+    private DoubleSolenoid gearShifter = new DoubleSolenoid(Constants.DriveTrain.DRIVETRAIN_PORT_FORWARD, Constants.DriveTrain.DRIVETRAIN_PORT_REVERSE);
 
     public static Encoder lEncoder =
             new Encoder(Constants.DriveTrain.LEFT_ENCODER_PORT_A, Constants.DriveTrain.LEFT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);
@@ -81,6 +81,7 @@ public class DriveTrain extends Subsystem {
         rEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);
     }
 
+
     /**
      * Reset both of encoders
      */
@@ -95,15 +96,19 @@ public class DriveTrain extends Subsystem {
     public void printEncoderDistance() {
         rightDistance.setDouble(rEncoder.getDistance());
         leftDistance.setDouble(lEncoder.getDistance());
+
         rightRaw.setDouble(rEncoder.getRaw());
         leftRaw.setDouble(lEncoder.getRaw());
+
         rightRate.setDouble(rEncoder.getRate());
         leftRate.setDouble(lEncoder.getRate());
 
         rightDistanceGraph.setDouble(rEncoder.getDistance());
         leftDistanceGraph.setDouble(lEncoder.getDistance());
+
         rightRawGraph.setDouble(rEncoder.getRaw());
         leftRawGraph.setDouble(lEncoder.getRaw());
+
         rightRateGraph.setDouble(rEncoder.getRate());
         leftRateGraph.setDouble(lEncoder.getRate());
 

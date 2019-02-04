@@ -8,7 +8,6 @@ package frc.team3324.robot.util;
  */
 public class Constants {
 
-    public final static int LIMIT_SWITCH_PORT = 0;
 
     public class DriveTrain {
         // Motor ports
@@ -27,6 +26,7 @@ public class Constants {
         public final static int RIGHT_ENCODER_PORT_A = 2;
         public final static int RIGHT_ENCODER_PORT_B = 3;
 
+        // Encoder and Auto constants
         public final static double WHEEL_DIAMETER_METERS = 0.1555575;
         private final static double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER_METERS; // (Meters)
         public final static int PULSES = 1870; // 256 (pulses) * 4 (quadrature, 4 ticks/pulse) * 3 * 2.5 (gear ratios)
@@ -37,6 +37,10 @@ public class Constants {
         public final static double HIGH_GEAR_MAX_ACCELERATION = 4.38;
         public final static double LOW_GEAR_MAX_VELOCITY = 1.8;
         public final static double LOW_GEAR_MAX_ACCELERATION = 6.51;
+
+        // Drivetrain ports
+        public final static int DRIVETRAIN_PORT_FORWARD = 0;
+        public final static int DRIVETRAIN_PORT_REVERSE = 1;
     }
 
     public class Arm {
@@ -44,26 +48,29 @@ public class Constants {
         public final static int MOTOR_PORT_ARM_RIGHT = 8;
     }
 
-    public class CargoIntake {
-        public final static int LEFT_INTAKE_MOTOR_PORT = 2;
-        public final static int RIGHT_INTAKE_MOTOR_PORT = 3;
+    public class HatchIntake {
+        public final static int HATCH_INTAKE_PORT_FORWARD = 2;
+        public final static int HATCH_INTAKE_PORT_BACKWARD = 3;
     }
 
-    public class PCM {
-        public final static int PNEUMATICS_MODULE_NUMBER = 0;
-        public final static int LEDS_MODULE_NUMBER = 1;
+    public class CargoIntake {
+        public final static int CARGO_INTAKE_MOTOR_PORT = 2;
 
-        public final static int HATCH_PORT_FORWARD = 4;
-        public final static int HATCH_PORT_REVERSE = 5;
-        public final static int CLIMBER_PORT_FORWARD = 3;
-        public final static int CLIMBER_PORT_REVERSE = 2;
-        public final static int DRIVETRAIN_PORT_FORWARD = 0;
-        public final static int DRIVETRAIN_PORT_REVERSE = 1;
+        public final static int CARGO_INTAKE_PDP_PORT = 1;
 
+        public final static int LIMIT_SWITCH_PORT = 4;
+    }
 
-        public final static int RED_LED_PORT = 0;
-        public final static int BLUE_LED_PORT = 1;
-        public final static int GREEN_LED_PORT = 2;
+    public class Climber {
+        public final static int CLIMBER_PORT_FORWARD = 4;
+        public final static int CLIMBER_PORT_BACKWARD = 5;
+    }
+
+    public class LED {
+        public final static int RED_LED_PORT = 6;
+        public final static int GREEN_LED_PORT = 7;
+        public final static int BLUE_LED_PORT = 8;
+
     }
 
 }

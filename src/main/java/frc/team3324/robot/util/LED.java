@@ -3,11 +3,9 @@ package frc.team3324.robot.util;
 import edu.wpi.first.wpilibj.Solenoid;
 
 public class LED {
-    Solenoid redLED = new Solenoid(Constants.PCM.LEDS_MODULE_NUMBER, Constants.PCM.RED_LED_PORT);
-    Solenoid greenLED = new Solenoid(Constants.PCM.LEDS_MODULE_NUMBER, Constants.PCM.GREEN_LED_PORT);
-    Solenoid blueLED = new Solenoid(Constants.PCM.LEDS_MODULE_NUMBER, Constants.PCM.BLUE_LED_PORT);
-
-    public LED() { }
+    Solenoid redLED = new Solenoid(Constants.LED.RED_LED_PORT);
+    Solenoid blueLED = new Solenoid(Constants.LED.BLUE_LED_PORT);
+    Solenoid greenLED= new Solenoid(Constants.LED.GREEN_LED_PORT);
 
     public void setIntakeState() {
         redLED.set(true);

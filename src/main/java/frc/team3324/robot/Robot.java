@@ -5,9 +5,10 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.team3324.robot.arm.Arm;
-import frc.team3324.robot.intake.CargoIntake;
+import frc.team3324.robot.intake.cargo.CargoIntake;
 import frc.team3324.robot.drivetrain.commands.auto.*;
 import frc.team3324.robot.drivetrain.DriveTrain;
+import frc.team3324.robot.intake.hatch.HatchIntake;
 import frc.team3324.robot.util.LED;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -21,12 +22,16 @@ public class Robot extends TimedRobot {
      * Instantiate subsystems
      */
     public static PowerDistributionPanel pdp = new PowerDistributionPanel();
+
     public static DriveTrain driveTrain;
     public static Arm arm;
-    public static CargoIntake intake;
-    public static Characterizer characterizer;
+    public static CargoIntake cargoIntake;
+    public static HatchIntake hatchIntake;
     public static OI oi;
+
+    public static Characterizer characterizer;
     public static LED led;
+
     private static BadLog logger;
 
     public void robotInit() {
@@ -35,10 +40,14 @@ public class Robot extends TimedRobot {
 
             driveTrain = new DriveTrain();
             arm = new Arm();
+            hatchIntake = new HatchIntake();
+            cargoIntake = new CargoIntake();
+
             characterizer = new Characterizer();
             OI oi = new OI();
+
             BadLog.createTopic("System/Battery Voltage", "V", () -> RobotController.getBatteryVoltage());
-            BadLog.createTopic("Match Time", "s", () -> DriverStation.getInstance().getMatchTime());
+            BadLog.createTopic("System/Match Time", "s", () -> DriverStation.getInstance().getMatchTime());
         }
         driveTrain.clearGyro();
         logger.finishInitialization();
@@ -53,18 +62,6 @@ public class Robot extends TimedRobot {
         logger.updateTopics();
         logger.log();
 
-        if (pdp.getVoltage() > 6.8) {
-            led.setNeutralState();
-        }
-        else if (pdp.getVoltage() <= 6.8 && pdp.getVoltage() > 6.3) {
-            led.setStageOneBrownout();
-        }
-        else if (pdp.getVoltage() <= 6.3 && pdp.getVoltage() > 4.5) {
-            led.setStageTwoBrownout();
-        }
-        else {
-            led.setStageThreeBrownout();
-        }
         CameraServer.getInstance().getVideo();
     }
 

@@ -1,7 +1,7 @@
 Language:        Java
-AlignConsecutiveAssignments: true
-AlignTrailingComments: true
-AlignOperands: true
+AlignConsecutiveAssignments: false
+AlignTrailingComments: false
+AlignOperands: false
 AlignEscapedNewlinesLeft: true
 AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortBlocksOnASingleLine: true

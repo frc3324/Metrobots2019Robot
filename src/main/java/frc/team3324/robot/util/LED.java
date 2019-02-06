@@ -1,13 +1,12 @@
 package frc.team3324.robot.util;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 
 public class LED {
-    private Solenoid redLED = new Solenoid(Constants.PCM.LEDS_MODULE_NUMBER, Constants.PCM.RED_LED_PORT);
-    private Solenoid greenLED = new Solenoid(Constants.PCM.LEDS_MODULE_NUMBER, Constants.PCM.GREEN_LED_PORT);
-    private Solenoid blueLED = new Solenoid(Constants.PCM.LEDS_MODULE_NUMBER, Constants.PCM.BLUE_LED_PORT);
+    private Solenoid redLED = new Solenoid(Constants.LED.LED_PCM_MODULE, Constants.LED.RED_LED_PORT);
+    private Solenoid greenLED = new Solenoid(Constants.LED.LED_PCM_MODULE, Constants.LED.GREEN_LED_PORT);
+    private Solenoid blueLED = new Solenoid(Constants.LED.LED_PCM_MODULE, Constants.LED.BLUE_LED_PORT);
     private Timer timer = new Timer();
 
     public LED() {
@@ -67,5 +66,4 @@ public class LED {
         blueLED.set(true);
         greenLED.set(true);
     }
-
 }

@@ -1,6 +1,6 @@
 package frc.team3324.robot.arm;
 
-import edu.wpi.first.wpilibj.DigitalInput;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.team3324.robot.arm.commands.ControlArm;
 import frc.team3324.robot.util.Constants;
 
@@ -11,13 +11,18 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Arm extends Subsystem {
     // TODO Invert stuff
-    private WPI_VictorSPX armMotorLeft     = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_LEFT);
-    private WPI_VictorSPX armMotorRight    = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_RIGHT);
-    private SpeedControllerGroup armMotors = new SpeedControllerGroup(armMotorLeft, armMotorRight);
+    private WPI_TalonSRX armMotorOne = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_ONE);
+    private WPI_VictorSPX armMotorTwo = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_TWO);
+    private WPI_VictorSPX armMotorThree = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_THREE);
+
+    private SpeedControllerGroup armMotors = new SpeedControllerGroup(armMotorOne, armMotorTwo);
 
     public Arm() {
-        // CAUTION: direction already set, don't change it
-        armMotorLeft.setInverted(true);
+        armMotorOne.configContinuousCurrentLimit(84);
+        armMotorOne.configPeakCurrentDuration(200);
+        armMotorOne.configPeakCurrentLimit(150);
+        armMotorTwo.follow(armMotorOne);
+        armMotorThree.follow(armMotorOne);
     }
 
     /**

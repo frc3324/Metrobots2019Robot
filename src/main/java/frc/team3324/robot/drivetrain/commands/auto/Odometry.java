@@ -25,17 +25,15 @@ public class Odometry extends Command {
     NetworkTableEntry pathY = table.getEntry("pathY");
     NetworkTableEntry pathHeading = table.getEntry("pathHeading");
 
-
     public Odometry(double x, double y, double theta) {
         this.x = x;
         this.y = y;
         this.theta = theta;
         this.trajectory = trajectory;
-
     }
     // Called just before this Command runs the first time
     protected void initialize() {
-        inst.startDSClient();  // recommended if running on DS computer; this gets the robot IP from the DS
+        inst.startDSClient(); // recommended if running on DS computer; this gets the robot IP from the DS
         Robot.driveTrain.clearEncoder();
         Robot.driveTrain.clearGyro();
     }
@@ -57,14 +55,12 @@ public class Odometry extends Command {
         robotX.setNumber(x * 3.281);
         robotY.setNumber(y * 3.281);
 
-        SmartDashboard.putNumber("robotX",x * 3.281);
+        SmartDashboard.putNumber("robotX", x * 3.281);
         SmartDashboard.putNumber("robotY", y * 3.281);
         SmartDashboard.putNumber("robotTheta", theta);
     }
 
-    protected boolean isFinished() {
-        return false;
-    }
+    protected boolean isFinished() { return false; }
 
     // Called once after isFinished returns true
     protected void end() {}
@@ -72,6 +68,4 @@ public class Odometry extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {}
-
 }
-

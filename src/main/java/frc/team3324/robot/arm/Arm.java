@@ -11,14 +11,18 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Arm extends Subsystem {
     // TODO Invert stuff
-    private WPI_TalonSRX armMotorLeft     = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_LEFT);
-    private WPI_VictorSPX armMotorRight    = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_RIGHT);
-    private SpeedControllerGroup armMotors = new SpeedControllerGroup(armMotorLeft, armMotorRight);
+    private WPI_TalonSRX armMotorOne = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_ONE);
+    private WPI_VictorSPX armMotorTwo = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_TWO);
+    private WPI_VictorSPX armMotorThree = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_THREE);
+    
+    private SpeedControllerGroup armMotors = new SpeedControllerGroup(armMotorOne, armMotorTwo);
 
     public Arm() {
-        armMotorRight.follow(armMotorLeft);
-        // CAUTION: direction already set, don't change it
-        armMotorLeft.setInverted(true);
+        armMotorOne.configContinuousCurrentLimit(84);
+        armMotorOne.configPeakCurrentDuration(200);
+        armMotorOne.configPeakCurrentLimit(150);
+        armMotorTwo.follow(armMotorOne);
+        armMotorThree.follow(armMotorOne);
     }
 
     public void setArmSpeed(double speed) { armMotors.set(speed); }

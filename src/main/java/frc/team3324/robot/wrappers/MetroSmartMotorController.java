@@ -3,11 +3,12 @@ package frc.team3324.robot.wrappers;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-public class MetroSimpleMotorController extends WPI_VictorSPX {
+public class MetroSmartMotorController extends WPI_TalonSRX {
     // Wrapper for a simple motor controller like a Spark or a VictorSPX.
-    public MetroSimpleMotorController(int port) { super(port); }
+    public MetroSmartMotorController(int port) { super(port); }
 
     @Override
     public void follow(IMotorController masterToFollow) {
@@ -33,4 +34,5 @@ public class MetroSimpleMotorController extends WPI_VictorSPX {
     public void setInverted(boolean inverted) {
         super.setInverted(inverted);
     }
+
 }

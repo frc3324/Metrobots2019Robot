@@ -8,7 +8,6 @@ package frc.team3324.robot.util;
  */
 public class Constants {
 
-
     public class DriveTrain {
         // Motor ports
         public final static int FL_MOTOR_PORT = 4;
@@ -29,7 +28,8 @@ public class Constants {
         // Encoder and Auto constants
         public final static double WHEEL_DIAMETER_METERS = 0.1555575;
         private final static double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER_METERS; // (Meters)
-        public final static int PULSES = 1870; // 256 (pulses) * 4 (quadrature, 4 ticks/pulse) * 3 * 2.5 (gear ratios)
+        public final static int PULSES =
+            1870; // 256 (pulses) * 4 (quadrature, 4 ticks/pulse) * 3 * 2.5 (gear ratios)
         public final static int TICKS = PULSES * 4;
         public final static double DISTANCE_PER_PULSE = CIRCUMFERENCE / PULSES;
         public final static double DISTANCE_BETWEEN_WHEELS = 0.61;
@@ -44,8 +44,9 @@ public class Constants {
     }
 
     public class Arm {
-        public final static int MOTOR_PORT_ARM_LEFT = 9;
-        public final static int MOTOR_PORT_ARM_RIGHT = 8;
+        public final static int MOTOR_PORT_ARM_ONE = 9;
+        public final static int MOTOR_PORT_ARM_TWO = 8;
+        public final static int MOTOR_PORT_ARM_THREE = 9;
     }
 
     public class HatchIntake {
@@ -70,7 +71,5 @@ public class Constants {
         public final static int RED_LED_PORT = 6;
         public final static int GREEN_LED_PORT = 7;
         public final static int BLUE_LED_PORT = 8;
-
     }
-
 }

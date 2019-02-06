@@ -7,9 +7,7 @@ import frc.team3324.robot.util.OI;
 
 public class Outtake extends Command {
 
-    public Outtake() {
-        requires(Robot.hatchIntake);
-    }
+    public Outtake() { requires(Robot.hatchIntake); }
 
     @Override
     protected void execute() {

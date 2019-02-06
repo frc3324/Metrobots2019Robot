@@ -10,9 +10,7 @@ public class ShiftGears extends Command {
 
     private boolean gearShifterStatus = false;
 
-    public ShiftGears() {
-        super("ShiftGears");
-    }
+    public ShiftGears() { super("ShiftGears"); }
 
     protected void initialize() {}
 

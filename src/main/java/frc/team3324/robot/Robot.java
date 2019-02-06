@@ -15,9 +15,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import frc.team3324.robot.util.OI;
 
 public class Robot extends TimedRobot {
-    public Robot() {
-        super(0.02);
-    }
+    public Robot() { super(0.02); }
     /*
      * Instantiate subsystems
      */
@@ -46,8 +44,10 @@ public class Robot extends TimedRobot {
             characterizer = new Characterizer();
             OI oi = new OI();
 
-            BadLog.createTopic("System/Battery Voltage", "V", () -> RobotController.getBatteryVoltage());
-            BadLog.createTopic("System/Match Time", "s", () -> DriverStation.getInstance().getMatchTime());
+            BadLog.createTopic("System/Battery Voltage", "V",
+                               () -> RobotController.getBatteryVoltage());
+            BadLog.createTopic("System/Match Time", "s",
+                               () -> DriverStation.getInstance().getMatchTime());
         }
         driveTrain.clearGyro();
         logger.finishInitialization();
@@ -74,11 +74,10 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledPeriodic() {
         CameraServer.getInstance().getVideo();
-
     }
 
     @Override
     public void autonomousInit() {
-//        Scheduler.getInstance().add(new levelOneTest());
+        //        Scheduler.getInstance().add(new levelOneTest());
     }
 }

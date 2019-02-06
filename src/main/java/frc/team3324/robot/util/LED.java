@@ -5,15 +5,11 @@ import edu.wpi.first.wpilibj.Solenoid;
 public class LED {
     Solenoid redLED = new Solenoid(Constants.LED.RED_LED_PORT);
     Solenoid blueLED = new Solenoid(Constants.LED.BLUE_LED_PORT);
-    Solenoid greenLED= new Solenoid(Constants.LED.GREEN_LED_PORT);
+    Solenoid greenLED = new Solenoid(Constants.LED.GREEN_LED_PORT);
 
-    public void setIntakeState() {
-        redLED.set(true);
-    }
+    public void setIntakeState() { redLED.set(true); }
 
-    public void setOuttakeState() {
-        greenLED.set(true);
-    }
+    public void setOuttakeState() { greenLED.set(true); }
 
     public void setStageOneBrownout() {
         redLED.setPulseDuration(1.5);

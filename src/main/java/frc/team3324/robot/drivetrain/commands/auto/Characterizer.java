@@ -12,17 +12,13 @@ public class Characterizer extends Command {
     private double leftVelocity = 0;
     private double rightVelocity = 0;
 
-    public double getRightVelocity() {
-        return rightVelocity;
-    }
+    public double getRightVelocity() { return rightVelocity; }
 
-    public double getLeftVelocity() {
-        return leftVelocity;
-    }
+    public double getLeftVelocity() { return leftVelocity; }
 
     public void execute() {
-        double leftAppliedVoltage = leftVoltage/12;
-        double rightAppliedVoltage = rightVoltage/12;
+        double leftAppliedVoltage = leftVoltage / 12;
+        double rightAppliedVoltage = rightVoltage / 12;
         Robot.driveTrain.mDrive.tankDrive(-leftAppliedVoltage, -rightAppliedVoltage);
         leftVoltage = leftVoltage + rampingRate;
         rightVoltage = rightVoltage + rampingRate;
@@ -30,10 +26,7 @@ public class Characterizer extends Command {
         rightVelocity = Robot.driveTrain.rEncoder.getRate();
         SmartDashboard.putNumber("Voltage Left", leftAppliedVoltage);
         SmartDashboard.putNumber("Voltage Right", rightAppliedVoltage);
-
     }
 
-    public boolean isFinished() {
-        return Robot.oi.primaryController.getBackButton();
-    }
+    public boolean isFinished() { return Robot.oi.primaryController.getBackButton(); }
 }

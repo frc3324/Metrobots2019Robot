@@ -6,7 +6,9 @@ import frc.team3324.robot.intake.hatch.commands.Idle;
 import frc.team3324.robot.util.Constants;
 
 public class HatchIntake extends Subsystem {
-    public DoubleSolenoid intake = new DoubleSolenoid(Constants.HatchIntake.HATCH_INTAKE_PORT_FORWARD, Constants.HatchIntake.HATCH_INTAKE_PORT_BACKWARD);
+    public DoubleSolenoid intake =
+        new DoubleSolenoid(Constants.HatchIntake.HATCH_INTAKE_PORT_FORWARD,
+                           Constants.HatchIntake.HATCH_INTAKE_PORT_BACKWARD);
 
-    public void initDefaultCommand() { setDefaultCommand(new Idle());}
+    public void initDefaultCommand() { setDefaultCommand(new Idle()); }
 }

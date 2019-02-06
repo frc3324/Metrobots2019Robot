@@ -12,7 +12,7 @@ public class CargoIntake extends Subsystem {
     private WPI_VictorSPX intakeMotorRight = new WPI_VictorSPX(Constants.CargoIntake.RIGHT_INTAKE_MOTOR_PORT);
     private SpeedControllerGroup intakeMotors = new SpeedControllerGroup(intakeMotorLeft, intakeMotorRight);
 
-    private DigitalInput intakeLimitSwitch = new DigitalInput(Constants.LIMIT_SWITCH_PORT);
+    private DigitalInput limitSwitch = new DigitalInput(Constants.LIMIT_SWITCH_PORT);
 
     public CargoIntake() { }
 
@@ -20,8 +20,8 @@ public class CargoIntake extends Subsystem {
         intakeMotors.set(speed);
     }
 
-    public boolean limitSwitchPressed() {
-        return intakeLimitSwitch.get();
+    public boolean isSwitchPressed() {
+        return !limitSwitch.get();
     }
 
     public void initDefaultCommand() { }

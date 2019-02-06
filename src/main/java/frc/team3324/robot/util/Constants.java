@@ -8,7 +8,8 @@ package frc.team3324.robot.util;
  */
 public class Constants {
 
-    public final static int LIMIT_SWITCH_PORT = 0;
+    // TODO: Organize ports to avoid potential conflicts on roboRIO
+    public final static int LIMIT_SWITCH_PORT = 4;
 
     public class DriveTrain {
         // Motor ports
@@ -50,20 +51,20 @@ public class Constants {
     }
 
     public class PCM {
-        public final static int PNEUMATICS_MODULE_NUMBER = 0;
-        public final static int LEDS_MODULE_NUMBER = 1;
+        public final static int PNEUMATICS_MODULE_NUMBER = 1;
+        public final static int LEDS_MODULE_NUMBER = 0;
 
         public final static int HATCH_PORT_FORWARD = 4;
         public final static int HATCH_PORT_REVERSE = 5;
-        public final static int CLIMBER_PORT_FORWARD = 3;
-        public final static int CLIMBER_PORT_REVERSE = 2;
-        public final static int DRIVETRAIN_PORT_FORWARD = 0;
-        public final static int DRIVETRAIN_PORT_REVERSE = 1;
-
+//        public final static int CLIMBER_PORT_FORWARD = 3;
+//        public final static int CLIMBER_PORT_REVERSE = 2;
+        public final static int DRIVETRAIN_PORT_FORWARD = 3;
+        public final static int DRIVETRAIN_PORT_REVERSE = 6;
 
         public final static int RED_LED_PORT = 0;
-        public final static int BLUE_LED_PORT = 1;
-        public final static int GREEN_LED_PORT = 2;
+        public final static int BLUE_LED_PORT = 2;
+        public final static int GREEN_LED_PORT = 1;
+        public final static int NO_LED_PORT = 3;
     }
 
 }

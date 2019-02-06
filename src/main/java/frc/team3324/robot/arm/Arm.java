@@ -1,5 +1,6 @@
 package frc.team3324.robot.arm;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.team3324.robot.arm.commands.ControlArm;
 import frc.team3324.robot.util.Constants;
 

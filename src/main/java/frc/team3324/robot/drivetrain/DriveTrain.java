@@ -36,7 +36,7 @@ public class DriveTrain extends Subsystem {
     private NetworkTableEntry rightRateGraph = sensorTab.add("Right Encoder Rate Graph", 0).withPosition(4, 1).withWidget(BuiltInWidgets.kGraph).getEntry();
     private NetworkTableEntry leftRateGraph = sensorTab.add("Left Encoder Rate Graph", 0).withPosition(5, 1).withWidget(BuiltInWidgets.kGraph).getEntry();
 
-    private DoubleSolenoid gearShifter = new DoubleSolenoid(Constants.PCM.PNEUMATICS_MODULE_NUMBER, Constants.PCM.DRIVETRAIN_PORT_FORWARD, Constants.PCM.CLIMBER_PORT_REVERSE);
+    private DoubleSolenoid gearShifter = new DoubleSolenoid(Constants.PCM.PNEUMATICS_MODULE_NUMBER, Constants.PCM.DRIVETRAIN_PORT_FORWARD, Constants.PCM.DRIVETRAIN_PORT_REVERSE);
 
     public static Encoder lEncoder =
             new Encoder(Constants.DriveTrain.LEFT_ENCODER_PORT_A, Constants.DriveTrain.LEFT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);

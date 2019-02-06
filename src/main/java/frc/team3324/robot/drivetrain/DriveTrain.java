@@ -84,7 +84,27 @@ public class DriveTrain extends Subsystem {
     public DifferentialDrive mDrive = new DifferentialDrive(lMotors, rMotors);
 
     public DriveTrain() {
-        BadLog.createTopic("drivetrain/Total Current", "Amps", () -> getTotalCurrent());
+        frMotor.configPeakCurrentLimit(400);
+        frMotor.configPeakCurrentDuration(200);
+        frMotor.configContinuousCurrentLimit(200);
+
+        brMotor.follow(frMotor);
+        flMotor.follow(frMotor);
+        blMotor.follow(frMotor);
+
+        initializeBadLog();
+
+        rMotors.setInverted(true);
+        lMotors.setInverted(true);
+
+        mDrive.setSafetyEnabled(true);
+
+        lEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);
+        rEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);
+    }
+
+    private void initializeBadLog() {
+         BadLog.createTopic("drivetrain/Total Current", "Amps", () -> getTotalCurrent());
         BadLog.createTopic("drivetrain/FL Current", "Amps",
                            () -> pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT));
         BadLog.createTopic("drivetrain/BL Current", "Amps",
@@ -113,11 +133,6 @@ public class DriveTrain extends Subsystem {
         BadLog.createTopic("drivetrain/Left Velocity", "m/s",
                            () -> Robot.characterizer.getLeftVelocity());
 
-        rMotors.setInverted(true);
-        lMotors.setInverted(true);
-        mDrive.setSafetyEnabled(true);
-        lEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);
-        rEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);
     }
 
     /**

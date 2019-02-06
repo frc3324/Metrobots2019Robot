@@ -34,5 +34,4 @@ public class MetroSmartMotorController extends WPI_TalonSRX {
     public void setInverted(boolean inverted) {
         super.setInverted(inverted);
     }
-
 }

@@ -37,9 +37,12 @@ public class OI {
     private static final Button PRIMARY_X_BUTTON = new JoystickButton(primaryController, BUTTON_X);
     private static final Button PRIMARY_Y_BUTTON = new JoystickButton(primaryController, BUTTON_Y);
     private static final Button PRIMARY_B_BUTTON = new JoystickButton(primaryController, BUTTON_B);
-    private static final Button PRIMARY_START_BUTTON = new JoystickButton(primaryController, BUTTON_START);
-    private static final Button PRIMARY_BACK_BUTTON = new JoystickButton(primaryController, BUTTON_BACK);
-    public static final Button PRIMARY_RIGHT_BUMPER = new JoystickButton(primaryController, RIGHT_BUMPER);
+    private static final Button PRIMARY_START_BUTTON =
+        new JoystickButton(primaryController, BUTTON_START);
+    private static final Button PRIMARY_BACK_BUTTON =
+        new JoystickButton(primaryController, BUTTON_BACK);
+    public static final Button PRIMARY_RIGHT_BUMPER =
+        new JoystickButton(primaryController, RIGHT_BUMPER);
 
     public static final Button SECONDARY_A_BUTTON =
         new JoystickButton(secondaryController, BUTTON_A);

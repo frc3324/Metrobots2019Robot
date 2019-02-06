@@ -12,10 +12,7 @@ public class PushUp extends Command {
 
     protected void initialize() {}
 
-    protected void executed() {
-        Robot.climber.pushUp();
-
-    }
+    protected void executed() { Robot.climber.pushUp(); }
 
     @Override
     protected boolean isFinished() {

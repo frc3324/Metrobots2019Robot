@@ -6,7 +6,5 @@ import java.util.function.DoubleSupplier;
 
 public class Logger {
 
-    public Logger(String path, boolean compress) {
-        BadLog.init(path, compress);
-    }
+    public Logger(String path, boolean compress) { BadLog.init(path, compress); }
 }

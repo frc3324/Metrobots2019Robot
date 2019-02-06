@@ -14,7 +14,7 @@ public class Arm extends Subsystem {
     private WPI_TalonSRX armMotorOne = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_ONE);
     private WPI_VictorSPX armMotorTwo = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_TWO);
     private WPI_VictorSPX armMotorThree = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_THREE);
-    
+
     private SpeedControllerGroup armMotors = new SpeedControllerGroup(armMotorOne, armMotorTwo);
 
     public Arm() {

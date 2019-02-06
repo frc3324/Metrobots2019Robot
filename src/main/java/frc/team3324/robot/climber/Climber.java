@@ -10,8 +10,8 @@ public class Climber extends Subsystem {
 
     enum Status {
 
-        Up, Down;
-
+        Up,
+        Down;
     }
 
     public Status status = Status.Up;
@@ -19,10 +19,10 @@ public class Climber extends Subsystem {
     public Climber() {
 
         BadLog.createTopic("climber/Status", "hecc", () -> Robot.climber.getStatus());
-
     }
 
-    private DoubleSolenoid climber = new DoubleSolenoid(Constants.Climber.SOLENOID_PORT_ONE, Constants.Climber.SOLENOID_PORT_TWO);
+    private DoubleSolenoid climber = new DoubleSolenoid(Constants.Climber.SOLENOID_PORT_ONE,
+                                                        Constants.Climber.SOLENOID_PORT_TWO);
 
     public void pushDown() {
         climber.set(DoubleSolenoid.Value.kForward);
@@ -37,12 +37,11 @@ public class Climber extends Subsystem {
     public double getStatus() {
         if (status == Status.Up) {
             return 1;
-        }
-        else {
+        } else {
             return 0;
         }
     }
 
     @Override
-    protected void initDefaultCommand() { }
+    protected void initDefaultCommand() {}
 }

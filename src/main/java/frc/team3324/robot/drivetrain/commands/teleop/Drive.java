@@ -10,13 +10,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 public class Drive extends Command {
 
     public Drive() {
-        SmartDashboard.putString("Here2", "her2");
         requires(Robot.driveTrain);
         Robot.driveTrain.setBrakeMode();
     }
 
     protected void execute() {
-        SmartDashboard.putString("Here3", "here3");
         double leftY = OI.primaryController.getY(GenericHID.Hand.kLeft); // Get the Y (Up/Down) value of the LEFT Joystick
         double rightX = OI.primaryController.getX(GenericHID.Hand.kRight); // Get the X (Left/Right) value of the LEFT Joystick
 

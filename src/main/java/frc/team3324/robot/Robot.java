@@ -3,6 +3,7 @@ package frc.team3324.robot;
 import badlog.lib.BadLog;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.arm.Arm;
@@ -51,7 +52,6 @@ public class Robot extends TimedRobot {
 
         driveTrain.clearGyro();
         logger.finishInitialization();
-        SmartDashboard.putString("Init", "init");
         Shuffleboard.startRecording();
         CameraServer.getInstance().startAutomaticCapture(0);
         CameraServer.getInstance().startAutomaticCapture(1);
@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
     }
 
     public void robotPeriodic() {
+        Scheduler.getInstance().run();
         Robot.driveTrain.printEncoderDistance();
         logger.updateTopics();
         logger.log();

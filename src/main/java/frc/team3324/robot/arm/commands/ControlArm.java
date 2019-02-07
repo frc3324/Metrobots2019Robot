@@ -10,15 +10,16 @@ public class ControlArm extends Command {
 
     public ControlArm() { requires(Robot.arm); }
 
-    protected void initialize() {}
+    protected void initialize() {
+    }
 
     /*
      * Voltage to motor speed
      */
     protected void execute() {
+        System.out.println("here");
         double leftY = OI.secondaryController.getY(GenericHID.Hand.kLeft);
 
-        Robot.arm.setArmSpeed(leftY);
         Robot.arm.setArmSpeed(leftY * 0.3);
     }
 

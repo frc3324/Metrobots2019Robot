@@ -64,7 +64,7 @@ public class OI {
         PRIMARY_START_BUTTON.whenPressed(new PushUp());
         PRIMARY_BACK_BUTTON.whenPressed(new PushDown());
 
-        SECONDARY_LEFT_BUMPER.whileHeld(new Outtake());
+        SECONDARY_LEFT_BUMPER.whenPressed(new Outtake());
         SECONDARY_RIGHT_BUMPER.whileHeld(new Intake());
     }
 }

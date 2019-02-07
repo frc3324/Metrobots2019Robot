@@ -4,13 +4,11 @@ import badlog.lib.BadLog;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.climber.Climber;
 import frc.team3324.robot.intake.cargo.CargoIntake;
-import frc.team3324.robot.drivetrain.commands.auto.*;
 import frc.team3324.robot.drivetrain.DriveTrain;
-import frc.team3324.robot.util.LED;
-import frc.team3324.robot.util.FrontCamera;
 import frc.team3324.robot.intake.hatch.HatchIntake;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -19,6 +17,7 @@ import frc.team3324.robot.util.OI;
 public class Robot extends TimedRobot {
 
     public Robot() { super(0.02); }
+    public static Compressor compressor = new Compressor();
     /*
      * Instantiate subsystems
      */
@@ -31,7 +30,7 @@ public class Robot extends TimedRobot {
     public static Climber climber;
     public static OI oi;
 
-    public static LED led;
+    //public static LED led;
 
     private static BadLog logger;
 
@@ -42,7 +41,7 @@ public class Robot extends TimedRobot {
             cargoIntake = new CargoIntake();
             driveTrain = new DriveTrain();
             hatchIntake = new HatchIntake();
-            led = new LED();
+           // led = new LED();
             oi = new OI();
             climber = new Climber();
 
@@ -52,10 +51,11 @@ public class Robot extends TimedRobot {
 
         driveTrain.clearGyro();
         logger.finishInitialization();
-
+        SmartDashboard.putString("Init", "init");
         Shuffleboard.startRecording();
         CameraServer.getInstance().startAutomaticCapture(0);
         CameraServer.getInstance().startAutomaticCapture(1);
+        CameraServer.getInstance().putVideo("Camera output", 1280, 720);
     }
 
     public void robotPeriodic() {
@@ -63,25 +63,22 @@ public class Robot extends TimedRobot {
         logger.updateTopics();
         logger.log();
 
-        // FIX
-        led.setNeutralState();
-
         CameraServer.getInstance().getVideo();
     }
 
     public void disabledInit() {
-        CameraServer.getInstance().startAutomaticCapture(0);
-        CameraServer.getInstance().startAutomaticCapture(1);
-        CameraServer.getInstance().putVideo("Camera output", 1280, 720);
     }
 
     @Override
     public void disabledPeriodic() {
-        CameraServer.getInstance().getVideo();
     }
 
     @Override
     public void autonomousInit() {
         //        Scheduler.getInstance().add(new levelOneTest());
+    }
+
+    @Override
+    public void teleopPeriodic() {
     }
 }

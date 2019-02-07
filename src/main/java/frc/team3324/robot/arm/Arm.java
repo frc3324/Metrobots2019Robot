@@ -33,11 +33,11 @@ public class Arm extends Subsystem {
     private SpeedControllerGroup armMotors = new SpeedControllerGroup(armMotorOne, armMotorTwo, armMotorThree);
 
     public Arm() {
-//        armMotorOne.configContinuousCurrentLimit(84);
-//        armMotorOne.configPeakCurrentDuration(200);
-//        armMotorOne.configPeakCurrentLimit(150);
-//        armMotorTwo.follow(armMotorOne);
-//        armMotorThree.follow(armMotorOne);
+        armMotorOne.configContinuousCurrentLimit(84);
+        armMotorOne.configPeakCurrentDuration(200);
+        armMotorOne.configPeakCurrentLimit(150);
+        armMotorTwo.follow(armMotorOne);
+        armMotorThree.follow(armMotorOne);
     }
 
     public void initializeBadlog() {

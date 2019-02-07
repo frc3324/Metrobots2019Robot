@@ -59,13 +59,13 @@ public class DriveTrain extends Subsystem {
     public DifferentialDrive mDrive = new DifferentialDrive(lMotors, rMotors);
 
     public DriveTrain() {
-//        frMotor.configPeakCurrentLimit(400);
-//        frMotor.configPeakCurrentDuration(200);
-//        frMotor.configContinuousCurrentLimit(200);
-//
-//        brMotor.follow(frMotor);
-//        flMotor.follow(frMotor);
-//        blMotor.follow(frMotor);
+        frMotor.configPeakCurrentLimit(400);
+        frMotor.configPeakCurrentDuration(200);
+        frMotor.configContinuousCurrentLimit(200);
+
+        brMotor.follow(frMotor);
+        flMotor.follow(frMotor);
+        blMotor.follow(frMotor);
 
         initializeBadLog();
 

@@ -20,7 +20,7 @@ public class DriveArc extends Command {
 
     public DriveArc(double angle, double radius) {
         requires(Robot.driveTrain);
-        circleAngle  = angle;
+        circleAngle = angle;
         circleRadius = radius;
     }
 
@@ -31,7 +31,7 @@ public class DriveArc extends Command {
         DriveTrain.clearEncoder();
 
         innerSpeed = ((circleRadius * (2 / Constants.DriveTrain.DISTANCE_BETWEEN_WHEELS)) - 1) /
-                     ((circleRadius * (2 / Constants.DriveTrain.DISTANCE_BETWEEN_WHEELS)) + 1);
+            ((circleRadius * (2 / Constants.DriveTrain.DISTANCE_BETWEEN_WHEELS)) + 1);
         outerDistance = (circleAngle / 360) * (2 * Math.PI) * ((circleRadius + (Constants.DriveTrain.DISTANCE_BETWEEN_WHEELS / 2)));
     }
 
@@ -79,9 +79,9 @@ public class DriveArc extends Command {
             if (Math.abs(encoderDifference) < 0.5) {
                 isFinished = true;
             } else {
-                leftSideSpeed  = innerSpeed;
+                leftSideSpeed = innerSpeed;
                 rightSideSpeed = 1.0;
-                isFinished     = false;
+                isFinished = false;
             }
         }
 
@@ -91,21 +91,21 @@ public class DriveArc extends Command {
     		 * When turning right, the left wheels have to travel more than the right wheels.
     		 * The math is the same as the left turn, except the wheels are switched.
     		 */
-            double leftDistance      = outerDistance;
+            double leftDistance = outerDistance;
             double encoderDifference = (leftDistance - DriveTrain.lEncoder.getDistance());
 
             if (Math.abs(encoderDifference) < 0.1 || encoderDifference < 0) {
                 isFinished = true;
             } else {
                 rightSideSpeed = innerSpeed;
-                leftSideSpeed  = 1.0;
-                isFinished     = false;
+                leftSideSpeed = 1.0;
+                isFinished = false;
             }
         }
 
         // If the robot has an angle of zero, the robot will not move. This will be changed to incorporate rotate at some point.
         else {
-            leftSideSpeed  = 0;
+            leftSideSpeed = 0;
             rightSideSpeed = 0;
         }
         Robot.driveTrain.mDrive.tankDrive(-leftSideSpeed, -rightSideSpeed, false);

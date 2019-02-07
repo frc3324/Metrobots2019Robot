@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.team3324.robot.Robot;
 import frc.team3324.robot.util.OI;
 
-
 public class Outtake extends Command {
 
     public Outtake() {
         requires(Robot.cargoIntake);
+        setTimeout(1);
     }
 
     @Override
@@ -20,5 +20,4 @@ public class Outtake extends Command {
     protected boolean isFinished() {
         return OI.primaryController.getStartButton();
     }
-
 }

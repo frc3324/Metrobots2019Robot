@@ -14,5 +14,4 @@ public class PathfinderShuffleboard {
     public static NetworkTableEntry heading = pathfinderTab.add("Current Heading", 0).withPosition(1, 1).getEntry();
     public static NetworkTableEntry angleError = pathfinderTab.add("Angle Difference", 0).withPosition(2, 1).getEntry();
     public static NetworkTableEntry headingCorrectSpeed = pathfinderTab.add("Heading Correct Speed", 0).withPosition(3, 1).getEntry();
-
 }

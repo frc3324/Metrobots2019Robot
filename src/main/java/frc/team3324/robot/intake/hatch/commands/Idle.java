@@ -6,9 +6,7 @@ import frc.team3324.robot.Robot;
 
 public class Idle extends Command {
 
-    public Idle() {
-        requires(Robot.hatchIntake);
-    }
+    public Idle() { requires(Robot.hatchIntake); }
 
     @Override
     protected void execute() {

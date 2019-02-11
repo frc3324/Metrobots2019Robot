@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import frc.team3324.robot.Robot;
+import frc.team3324.robot.arm.commands.OneEightyDegree;
+import frc.team3324.robot.arm.commands.ZeroDegree;
 import frc.team3324.robot.climber.commands.teleop.PushDown;
 import frc.team3324.robot.climber.commands.teleop.PushUp;
 import frc.team3324.robot.drivetrain.commands.auto.Odometry;
@@ -66,5 +68,6 @@ public class OI {
 
         SECONDARY_LEFT_BUMPER.whenPressed(new Outtake());
         SECONDARY_RIGHT_BUMPER.whileHeld(new Intake());
+        SECONDARY_A_BUTTON.whileHeld(new ZeroDegree());
     }
 }

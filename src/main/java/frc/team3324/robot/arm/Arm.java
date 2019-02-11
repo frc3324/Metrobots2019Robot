@@ -6,7 +6,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.Robot;
 import frc.team3324.robot.arm.commands.ControlArm;
 import frc.team3324.robot.util.Constants;
@@ -15,13 +14,15 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.opencv.core.Mat;
 
 public class Arm extends Subsystem {
 
-    private ShuffleboardTab sensorTab = Shuffleboard.getTab("Arm");
+    private ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
 
-    private NetworkTableEntry armEncoder = sensorTab.add("Arm Encoder Distance", 0).withPosition(0, 0).getEntry();
-    private NetworkTableEntry armPDP = sensorTab.add("Arm Max PDP", 0).withPosition(0, 0).getEntry();
+    private NetworkTableEntry armEncoder = armTab.add("Arm Encoder Distance", 0).withPosition(0, 0).getEntry();
+    private NetworkTableEntry armPDP = armTab.add("Arm Max PDP", 0).withPosition(1, 0).getEntry();
+    private NetworkTableEntry armSpeed = armTab.add("Arm Speed", 0).withPosition(2, 0).getEntry();
 
     // TODO Invert stuff
     public static Encoder encoder =
@@ -60,7 +61,17 @@ public class Arm extends Subsystem {
      * Move the arm at the specified speed.
      * @param speed
      */
-    public void setArmSpeed(double speed) { armMotors.set(speed); }
+    public void setArmSpeed(double speed) {
+        if ((encoder.get() <= 0 && speed < 0)|| (encoder.get() >= (Constants.Arm.ENCODER_TICKS_PER_REV) / 2 && speed > 0)) {
+            speed = 0;
+        }
+        armMotors.set(speed);
+        armSpeed.setDouble(speed);
+    }
+
+    public double getArmRadians() {
+        return 0;
+    }
 
     @Override
     public void initDefaultCommand() {

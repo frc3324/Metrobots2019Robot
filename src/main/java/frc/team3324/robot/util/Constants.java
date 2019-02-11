@@ -55,6 +55,8 @@ public class Constants {
 
         public final static int ENCODER_PORT_A = 5;
         public final static int ENCODER_PORT_B = 6;
+
+        public final static int ENCODER_TICKS_PER_REV = 256;
     }
 
     public class HatchIntake {

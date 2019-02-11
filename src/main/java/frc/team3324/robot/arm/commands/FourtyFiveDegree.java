@@ -9,11 +9,11 @@ public class FourtyFiveDegree extends PIDCommand{
 
     public FourtyFiveDegree() {
         super(0, 0, 0);
+        requires(Robot.arm);
     }
 
     @Override
     protected void initialize() {
-        requires(Robot.arm);
         super.setSetpoint(goal);
     }
 

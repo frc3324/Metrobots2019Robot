@@ -8,12 +8,12 @@ public class OneThirtyFIveDegree extends PIDCommand{
     private double goal = (Math.PI*3)/4;
 
     public OneThirtyFIveDegree() {
-        super(0, 0, 0);
+        super(0, 0, 0, 0.02);
+        requires(Robot.arm);
     }
 
     @Override
     protected void initialize() {
-        requires(Robot.arm);
         super.setSetpoint(goal);
     }
 

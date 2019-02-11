@@ -1,6 +1,7 @@
 package frc.team3324.robot.arm.commands;
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.Robot;
 
 public class OneEightyDegree extends PIDCommand{
@@ -8,12 +9,12 @@ public class OneEightyDegree extends PIDCommand{
     private double goal = Math.PI;
 
     public OneEightyDegree() {
-        super(0, 0, 0);
+        super(1/Math.PI, 0, 0);
+        requires(Robot.arm);
     }
 
     @Override
     protected void initialize() {
-        requires(Robot.arm);
         super.setSetpoint(goal);
     }
 
@@ -30,6 +31,7 @@ public class OneEightyDegree extends PIDCommand{
 
     @Override
     protected void usePIDOutput(double output) {
+        SmartDashboard.putNumber("Output", output);
         Robot.arm.setArmSpeed(output);
     }
 }

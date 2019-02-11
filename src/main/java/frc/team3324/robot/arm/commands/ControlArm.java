@@ -20,7 +20,7 @@ public class ControlArm extends Command {
         System.out.println("here");
         double leftY = OI.secondaryController.getY(GenericHID.Hand.kLeft);
 
-        Robot.arm.setArmSpeed(leftY * 0.3);
+        Robot.arm.setArmSpeed(-leftY * 0.3);
     }
 
     // Make this return true when this Command no longer needs to run execute()

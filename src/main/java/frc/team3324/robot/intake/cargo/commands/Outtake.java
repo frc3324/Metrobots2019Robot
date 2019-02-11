@@ -11,6 +11,10 @@ public class Outtake extends Command {
 
     public Outtake() {
         requires(Robot.cargoIntake);
+    }
+
+    @Override
+    protected void initialize() {
         setTimeout(1);
     }
 
@@ -20,7 +24,12 @@ public class Outtake extends Command {
     }
 
     @Override
+    protected void interrupted() {
+        Robot.cargoIntake.intakeMotor.set(0);
+    }
+
+    @Override
     protected boolean isFinished() {
-        return OI.primaryController.getStartButton();
+        return false;
     }
 }

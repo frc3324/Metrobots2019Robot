@@ -16,14 +16,14 @@ public class Constants {
 
         // Motor ports
         public final static int FL_MOTOR_PORT = 4;
-        public final static int BL_MOTOR_PORT = 0;
+        public final static int BL_MOTOR_PORT = 5;
         public final static int FR_MOTOR_PORT = 1;
-        public final static int BR_MOTOR_PORT = 5;
+        public final static int BR_MOTOR_PORT = 0;
 
-        public final static int FL_PDP_MOTOR_PORT = 0;
-        public final static int BL_PDP_MOTOR_PORT = 15;
+        public final static int FL_PDP_MOTOR_PORT = 12;
+        public final static int BL_PDP_MOTOR_PORT = 13;
         public final static int FR_PDP_MOTOR_PORT = 1;
-        public final static int BR_PDP_MOTOR_PORT = 14;
+        public final static int BR_PDP_MOTOR_PORT = 0;
 
         public final static int LEFT_ENCODER_PORT_A = 0;
         public final static int LEFT_ENCODER_PORT_B = 1;
@@ -43,34 +43,43 @@ public class Constants {
         public final static double LOW_GEAR_MAX_ACCELERATION = 6.51;
 
         // Drivetrain ports
-        public final static int DRIVETRAIN_PORT_FORWARD = 0;
-        public final static int DRIVETRAIN_PORT_REVERSE = 1;
+        public final static int DRIVETRAIN_PORT_FORWARD = 2;
+        public final static int DRIVETRAIN_PORT_REVERSE = 3;
     }
 
     /**
      * Class with arm constants.
      */
     public class Arm {
-        public final static int MOTOR_PORT_ARM_ONE = 9;
-        public final static int MOTOR_PORT_ARM_TWO = 8;
-        public final static int MOTOR_PORT_ARM_THREE = 9;
+        public final static int MOTOR_PORT_ARM_ONE = 7;
+        public final static int MOTOR_PORT_ARM_TWO = 6;
+        public final static int MOTOR_PORT_ARM_THREE = 2;
+
+        public final static int MOTOR_PORT_PDP_ONE = 15;
+        public final static int MOTOR_PORT_PDP_TWO = 14;
+        public final static int MOTOR_PORT_PDP_THREE = 13;
+
+        public final static int ENCODER_PORT_A = 5;
+        public final static int ENCODER_PORT_B = 6;
+
+        public final static int ENCODER_TICKS_PER_REV = 256;
     }
 
     /**
      * Class with hatch intake/outtake system constants.
      */
     public class HatchIntake {
-        public final static int HATCH_INTAKE_PORT_FORWARD = 2;
-        public final static int HATCH_INTAKE_PORT_BACKWARD = 3;
+        public final static int HATCH_INTAKE_PORT_FORWARD = 4;
+        public final static int HATCH_INTAKE_PORT_BACKWARD = 5;
     }
 
     /**
      * Class with cargo intake/outtake system constants.
      */
     public class CargoIntake {
-        public final static int CARGO_INTAKE_MOTOR_PORT = 2;
+        public final static int CARGO_INTAKE_MOTOR_PORT = 3;
 
-        public final static int CARGO_INTAKE_PDP_PORT = 1;
+        public final static int CARGO_INTAKE_PDP_PORT = 3;
 
         public final static int LIMIT_SWITCH_PORT = 4;
     }
@@ -79,8 +88,8 @@ public class Constants {
      * Class with climber constants.
      */
     public class Climber {
-        public final static int CLIMBER_PORT_FORWARD = 4;
-        public final static int CLIMBER_PORT_BACKWARD = 5;
+        public final static int CLIMBER_PORT_FORWARD = 0;
+        public final static int CLIMBER_PORT_BACKWARD = 1;
     }
 
     /**

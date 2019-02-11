@@ -5,12 +5,15 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import frc.team3324.robot.Robot;
+import frc.team3324.robot.arm.commands.OneEightyDegree;
+import frc.team3324.robot.arm.commands.ZeroDegree;
 import frc.team3324.robot.climber.commands.teleop.PushDown;
 import frc.team3324.robot.climber.commands.teleop.PushUp;
 import frc.team3324.robot.drivetrain.commands.auto.Odometry;
 import frc.team3324.robot.drivetrain.commands.teleop.ShiftGears;
 import frc.team3324.robot.drivetrain.commands.auto.JaciPathfinding;
 import frc.team3324.robot.drivetrain.commands.auto.PathGenerator;
+import frc.team3324.robot.intake.HatchIntake;
 import frc.team3324.robot.intake.cargo.commands.Intake;
 import frc.team3324.robot.intake.cargo.commands.Outtake;
 
@@ -60,10 +63,14 @@ public class OI {
      */
     public OI() {
         PRIMARY_RIGHT_BUMPER.whenPressed(new ShiftGears());
-        PRIMARY_START_BUTTON.whenPressed(new PushUp());
-        PRIMARY_BACK_BUTTON.whenPressed(new PushDown());
+        PRIMARY_START_BUTTON.whenPressed(new PushDown());
+        PRIMARY_BACK_BUTTON.whenPressed(new PushUp());
+        PRIMARY_B_BUTTON.whenPressed(new Compress());
 
         SECONDARY_LEFT_BUMPER.whileHeld(new Outtake());
         SECONDARY_RIGHT_BUMPER.whileHeld(new Intake());
+
+        SECONDARY_A_BUTTON.whenPressed(new frc.team3324.robot.intake.hatch.commands.Intake());
+        SECONDARY_B_BUTTON.whenPressed(new frc.team3324.robot.intake.hatch.commands.Outtake());
     }
 }

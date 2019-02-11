@@ -21,6 +21,11 @@ public class Intake extends Command {
 
     @Override
     protected boolean isFinished() {
-        return OI.primaryController.getStartButton() || Robot.cargoIntake.intakeLimitSwitch.get();
+        return false;
+    }
+
+    @Override
+    protected void end() {
+        Robot.cargoIntake.intakeMotor.set(0);
     }
 }

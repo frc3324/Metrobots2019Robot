@@ -3,14 +3,12 @@ package frc.team3324.robot;
 import badlog.lib.BadLog;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.climber.Climber;
 import frc.team3324.robot.intake.cargo.CargoIntake;
-import frc.team3324.robot.drivetrain.commands.auto.*;
 import frc.team3324.robot.drivetrain.DriveTrain;
-import frc.team3324.robot.util.LED;
-import frc.team3324.robot.util.FrontCamera;
 import frc.team3324.robot.intake.HatchIntake;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -22,6 +20,7 @@ import frc.team3324.robot.util.OI;
 public class Robot extends TimedRobot {
 
     public Robot() { super(0.02); }
+    public static Compressor compressor = new Compressor(0);
     /*
      * Instantiate subsystems
      */
@@ -34,7 +33,7 @@ public class Robot extends TimedRobot {
     public static Climber climber;
     public static OI oi;
 
-    public static LED led;
+    //public static LED led;
 
     private static BadLog logger;
 
@@ -45,23 +44,25 @@ public class Robot extends TimedRobot {
             cargoIntake = new CargoIntake();
             driveTrain = new DriveTrain();
             hatchIntake = new HatchIntake();
-            led = new LED();
+           // led = new LED();
             oi = new OI();
             climber = new Climber();
 
             BadLog.createTopic("System/Battery Voltage", "V", () -> RobotController.getBatteryVoltage());
             BadLog.createTopic("Match Time", "s", () -> DriverStation.getInstance().getMatchTime());
         }
+        compressor.start();
 
         driveTrain.clearGyro();
         logger.finishInitialization();
-
         Shuffleboard.startRecording();
         CameraServer.getInstance().startAutomaticCapture(0);
         CameraServer.getInstance().startAutomaticCapture(1);
+        CameraServer.getInstance().putVideo("Camera output", 1280, 720);
     }
 
     public void robotPeriodic() {
+        Scheduler.getInstance().run();
         Robot.driveTrain.printEncoderDistance();
         logger.updateTopics();
         logger.log();
@@ -70,18 +71,18 @@ public class Robot extends TimedRobot {
     }
 
     public void disabledInit() {
-        CameraServer.getInstance().startAutomaticCapture(0);
-        CameraServer.getInstance().startAutomaticCapture(1);
-        CameraServer.getInstance().putVideo("Camera output", 1280, 720);
     }
 
     @Override
     public void disabledPeriodic() {
-        CameraServer.getInstance().getVideo();
     }
 
     @Override
     public void autonomousInit() {
         //        Scheduler.getInstance().add(new levelOneTest());
+    }
+
+    @Override
+    public void teleopPeriodic() {
     }
 }

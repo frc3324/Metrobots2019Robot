@@ -16,13 +16,14 @@ public class ControlArm extends Command {
      */
     public ControlArm() { requires(Robot.arm); }
 
-    protected void initialize() {}
+    protected void initialize() {
+    }
 
     protected void execute() {
+        System.out.println("here");
         double leftY = OI.secondaryController.getY(GenericHID.Hand.kLeft);
 
-        Robot.arm.setArmSpeed(leftY);
-        Robot.arm.setArmSpeed(leftY * 0.3);
+        Robot.arm.setArmSpeed(leftY * 0.5);
     }
 
     protected boolean isFinished() { return false; }

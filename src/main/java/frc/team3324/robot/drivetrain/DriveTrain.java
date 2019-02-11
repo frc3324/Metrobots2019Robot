@@ -3,8 +3,16 @@ package frc.team3324.robot.drivetrain;
 import badlog.lib.BadLog;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+<<<<<<< HEAD
 import com.kauailabs.navx.frc.AHRS;
 
+=======
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+>>>>>>> 1d2ed8c9a5e7da91192bb1498ddf858f7f9341eb
 import frc.team3324.robot.Robot;
 import frc.team3324.robot.drivetrain.commands.teleop.Drive;
 import frc.team3324.robot.util.Constants;
@@ -49,12 +57,12 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
 
     public static AHRS gyro = new AHRS(SPI.Port.kMXP);
 
-    public WPI_TalonSRX flMotor = new WPI_TalonSRX(Constants.DriveTrain.FL_MOTOR_PORT);
+    public WPI_VictorSPX flMotor = new WPI_VictorSPX(Constants.DriveTrain.FL_MOTOR_PORT);
     public WPI_TalonSRX blMotor = new WPI_TalonSRX(Constants.DriveTrain.BL_MOTOR_PORT);
     private SpeedControllerGroup lMotors = new SpeedControllerGroup(flMotor, blMotor);
 
     public WPI_TalonSRX frMotor = new WPI_TalonSRX(Constants.DriveTrain.FR_MOTOR_PORT);
-    public WPI_TalonSRX brMotor = new WPI_TalonSRX(Constants.DriveTrain.BR_MOTOR_PORT);
+    public WPI_VictorSPX brMotor = new WPI_VictorSPX(Constants.DriveTrain.BR_MOTOR_PORT);
 
     private SpeedControllerGroup rMotors = new SpeedControllerGroup(frMotor, brMotor);
 
@@ -73,9 +81,15 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
         frMotor.configPeakCurrentDuration(200);
         frMotor.configContinuousCurrentLimit(200);
 
+        blMotor.configPeakCurrentLimit(400);
+        blMotor.configPeakCurrentDuration(200);
+        blMotor.configContinuousCurrentLimit(200);
+
+        brMotor.setInverted(false);
+        frMotor.setInverted(false);
+
         brMotor.follow(frMotor);
-        flMotor.follow(frMotor);
-        blMotor.follow(frMotor);
+        flMotor.follow(blMotor);
 
         initializeBadLog();
 

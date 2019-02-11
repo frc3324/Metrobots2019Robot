@@ -6,10 +6,16 @@ import frc.team3324.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Command class to shift drivetrain gears (high/low).
+ */
 public class ShiftGears extends Command {
 
     private boolean gearShifterStatus = false;
 
+    /**
+     * Creates an instance of the ShiftGears class.
+     */
     public ShiftGears() { super("ShiftGears"); }
 
     protected void initialize() {}

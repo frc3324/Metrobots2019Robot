@@ -1,14 +1,10 @@
 package frc.team3324.robot.drivetrain.commands.auto;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
-import frc.team3324.robot.drivetrain.commands.teleop.Drive;
 import frc.team3324.robot.util.Constants;
-import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.team3324.robot.util.OI;
 import jaci.pathfinder.Pathfinder;
@@ -18,8 +14,10 @@ import jaci.pathfinder.modifiers.TankModifier;
 
 import static frc.team3324.robot.drivetrain.commands.auto.PathfinderShuffleboard.*;
 import static frc.team3324.robot.drivetrain.commands.auto.PathGenerator.*;
-import static frc.team3324.robot.util.Constants.DriveTrain.HIGH_GEAR_MAX_ACCELERATION;
 
+/**
+ * Command class to follow a path.
+ */
 public class JaciPathfinding extends Command {
 
     private double angleDifference, turn;
@@ -31,6 +29,14 @@ public class JaciPathfinding extends Command {
     private EncoderFollower right;
     private Notifier notifier = new Notifier(() -> { followPath(); });
 
+    /**
+     * Creates an instance of the JaciPathfinding class.
+     *
+     * @param path, path to follow
+     * @param readFromFile, whether to read path from file
+     * @param reversed, whether path reversed
+     * @see PathGenerator.path
+     */
     public JaciPathfinding(PathGenerator.path path, boolean readFromFile, boolean reversed) {
         this.reversed = reversed;
         this.path = path;

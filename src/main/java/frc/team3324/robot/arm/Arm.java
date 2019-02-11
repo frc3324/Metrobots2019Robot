@@ -9,6 +9,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/**
+ * Subsystem class to control the arm. This class will set the arm motor velocities.
+ */
 public class Arm extends Subsystem {
     // TODO Invert stuff
     private WPI_TalonSRX armMotorOne = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_ONE);
@@ -17,6 +20,9 @@ public class Arm extends Subsystem {
 
     private SpeedControllerGroup armMotors = new SpeedControllerGroup(armMotorOne, armMotorTwo);
 
+    /**
+     * Creates an instance of the Arm class.
+     */
     public Arm() {
         armMotorOne.configContinuousCurrentLimit(84);
         armMotorOne.configPeakCurrentDuration(200);
@@ -26,8 +32,9 @@ public class Arm extends Subsystem {
     }
 
     /**
-     * Move the arm at the specified speed.
-     * @param speed
+     * Moves the arm at the specified speed.
+     *
+     * @param speed, -1.0 to 1.0
      */
     public void setArmSpeed(double speed) { armMotors.set(speed); }
 

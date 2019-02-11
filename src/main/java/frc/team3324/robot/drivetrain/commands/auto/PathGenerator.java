@@ -10,6 +10,9 @@ import jaci.pathfinder.Waypoint;
 import java.io.File;
 import java.nio.file.Path;
 
+/**
+ * Class to generate paths or read paths from file.
+ */
 public class PathGenerator {
     public enum path {
         LEFT_CLOSE_HUMAN_STATION,
@@ -32,6 +35,15 @@ public class PathGenerator {
         DEFAULT
     }
 
+    /**
+     * Generates path from specified file.
+     *
+     * @param   path, (enum) path to take
+     * @param   readFromCSV, whether to read path from file
+     * @return  trajectory, from CSV file
+     * @see     Trajectory
+     * @see     Waypoint
+     */
     public static Trajectory generateTrajectory(path path, boolean readFromCSV) {
         System.out.println("Generating Trajectory");
         Trajectory trajectory;

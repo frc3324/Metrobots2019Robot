@@ -15,8 +15,8 @@ import frc.team3324.robot.intake.cargo.commands.Intake;
 import frc.team3324.robot.intake.cargo.commands.Outtake;
 
 /**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
+ * Class to bind the controls on the physical operator interface to the
+ * commands and command groups to allow control of the robot.
  */
 public class OI {
     private static final int BUTTON_A = 1;
@@ -32,7 +32,7 @@ public class OI {
 
     public static XboxController primaryController = new XboxController(0);
     public static XboxController secondaryController = new XboxController(1);
-    /**
+    /*
      * Primary driver buttons assignments
      */
     private static final Button PRIMARY_A_BUTTON = new JoystickButton(primaryController, BUTTON_A);
@@ -56,8 +56,7 @@ public class OI {
     public static final Button SECONDARY_RIGHT_BUMPER = new JoystickButton(secondaryController, RIGHT_BUMPER);
 
     /**
-     * Controller buttons.
-     * aButton -> Shift gears
+     * Creates an instance of the OI class.
      */
     public OI() {
         PRIMARY_RIGHT_BUMPER.whenPressed(new ShiftGears());

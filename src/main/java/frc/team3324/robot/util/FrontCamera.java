@@ -3,6 +3,9 @@ package frc.team3324.robot.util;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Class to start camera and create video output stream.
+ */
 public class FrontCamera extends Command {
     @Override
     protected void initialize() {

@@ -8,6 +8,9 @@ package frc.team3324.robot.util;
  */
 public class Constants {
 
+    /**
+     * Class with drivetrain constants.
+     */
     public class DriveTrain {
         public final static int DRIVETRAIN_PCM_MODULE = 0;
 
@@ -44,17 +47,26 @@ public class Constants {
         public final static int DRIVETRAIN_PORT_REVERSE = 1;
     }
 
+    /**
+     * Class with arm constants.
+     */
     public class Arm {
         public final static int MOTOR_PORT_ARM_ONE = 9;
         public final static int MOTOR_PORT_ARM_TWO = 8;
         public final static int MOTOR_PORT_ARM_THREE = 9;
     }
 
+    /**
+     * Class with hatch intake/outtake system constants.
+     */
     public class HatchIntake {
         public final static int HATCH_INTAKE_PORT_FORWARD = 2;
         public final static int HATCH_INTAKE_PORT_BACKWARD = 3;
     }
 
+    /**
+     * Class with cargo intake/outtake system constants.
+     */
     public class CargoIntake {
         public final static int CARGO_INTAKE_MOTOR_PORT = 2;
 
@@ -63,11 +75,17 @@ public class Constants {
         public final static int LIMIT_SWITCH_PORT = 4;
     }
 
+    /**
+     * Class with climber constants.
+     */
     public class Climber {
         public final static int CLIMBER_PORT_FORWARD = 4;
         public final static int CLIMBER_PORT_BACKWARD = 5;
     }
 
+    /**
+     * Class with LED constants.
+     */
     public class LED {
         public final static int LED_PCM_MODULE = 1;
 

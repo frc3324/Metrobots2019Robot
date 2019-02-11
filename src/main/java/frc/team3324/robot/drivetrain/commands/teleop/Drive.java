@@ -5,8 +5,14 @@ import frc.team3324.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.GenericHID;
 
+/**
+ * Command class to drive the robot using driver input through a controller.
+ */
 public class Drive extends Command {
 
+    /**
+     * Creates an instance of the Drive class.
+     */
     public Drive() {
         requires(Robot.driveTrain);
         Robot.driveTrain.setBrakeMode();

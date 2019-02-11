@@ -4,6 +4,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.Robot;
 
+/**
+ * Command class to drive robot at a set velocity.
+ */
 public class Characterizer extends Command {
 
     private double rampingRate = 0.05;
@@ -12,8 +15,18 @@ public class Characterizer extends Command {
     private double leftVelocity = 0;
     private double rightVelocity = 0;
 
+    /**
+     * Gets velocity of right wheels.
+     *
+     * @return velocity, -1.0 to 1.0
+     */
     public double getRightVelocity() { return rightVelocity; }
 
+    /**
+     * Gets velocity of left wheels.
+     *
+     * @return velocity, -1.0 to 1.0
+     */
     public double getLeftVelocity() { return leftVelocity; }
 
     public void execute() {

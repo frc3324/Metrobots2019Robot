@@ -1,0 +1,14 @@
+frc.team3324.robot
+frc.team3324.robot.arm
+frc.team3324.robot.arm.commands
+frc.team3324.robot.climber
+frc.team3324.robot.climber.commands.teleop
+frc.team3324.robot.drivetrain
+frc.team3324.robot.drivetrain.commands.auto
+frc.team3324.robot.drivetrain.commands.teleop
+frc.team3324.robot.intake
+frc.team3324.robot.intake.cargo
+frc.team3324.robot.intake.cargo.commands
+frc.team3324.robot.intake.hatch.commands
+frc.team3324.robot.util
+frc.team3324.robot.wrappers

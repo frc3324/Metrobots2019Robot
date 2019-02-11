@@ -4,6 +4,9 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
+/**
+ * Class to populate Shuffleboard with odometry information.
+ */
 public class PathfinderShuffleboard {
     public static ShuffleboardTab pathfinderTab = Shuffleboard.getTab("Pathfinder");
     public static NetworkTableEntry leftOutput = pathfinderTab.add("Left Motor Output", 0).withPosition(0, 0).getEntry();

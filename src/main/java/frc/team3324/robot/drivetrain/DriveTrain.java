@@ -1,26 +1,29 @@
 package frc.team3324.robot.drivetrain;
 
 import badlog.lib.BadLog;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import com.kauailabs.navx.frc.AHRS;
+
 import frc.team3324.robot.Robot;
 import frc.team3324.robot.drivetrain.commands.teleop.Drive;
 import frc.team3324.robot.util.Constants;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.SPI;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import static frc.team3324.robot.Robot.pdp;
 
-// Identify Drivetrain as a subsystem (class)
-public class DriveTrain extends Subsystem {
+/**
+ * Subsystem class to control the drivetrain and peripheral drivetrain systems.
+ */
+public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsystem (class)
     private ShuffleboardTab sensorTab = Shuffleboard.getTab("Encoder Values");
 
     private NetworkTableEntry leftDistance = sensorTab.add("Left Encoder Distance", 0).withPosition(0, 0).getEntry();
@@ -57,6 +60,14 @@ public class DriveTrain extends Subsystem {
 
     public DifferentialDrive mDrive = new DifferentialDrive(lMotors, rMotors);
 
+    /**
+     * Creates an instance of the DriveTrain class.
+     * <p>Configures motor controller current limits, durations.</p>
+     * <p>Slaves motor controllers to TalonSRXs.</p>
+     * <p>Initializes badlog.</p>
+     * <p>Enables drivetrain motor controller safety mode.</p>
+     * <p>Set drivetrain distance per pulse.</p>
+     */
     public DriveTrain() {
         frMotor.configPeakCurrentLimit(400);
         frMotor.configPeakCurrentDuration(200);
@@ -74,6 +85,11 @@ public class DriveTrain extends Subsystem {
         rEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);
     }
 
+    /**
+     * Populates the badlog with basic robot information (current, encoder values, distance, velocity, voltage).
+     *
+     * @see BadLog
+     */
     private void initializeBadLog() {
         BadLog.createTopic("drivetrain/Total Current", "Amps", () -> getTotalCurrent());
         BadLog.createTopic("drivetrain/FL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT));
@@ -94,7 +110,9 @@ public class DriveTrain extends Subsystem {
     }
 
     /**
-     * Reset both of encoders
+     * Resets both drivetrain encoders.
+     *
+     * @see Encoder
      */
     public static void clearEncoder() {
         lEncoder.reset();
@@ -102,7 +120,10 @@ public class DriveTrain extends Subsystem {
     }
 
     /**
-     * Print the encoder values, left (L Encoder Distance) and right (R Encoder Distance)
+     * Prints drivetrain encoder values through NetworkTables.
+     * <p>Left (L Encoder Distance) and right (R Encoder Distance).</p>
+     *
+     * @see NetworkTableEntry
      */
     public void printEncoderDistance() {
         rightDistance.setDouble(rEncoder.getDistance());
@@ -125,13 +146,25 @@ public class DriveTrain extends Subsystem {
     }
 
     /**
-     * Reset the gyro to zero
-     * Avoid usage at all costs
+     * Resets the gyro to zero.
+     * <p>Avoid usage at all costs.</p>
+     * @see AHRS
      */
     public void clearGyro() { gyro.reset(); }
 
+    /**
+     * Gets current gyro yaw.
+     *
+     * @return Current yaw value in degrees, -180.0 to 180.0.
+     * @see AHRS
+     */
     public double getYaw() { return gyro.getYaw(); }
 
+    /**
+     * Sets drivetrain motors to brake mode (apply force to brake).
+     *
+     * @see WPI_TalonSRX
+     */
     public void setBrakeMode() {
         frMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
         brMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
@@ -139,6 +172,11 @@ public class DriveTrain extends Subsystem {
         flMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
     }
 
+    /**
+     * Sets drivetrain motors to coast mode (coasts to a stop).
+     *
+     * @see WPI_TalonSRX
+     */
     public void setCoastMode() {
         frMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
         brMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
@@ -146,12 +184,28 @@ public class DriveTrain extends Subsystem {
         flMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
     }
 
+    /**
+     * Sets drivetrain to high gear using a double solenoid.
+     *
+     * @see DoubleSolenoid
+     */
     public void setHighGear() { gearShifter.set(DoubleSolenoid.Value.kForward); }
 
+    /**
+     * Sets drivetrain to low gear using a double solenoid.
+     *
+     * @see DoubleSolenoid
+     */
     public void setLowGear() { gearShifter.set(DoubleSolenoid.Value.kReverse); }
 
     protected void initDefaultCommand() { setDefaultCommand(new Drive()); }
 
+    /**
+     * Gets total current of drivetrain through PDP.
+     *
+     * @return Total current of drivetrain.
+     * @see PowerDistributionPanel
+     */
     public double getTotalCurrent() {
         return pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT) + pdp.getCurrent(Constants.DriveTrain.BL_PDP_MOTOR_PORT) +
             pdp.getCurrent(Constants.DriveTrain.FR_PDP_MOTOR_PORT) + pdp.getCurrent(Constants.DriveTrain.BR_PDP_MOTOR_PORT);

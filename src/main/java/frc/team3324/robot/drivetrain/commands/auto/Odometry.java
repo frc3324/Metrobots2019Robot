@@ -12,6 +12,9 @@ import jaci.pathfinder.Trajectory;
 
 import java.nio.file.Path;
 
+/**
+ * Command class to determine position of the robot udtgy
+ */
 public class Odometry extends Command {
     private double x, y, theta, phi, middleEncoder, lEncoder, rEncoder;
     private int segment = 0;
@@ -25,12 +28,20 @@ public class Odometry extends Command {
     NetworkTableEntry pathY = table.getEntry("pathY");
     NetworkTableEntry pathHeading = table.getEntry("pathHeading");
 
+    /**
+     * Creates an instance of the Odometry class.
+     *
+     * @param x, current x position of robot
+     * @param y, current y position of robot
+     * @param theta, current angle of robot
+     */
     public Odometry(double x, double y, double theta) {
         this.x = x;
         this.y = y;
         this.theta = theta;
         this.trajectory = trajectory;
     }
+
     // Called just before this Command runs the first time
     protected void initialize() {
         inst.startDSClient(); // recommended if running on DS computer; this gets the robot IP from the DS

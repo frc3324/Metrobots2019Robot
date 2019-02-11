@@ -4,6 +4,9 @@ import frc.team3324.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Command class to push up the climber.
+ */
 public class PushUp extends Command {
 
     private boolean gearClimberStatus = false;

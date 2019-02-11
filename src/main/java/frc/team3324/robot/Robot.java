@@ -18,7 +18,7 @@ import frc.team3324.robot.util.OI;
 public class Robot extends TimedRobot {
 
     public Robot() { super(0.02); }
-    public static Compressor compressor = new Compressor();
+    public static Compressor compressor = new Compressor(0);
     /*
      * Instantiate subsystems
      */
@@ -49,6 +49,7 @@ public class Robot extends TimedRobot {
             BadLog.createTopic("System/Battery Voltage", "V", () -> RobotController.getBatteryVoltage());
             BadLog.createTopic("Match Time", "s", () -> DriverStation.getInstance().getMatchTime());
         }
+        compressor.start();
 
         driveTrain.clearGyro();
         logger.finishInitialization();
@@ -64,6 +65,7 @@ public class Robot extends TimedRobot {
         logger.updateTopics();
         logger.log();
 
+        DriverStation.reportError("Pressed: " + cargoIntake.intakeLimitSwitch.get(), false);
         CameraServer.getInstance().getVideo();
     }
 

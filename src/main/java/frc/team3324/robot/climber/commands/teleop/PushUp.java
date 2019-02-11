@@ -6,16 +6,14 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class PushUp extends Command {
 
-    private boolean gearClimberStatus = false;
-
     public PushUp() { super("PushUp"); }
 
     protected void initialize() {}
 
-    protected void executed() { Robot.climber.pushUp(); }
+    protected void execute() { Robot.climber.pushUp(); }
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 }

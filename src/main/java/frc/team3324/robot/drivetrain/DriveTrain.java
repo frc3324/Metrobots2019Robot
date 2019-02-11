@@ -63,9 +63,15 @@ public class DriveTrain extends Subsystem {
         frMotor.configPeakCurrentDuration(200);
         frMotor.configContinuousCurrentLimit(200);
 
+        blMotor.configPeakCurrentLimit(400);
+        blMotor.configPeakCurrentDuration(200);
+        blMotor.configContinuousCurrentLimit(200);
+
+        brMotor.setInverted(false);
+        frMotor.setInverted(false);
+
         brMotor.follow(frMotor);
-        flMotor.follow(frMotor);
-        blMotor.follow(frMotor);
+        flMotor.follow(blMotor);
 
         initializeBadLog();
 

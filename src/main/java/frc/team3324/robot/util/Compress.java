@@ -6,17 +6,16 @@ import frc.team3324.robot.Robot;
 public class Compress extends Command {
 
     public Compress() {
-        setTimeout(10);
     }
 
     @Override
     protected void initialize() {
-        Robot.compressor.start();
+        Robot.compressor.stop();
     }
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     @Override

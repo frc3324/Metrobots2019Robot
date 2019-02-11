@@ -19,11 +19,11 @@ public class Drive extends Command {
         double rightX = OI.primaryController.getX(GenericHID.Hand.kRight); // Get the X (Left/Right) value of the LEFT Joystick
 
         if (OI.PRIMARY_RIGHT_BUMPER.get()) {
-            Robot.driveTrain.mDrive.curvatureDrive(leftY, rightX, true);
+            Robot.driveTrain.mDrive.curvatureDrive(leftY, -rightX, true);
         } else if (leftY < 0.1) {
-            Robot.driveTrain.mDrive.curvatureDrive(leftY, rightX, true);
+            Robot.driveTrain.mDrive.curvatureDrive(leftY, -rightX, true);
         } else {
-            Robot.driveTrain.mDrive.curvatureDrive(leftY, rightX * 0.7, false);
+            Robot.driveTrain.mDrive.curvatureDrive(leftY, -rightX * 0.7, false);
         }
     }
 

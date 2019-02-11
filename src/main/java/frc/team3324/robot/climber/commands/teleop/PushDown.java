@@ -12,10 +12,10 @@ public class PushDown extends Command {
 
     protected void initialize() {}
 
-    protected void executed() { Robot.climber.pushDown(); }
+    protected void execute() { Robot.climber.pushDown(); }
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 }

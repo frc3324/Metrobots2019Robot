@@ -2,6 +2,7 @@ package frc.team3324.robot.intake.cargo;
 
 import badlog.lib.BadLog;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team3324.robot.intake.cargo.commands.Intake;
@@ -11,12 +12,13 @@ import frc.team3324.robot.util.Constants;
 import static frc.team3324.robot.Robot.pdp;
 
 public class CargoIntake extends Subsystem {
-    public WPI_TalonSRX intakeMotor = new WPI_TalonSRX(Constants.CargoIntake.CARGO_INTAKE_MOTOR_PORT);
+    public WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.CargoIntake.CARGO_INTAKE_MOTOR_PORT);
 
-//    public DigitalInput intakeLimitSwitch = new DigitalInput(Constants.CargoIntake.LIMIT_SWITCH_PORT);
+    public DigitalInput intakeLimitSwitch = new DigitalInput(Constants.CargoIntake.LIMIT_SWITCH_PORT);
 
     public CargoIntake() {
 //        BadLog.createTopic("cargointake/isIntook", "Boolean", () -> getLimitSwitchAsDouble());
+        intakeMotor.setInverted(true);
         BadLog.createTopic("cargointake/Current Draw", "amps", () -> pdp.getCurrent(Constants.CargoIntake.CARGO_INTAKE_PDP_PORT));
     }
 
@@ -33,5 +35,5 @@ public class CargoIntake extends Subsystem {
 //        return !intakeLimitSwitch.get();
 //    }
 
-    public void initDefaultCommand() { setDefaultCommand(new Intake()); }
+    public void initDefaultCommand() { }
 }

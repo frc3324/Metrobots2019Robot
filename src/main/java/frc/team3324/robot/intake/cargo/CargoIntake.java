@@ -34,15 +34,13 @@ public class CargoIntake extends Subsystem {
      * @return double, 1 or 0.
      */
     public double getLimitSwitchAsDouble() {
-//        if (intakeLimitSwitch.get()) {
-//            return 1;
-//        } else {
-//            return 0;
-//        }
-        return 0;
+        if (intakeLimitSwitch.get()) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
-<<<<<<< HEAD
     /**
      * Gets state of limit switch.
      *
@@ -51,11 +49,6 @@ public class CargoIntake extends Subsystem {
     public boolean isSwitchPressed() {
         return !intakeLimitSwitch.get();
     }
-=======
-//    public boolean isSwitchPressed() {
-//        return !intakeLimitSwitch.get();
-//    }
->>>>>>> 1d2ed8c9a5e7da91192bb1498ddf858f7f9341eb
 
     public void initDefaultCommand() { }
 }

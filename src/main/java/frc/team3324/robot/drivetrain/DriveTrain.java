@@ -3,16 +3,14 @@ package frc.team3324.robot.drivetrain;
 import badlog.lib.BadLog;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-<<<<<<< HEAD
-import com.kauailabs.navx.frc.AHRS;
 
-=======
+import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
->>>>>>> 1d2ed8c9a5e7da91192bb1498ddf858f7f9341eb
 import frc.team3324.robot.Robot;
 import frc.team3324.robot.drivetrain.commands.teleop.Drive;
 import frc.team3324.robot.util.Constants;

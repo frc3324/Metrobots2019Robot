@@ -7,10 +7,10 @@ import frc.team3324.robot.util.Constants;
 
 public class ZeroDegree extends PIDCommand{
 
-    private double goal = 0;
+    private double goal = 0.0175;
 
     public ZeroDegree() {
-        super(1/Math.PI, 0, 0);
+        super(0.45, 0.003, 0);
         requires(Robot.arm);
     }
 
@@ -32,7 +32,8 @@ public class ZeroDegree extends PIDCommand{
 
     @Override
     protected void usePIDOutput(double output) {
-       Robot.arm.setArmSpeed(output);
+        Robot.arm.updateShuffleBoard();
+        Robot.arm.setArmSpeed(output);
     }
 }
 

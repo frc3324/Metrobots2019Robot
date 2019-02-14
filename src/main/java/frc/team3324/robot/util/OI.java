@@ -67,10 +67,12 @@ public class OI {
         PRIMARY_BACK_BUTTON.whenPressed(new PushUp());
         PRIMARY_B_BUTTON.whenPressed(new Compress());
 
-        SECONDARY_LEFT_BUMPER.whileHeld(new Outtake());
-        SECONDARY_RIGHT_BUMPER.whileHeld(new Intake());
+        SECONDARY_Y_BUTTON.whileHeld(new Outtake());
+        SECONDARY_X_BUTTON.whileHeld(new Intake());
 
         SECONDARY_A_BUTTON.whenPressed(new frc.team3324.robot.intake.hatch.commands.Intake());
         SECONDARY_B_BUTTON.whenPressed(new frc.team3324.robot.intake.hatch.commands.Outtake());
+        SECONDARY_RIGHT_BUMPER.whenPressed(new OneEightyDegree());
+        SECONDARY_LEFT_BUMPER.whenPressed(new ZeroDegree());
     }
 }

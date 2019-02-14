@@ -51,7 +51,7 @@
     {
       "groupId": "com.ctre.phoenix",
       "artifactId": "api-cpp",
-      "version": "5.12.0",
+      "version": "5.15.0",
       "libName": "CTRE_Phoenix",
       "headerClassifier": "headers",
       "sharedLibrary": false,

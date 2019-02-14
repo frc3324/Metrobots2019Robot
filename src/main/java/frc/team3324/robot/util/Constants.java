@@ -8,9 +8,6 @@ package frc.team3324.robot.util;
  */
 public class Constants {
 
-    /**
-     * Class with drivetrain constants.
-     */
     public class DriveTrain {
         public final static int DRIVETRAIN_PCM_MODULE = 0;
 
@@ -47,9 +44,6 @@ public class Constants {
         public final static int DRIVETRAIN_PORT_REVERSE = 3;
     }
 
-    /**
-     * Class with arm constants.
-     */
     public class Arm {
         public final static int MOTOR_PORT_ARM_ONE = 7;
         public final static int MOTOR_PORT_ARM_TWO = 6;
@@ -57,25 +51,22 @@ public class Constants {
 
         public final static int MOTOR_PORT_PDP_ONE = 15;
         public final static int MOTOR_PORT_PDP_TWO = 14;
-        public final static int MOTOR_PORT_PDP_THREE = 13;
+        public final static int MOTOR_PORT_PDP_THREE = 2;
 
         public final static int ENCODER_PORT_A = 5;
         public final static int ENCODER_PORT_B = 6;
 
         public final static int ENCODER_TICKS_PER_REV = 256;
+
+        public final static int FRONT_LIMIT_SWITCH = 9;
+        public final static int BACK_LIMIT_SWITCH = 8;
     }
 
-    /**
-     * Class with hatch intake/outtake system constants.
-     */
     public class HatchIntake {
         public final static int HATCH_INTAKE_PORT_FORWARD = 4;
         public final static int HATCH_INTAKE_PORT_BACKWARD = 5;
     }
 
-    /**
-     * Class with cargo intake/outtake system constants.
-     */
     public class CargoIntake {
         public final static int CARGO_INTAKE_MOTOR_PORT = 3;
 
@@ -84,17 +75,11 @@ public class Constants {
         public final static int LIMIT_SWITCH_PORT = 4;
     }
 
-    /**
-     * Class with climber constants.
-     */
     public class Climber {
         public final static int CLIMBER_PORT_FORWARD = 0;
         public final static int CLIMBER_PORT_BACKWARD = 1;
     }
 
-    /**
-     * Class with LED constants.
-     */
     public class LED {
         public final static int LED_PCM_MODULE = 1;
 

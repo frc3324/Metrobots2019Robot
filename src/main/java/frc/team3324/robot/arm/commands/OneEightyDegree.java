@@ -6,10 +6,10 @@ import frc.team3324.robot.Robot;
 
 public class OneEightyDegree extends PIDCommand{
 
-    private double goal = Math.PI;
+    private double goal = (35 *Math.PI)/36;
 
     public OneEightyDegree() {
-        super(1/Math.PI, 0, 0);
+        super(0.45, 0.003, 0.01);
         requires(Robot.arm);
     }
 
@@ -31,7 +31,7 @@ public class OneEightyDegree extends PIDCommand{
 
     @Override
     protected void usePIDOutput(double output) {
-        SmartDashboard.putNumber("Output", output);
+        Robot.arm.updateShuffleBoard();
         Robot.arm.setArmSpeed(output);
     }
 }

@@ -1,7 +1,10 @@
 package frc.team3324.robot;
 
 import badlog.lib.BadLog;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -12,6 +15,7 @@ import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.intake.HatchIntake;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.team3324.robot.util.Constants;
 import frc.team3324.robot.util.OI;
 
 /**
@@ -33,11 +37,13 @@ public class Robot extends TimedRobot {
     public static Climber climber;
     public static OI oi;
 
+
     //public static LED led;
 
     private static BadLog logger;
 
     public void robotInit() {
+        NetworkTableInstance.getDefault().setUpdateRate(0.01);
         logger = BadLog.init("/home/lvuser/log.bag" + System.currentTimeMillis(), true);
         {
             arm = new Arm();

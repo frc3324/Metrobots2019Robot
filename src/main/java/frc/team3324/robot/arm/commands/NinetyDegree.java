@@ -30,6 +30,7 @@ public class NinetyDegree extends PIDCommand {
 
     @Override
     protected void usePIDOutput(double output) {
+        Robot.arm.updateShuffleBoard();
         Robot.arm.setArmSpeed(output);
     }
 }

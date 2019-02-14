@@ -20,9 +20,8 @@ public class ControlArm extends Command {
     }
 
     protected void execute() {
-        System.out.println("here");
         double leftY = OI.secondaryController.getY(GenericHID.Hand.kLeft);
-
+        Robot.arm.updateShuffleBoard();
         Robot.arm.setArmSpeed(leftY * 0.5);
     }
 

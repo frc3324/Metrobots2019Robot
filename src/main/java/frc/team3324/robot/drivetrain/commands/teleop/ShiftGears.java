@@ -24,7 +24,7 @@ public class ShiftGears extends Command {
         SmartDashboard.putBoolean("SHIFTING", true);
         if (OI.primaryController.getAButton()) {
             if (gearShifterStatus) {
-                Robot.driveTrain.setHighGear();
+                Robot.driveTrain.shiftGears();
                 gearShifterStatus = !gearShifterStatus;
             } else {
                 Robot.driveTrain.setLowGear();

@@ -42,14 +42,12 @@ public class Arm extends Subsystem {
     private WPI_VictorSPX armMotorTwo = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_TWO);
     private WPI_TalonSRX armMotorThree = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_THREE);
 
-<<<<<<< Updated upstream
     private SpeedControllerGroup armMotors = new SpeedControllerGroup(armMotorOne, armMotorTwo, armMotorThree);
 
     /**
      * Creates an instance of the Arm class.
      */
-=======
->>>>>>> Stashed changes
+
     public Arm() {
         initializeBadlog();
         armMotorOne.configContinuousCurrentLimit(6, 0);

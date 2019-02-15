@@ -25,7 +25,7 @@ public class ControlArm extends Command {
         Robot.arm.setArmSpeed(leftY * 0.5);
     }
 
-    protected boolean isFinished() { return false; }
+    protected boolean isFinished() { return OI.secondaryController.getBackButton(); }
 
     protected void end() {}
 

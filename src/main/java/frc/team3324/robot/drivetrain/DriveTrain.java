@@ -199,7 +199,12 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      *
      * @see DoubleSolenoid
      */
-    public void shiftGears() { gearShifter.set(DoubleSolenoid.Value.kForward); }
+    public void shiftGears() { if (gearShifter.get() == DoubleSolenoid.Value.kForward) {
+        gearShifter.set(DoubleSolenoid.Value.kReverse);
+    } else {
+        gearShifter.set(DoubleSolenoid.Value.kForward);
+    }
+    }
 
     /**
      * Sets drivetrain to low gear using a double solenoid.

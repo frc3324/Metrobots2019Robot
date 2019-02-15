@@ -5,18 +5,18 @@ import frc.team3324.robot.Robot;
 import frc.team3324.robot.util.OI;
 
 /**
- * Command class to set hatch intake/outtake system double solenoid to reverse status.
+ * Command class to set hatch intake/outtake system double solenoid to forward status.
  */
-public class Outtake extends Command {
+public class SwitchIntake extends Command {
 
     /**
-     * Creates an instance of the Outtake class.
+     * Creates an instance of the SwitchIntake class.
      */
-    public Outtake() { requires(Robot.hatchIntake); }
+    public SwitchIntake() { requires(Robot.hatchIntake); }
 
     @Override
-    protected void execute() {
-        Robot.hatchIntake.setHatchOuttake();
+    protected void initialize() {
+        Robot.hatchIntake.switchIntake();
     }
 
     @Override

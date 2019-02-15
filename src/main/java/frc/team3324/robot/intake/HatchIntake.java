@@ -17,21 +17,16 @@ public class HatchIntake extends Subsystem {
     public HatchIntake() {}
 
     /**
-     * Sets the hatch intake double solenoid to forward.
+     * Switches intake state to forward if reverse/off and reverse if forward.
      *
      * @see DoubleSolenoid
      */
-    public void setHatchIntake() {
-        hatchIntake.set(DoubleSolenoid.Value.kForward);
-    }
-
-    /**
-     * Sets the hatch intake double solenoid to backward.
-     *
-     * @see DoubleSolenoid
-     */
-    public void setHatchOuttake() {
-        hatchIntake.set(DoubleSolenoid.Value.kReverse);
+    public void switchIntake() {
+        if (hatchIntake.get() == DoubleSolenoid.Value.kForward) {
+            hatchIntake.set(DoubleSolenoid.Value.kReverse);
+        } else {
+            hatchIntake.set(DoubleSolenoid.Value.kReverse);
+        }
     }
 
     /**

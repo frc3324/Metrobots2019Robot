@@ -10,7 +10,7 @@ import frc.team3324.robot.util.OI;
 public class Intake extends Command {
 
     /**
-     * Creates an instance of the Intake class.
+     * Creates an instance of the SwitchIntake class.
      */
     public Intake() { requires(Robot.cargoIntake); }
 

@@ -13,6 +13,7 @@ import frc.team3324.robot.climber.Climber;
 import frc.team3324.robot.intake.cargo.CargoIntake;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.intake.HatchIntake;
+import frc.team3324.robot.util.VisionRunnable;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.team3324.robot.util.Constants;
@@ -42,6 +43,8 @@ public class Robot extends TimedRobot {
 
     private static BadLog logger;
 
+    private static VisionRunnable visionRunnable = new VisionRunnable();
+
     public void robotInit() {
         NetworkTableInstance.getDefault().setUpdateRate(0.01);
         logger = BadLog.init("/home/lvuser/log.bag" + System.currentTimeMillis(), true);
@@ -65,6 +68,8 @@ public class Robot extends TimedRobot {
         CameraServer.getInstance().startAutomaticCapture(0);
         CameraServer.getInstance().startAutomaticCapture(1);
         CameraServer.getInstance().putVideo("Camera output", 1280, 720);
+
+        visionRunnable.run();
     }
 
     public void robotPeriodic() {

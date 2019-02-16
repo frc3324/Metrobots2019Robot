@@ -66,12 +66,13 @@ public class OI {
         PRIMARY_START_BUTTON.whenPressed(new PushDown());
         PRIMARY_BACK_BUTTON.whenPressed(new PushUp());
 
-        PRIMARY_B_BUTTON.whenPressed(new Compress());
+        PRIMARY_B_BUTTON.whenPressed(new StopCompress());
 
         SECONDARY_Y_BUTTON.whileHeld(new Outtake());
         SECONDARY_X_BUTTON.whileHeld(new Intake());
 
         SECONDARY_A_BUTTON.whenPressed(new SwitchIntake());
+        SECONDARY_B_BUTTON.whenPressed(new SwitchIntake());
 
         SECONDARY_RIGHT_BUMPER.whenPressed(new OneEightyDegree());
         SECONDARY_LEFT_BUMPER.whenPressed(new ZeroDegree());

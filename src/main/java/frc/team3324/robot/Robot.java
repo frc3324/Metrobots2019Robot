@@ -10,7 +10,8 @@ import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.climber.Climber;
 import frc.team3324.robot.intake.cargo.CargoIntake;
 import frc.team3324.robot.drivetrain.DriveTrain;
-import frc.team3324.robot.intake.HatchIntake;
+import frc.team3324.robot.intake.hatch.HatchIntake;
+import frc.team3324.robot.util.VisionRunnable;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.team3324.robot.util.OI;

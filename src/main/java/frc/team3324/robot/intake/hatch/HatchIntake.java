@@ -1,8 +1,11 @@
-package frc.team3324.robot.intake;
+package frc.team3324.robot.intake.hatch;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.util.Constants;
+import frc.team3324.robot.util.OI;
 
 /**
  * Subsystem class to control hatch intake/outtake system.
@@ -14,7 +17,9 @@ public class HatchIntake extends Subsystem {
     /**
      * Creates an instance of the HatchIntake class.
      */
-    public HatchIntake() {}
+    public HatchIntake() {
+        SmartDashboard.putBoolean("Intake", false);
+    }
 
     /**
      * Switches intake state to forward if reverse/off and reverse if forward.
@@ -24,8 +29,12 @@ public class HatchIntake extends Subsystem {
     public void switchIntake() {
         if (hatchIntake.get() == DoubleSolenoid.Value.kForward) {
             hatchIntake.set(DoubleSolenoid.Value.kReverse);
+            OI.primaryController.setRumble(GenericHID.RumbleType.kLeftRumble, 0.05);
+            SmartDashboard.putBoolean("Intake", true);
         } else {
-            hatchIntake.set(DoubleSolenoid.Value.kReverse);
+            hatchIntake.set(DoubleSolenoid.Value.kForward);
+            OI.primaryController.setRumble(GenericHID.RumbleType.kRightRumble, 0.05);
+            SmartDashboard.putBoolean("Intake", false);
         }
     }
 
@@ -38,7 +47,5 @@ public class HatchIntake extends Subsystem {
         hatchIntake.set(DoubleSolenoid.Value.kOff);
     }
 
-    public void initDefaultCommand() {
-        hatchIntake.set(DoubleSolenoid.Value.kOff);
-    }
+    public void initDefaultCommand() { }
 }

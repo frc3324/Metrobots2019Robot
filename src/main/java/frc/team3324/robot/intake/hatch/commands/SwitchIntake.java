@@ -15,12 +15,12 @@ public class SwitchIntake extends Command {
     public SwitchIntake() { requires(Robot.hatchIntake); }
 
     @Override
-    protected void initialize() {
+    protected void execute() {
         Robot.hatchIntake.switchIntake();
     }
 
     @Override
     protected boolean isFinished() {
-        return OI.primaryController.getBackButton();
+        return true;
     }
 }

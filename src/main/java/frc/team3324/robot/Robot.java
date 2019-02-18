@@ -1,9 +1,7 @@
 package frc.team3324.robot;
 
 import badlog.lib.BadLog;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -12,11 +10,10 @@ import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.climber.Climber;
 import frc.team3324.robot.intake.cargo.CargoIntake;
 import frc.team3324.robot.drivetrain.DriveTrain;
-import frc.team3324.robot.intake.HatchIntake;
+import frc.team3324.robot.intake.hatch.HatchIntake;
 import frc.team3324.robot.util.VisionRunnable;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.team3324.robot.util.Constants;
 import frc.team3324.robot.util.OI;
 
 /**
@@ -43,8 +40,6 @@ public class Robot extends TimedRobot {
 
     private static BadLog logger;
 
-    private static VisionRunnable visionRunnable = new VisionRunnable();
-
     public void robotInit() {
         NetworkTableInstance.getDefault().setUpdateRate(0.01);
         logger = BadLog.init("/home/lvuser/log.bag" + System.currentTimeMillis(), true);
@@ -69,7 +64,6 @@ public class Robot extends TimedRobot {
         CameraServer.getInstance().startAutomaticCapture(1);
         CameraServer.getInstance().putVideo("Camera output", 1280, 720);
 
-        visionRunnable.run();
     }
 
     public void robotPeriodic() {

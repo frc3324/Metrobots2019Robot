@@ -7,13 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Command class to push up the climber.
  */
-public class PushUp extends Command {
+public class ToggleBackClimb extends Command {
 
-    public PushUp() { super("PushUp"); }
+    public ToggleBackClimb() { super("ToggleBackClimb"); }
 
-    protected void initialize() {}
-
-    protected void execute() { Robot.climber.pushUp(); }
+    protected void execute() { Robot.climber.switchBackClimb(); }
 
     @Override
     protected boolean isFinished() {

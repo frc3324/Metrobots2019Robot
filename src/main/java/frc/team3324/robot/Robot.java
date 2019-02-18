@@ -2,16 +2,17 @@ package frc.team3324.robot;
 
 import badlog.lib.BadLog;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.team3324.robot.arm.Arm;
+import frc.team3324.robot.arm.commands.ResetArm;
 import frc.team3324.robot.climber.Climber;
 import frc.team3324.robot.intake.cargo.CargoIntake;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.intake.hatch.HatchIntake;
-import frc.team3324.robot.util.VisionRunnable;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.team3324.robot.util.OI;
@@ -23,6 +24,10 @@ public class Robot extends TimedRobot {
 
     public Robot() { super(0.02); }
     public static Compressor compressor = new Compressor(0);
+    private ShuffleboardTab compressorTab = Shuffleboard.getTab("Compressor");
+    private NetworkTableEntry compressorPressure = compressorTab.add("Compressor Pressure", false).withPosition(0, 0).getEntry();
+
+
     /*
      * Instantiate subsystems
      */
@@ -34,7 +39,6 @@ public class Robot extends TimedRobot {
     public static HatchIntake hatchIntake;
     public static Climber climber;
     public static OI oi;
-
 
     //public static LED led;
 
@@ -54,6 +58,7 @@ public class Robot extends TimedRobot {
             BadLog.createTopic("System/Battery Voltage", "V", () -> RobotController.getBatteryVoltage());
             BadLog.createTopic("Match Time", "s", () -> DriverStation.getInstance().getMatchTime());
         }
+
         compressor.start();
 
         driveTrain.clearGyro();
@@ -63,11 +68,12 @@ public class Robot extends TimedRobot {
         CameraServer.getInstance().startAutomaticCapture(0);
 
         CameraServer.getInstance().putVideo("Camera output", 1280, 720);
-
     }
 
     public void robotPeriodic() {
         Scheduler.getInstance().run();
+
+        compressorPressure.setBoolean(compressor.getPressureSwitchValue());
         Robot.driveTrain.printEncoderDistance();
         logger.updateTopics();
         logger.log();
@@ -84,7 +90,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        //        Scheduler.getInstance().add(new levelOneTest());
+        Scheduler.getInstance().add(new ResetArm());
     }
 
     @Override

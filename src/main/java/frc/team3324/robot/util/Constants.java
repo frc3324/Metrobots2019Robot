@@ -76,8 +76,11 @@ public class Constants {
     }
 
     public class Climber {
-        public final static int CLIMBER_PORT_FORWARD = 0;
-        public final static int CLIMBER_PORT_BACKWARD = 1;
+        public final static int CLIMBER_BACK_FORWARD = 0;
+        public final static int CLIMBER_BACK_BACKWARD = 1;
+
+        public final static int CLIMBER_FRONT_FORWARD = 6;
+        public final static int CLIMBER_FRONT_BACKWARD = 7;
     }
 
     public class LED {

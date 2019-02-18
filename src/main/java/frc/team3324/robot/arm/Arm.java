@@ -67,11 +67,11 @@ public class Arm extends Subsystem {
     }
 
     public void initializeBadlog() {
-        BadLog.createTopic("Arm Current One", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_ONE));
-        BadLog.createTopic("Arm Current Two", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_TWO));
-        BadLog.createTopic("Arm Current Three", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_THREE));
-        BadLog.createTopic("Arm Current Max", "amps", () -> getPDPMax());
-
+        BadLog.createTopic("arm/Arm Current One", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_ONE));
+        BadLog.createTopic("arm/Arm Current Two", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_TWO));
+        BadLog.createTopic("arm/Arm Current Three", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_THREE));
+        BadLog.createTopic("arm/Arm Current Max", "amps", () -> getPDPMax());
+        BadLog.createTopic("arm/Arm Radians", "rad", () -> getArmRadians());
     }
 
     public void updateShuffleBoard() {
@@ -84,6 +84,7 @@ public class Arm extends Subsystem {
     public double getPDPMax() {
         return Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_ONE) + Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_TWO) + Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_THREE);
     }
+
     /**
      * Moves the arm at the specified speed.
      *
@@ -94,7 +95,6 @@ public class Arm extends Subsystem {
             encoder.reset();
         }
         if ((encoder.get() <= 0 && speed < 0)|| (encoder.get() >= (Constants.Arm.ENCODER_TICKS_PER_REV) / 2 && speed > 0) || ((frontSwitch.get() && speed < 0) || (backSwitch.get() && speed > 0))) {
-            OI.primaryController.setRumble(GenericHID.RumbleType.kLeftRumble, 0.1);
             speed = 0;
         }
         armMotorOne.set(speed);
@@ -106,8 +106,19 @@ public class Arm extends Subsystem {
         armSpeed.setDouble(speed);
     }
 
+    public void setRawArmSpeed(double speed) {
+        if (frontSwitch.get()) {
+            armMotorOne.set(0);
+            encoder.reset();
+        }
+        armMotorOne.set(speed);
+    }
     public double getArmRadians() {
         return encoder.get() * ((Math.PI * 2)/Constants.Arm.ENCODER_TICKS_PER_REV);
+    }
+
+    public boolean getFrontSwitch() {
+        return frontSwitch.get();
     }
 
     @Override

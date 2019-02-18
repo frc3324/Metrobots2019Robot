@@ -7,15 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Command class to push down the climber.
  */
-public class PushDown extends Command {
+public class ToggleFrontClimb extends Command {
 
-    private boolean gearClimberStatus = false;
+    public ToggleFrontClimb() { super("ToggleFrontClimb"); }
 
-    public PushDown() { super("PushDown"); }
-
-    protected void initialize() {}
-
-    protected void execute() { Robot.climber.pushDown(); }
+    protected void execute() { Robot.climber.switchFrontClimb(); }
 
     @Override
     protected boolean isFinished() {

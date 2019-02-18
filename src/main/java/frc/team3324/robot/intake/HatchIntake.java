@@ -25,7 +25,7 @@ public class HatchIntake extends Subsystem {
         if (hatchIntake.get() == DoubleSolenoid.Value.kForward) {
             hatchIntake.set(DoubleSolenoid.Value.kReverse);
         } else {
-            hatchIntake.set(DoubleSolenoid.Value.kReverse);
+            hatchIntake.set(DoubleSolenoid.Value.kForward);
         }
     }
 

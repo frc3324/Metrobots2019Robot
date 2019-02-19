@@ -68,7 +68,8 @@ public class OI {
 
         PRIMARY_A_BUTTON.whenPressed(new Compress());
         PRIMARY_B_BUTTON.whenPressed(new StopCompress());
-
+        PRIMARY_X_BUTTON.whenPressed(new ZeroDegree());
+        PRIMARY_Y_BUTTON.whenPressed(new OneEightyDegree());
 
         SECONDARY_Y_BUTTON.whileHeld(new Outtake());
         SECONDARY_X_BUTTON.whileHeld(new Intake());

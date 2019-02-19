@@ -12,10 +12,10 @@ public class Constants {
         public final static int DRIVETRAIN_PCM_MODULE = 0;
 
         // Motor ports
-        public final static int FL_MOTOR_PORT = 4;
-        public final static int BL_MOTOR_PORT = 5;
-        public final static int FR_MOTOR_PORT = 1;
-        public final static int BR_MOTOR_PORT = 0;
+        public final static int FL_MOTOR_PORT = 7; // Talon
+        public final static int BL_MOTOR_PORT = 6; // Victor
+        public final static int FR_MOTOR_PORT = 0; // Victor
+        public final static int BR_MOTOR_PORT = 1; // Talon
 
         public final static int FL_PDP_MOTOR_PORT = 12;
         public final static int BL_PDP_MOTOR_PORT = 13;
@@ -45,9 +45,9 @@ public class Constants {
     }
 
     public class Arm {
-        public final static int MOTOR_PORT_ARM_ONE = 7;
-        public final static int MOTOR_PORT_ARM_TWO = 6;
-        public final static int MOTOR_PORT_ARM_THREE = 2;
+        public final static int MOTOR_PORT_ARM_ONE = 2; // Talon
+        public final static int MOTOR_PORT_ARM_TWO = 4; // Talon
+        public final static int MOTOR_PORT_ARM_THREE = 5; // Victor
 
         public final static int MOTOR_PORT_PDP_ONE = 15;
         public final static int MOTOR_PORT_PDP_TWO = 14;

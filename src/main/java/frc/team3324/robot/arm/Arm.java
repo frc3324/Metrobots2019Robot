@@ -44,8 +44,6 @@ public class Arm extends Subsystem {
     private WPI_VictorSPX armMotorTwo = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_TWO);
     private WPI_TalonSRX armMotorThree = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_THREE);
 
-    private SpeedControllerGroup armMotors = new SpeedControllerGroup(armMotorOne, armMotorTwo, armMotorThree);
-
     /**
      * Creates an instance of the Arm class.
      */
@@ -56,6 +54,10 @@ public class Arm extends Subsystem {
         armMotorThree.follow(armMotorOne);
         armMotorTwo.follow(armMotorOne);
         armMotorOne.enableCurrentLimit(true);
+
+        armMotorOne.setInverted(true);
+        armMotorThree.setInverted(true);
+
         setBrakeMode();
     }
 
@@ -97,7 +99,7 @@ public class Arm extends Subsystem {
         if ((encoder.get() <= 0 && speed < 0)|| (encoder.get() >= (Constants.Arm.ENCODER_TICKS_PER_REV) / 2 && speed > 0) || ((frontSwitch.get() && speed < 0) || (backSwitch.get() && speed > 0))) {
             speed = 0;
         }
-        armMotorOne.set(speed);
+        armMotorOne.set(-speed);
 
         SmartDashboard.putNumber("Motor One", armMotorOne.getMotorOutputPercent());
         SmartDashboard.putNumber("Motor 2", armMotorTwo.getMotorOutputPercent());
@@ -111,7 +113,7 @@ public class Arm extends Subsystem {
             armMotorOne.set(0);
             encoder.reset();
         }
-        armMotorOne.set(speed);
+        armMotorOne.set(-speed);
     }
     public double getArmRadians() {
         return encoder.get() * ((Math.PI * 2)/Constants.Arm.ENCODER_TICKS_PER_REV);

@@ -47,8 +47,13 @@ public class Arm extends Subsystem {
         initializeBadlog();
         armMotorOne.configContinuousCurrentLimit(8, 0);
         armMotorOne.enableCurrentLimit(true);
+
         armMotorTwo.follow(armMotorOne);
         armMotorThree.follow(armMotorOne);
+
+        armMotorOne.setInverted(true);
+        armMotorThree.setInverted(true);
+
         setBrakeMode();
     }
 
@@ -112,7 +117,7 @@ public class Arm extends Subsystem {
             armMotorOne.set(0);
             encoder.reset();
         }
-        armMotorOne.set(speed);
+        armMotorOne.set(-speed);
     }
     public boolean getFrontSwitch() {
         return frontSwitch.get();

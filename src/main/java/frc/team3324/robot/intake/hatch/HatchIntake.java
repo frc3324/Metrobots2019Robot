@@ -29,13 +29,18 @@ public class HatchIntake extends Subsystem {
     public void switchIntake() {
         if (hatchIntake.get() == DoubleSolenoid.Value.kForward) {
             hatchIntake.set(DoubleSolenoid.Value.kReverse);
-            OI.primaryController.setRumble(GenericHID.RumbleType.kLeftRumble, 0.05);
         } else {
             hatchIntake.set(DoubleSolenoid.Value.kForward);
-            OI.primaryController.setRumble(GenericHID.RumbleType.kRightRumble, 0.05);
         }
     }
 
+    public void updateRumble() {
+        if (hatchIntake.get() == DoubleSolenoid.Value.kForward) {
+            OI.primaryController.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+        } else {
+            OI.primaryController.setRumble(GenericHID.RumbleType.kLeftRumble, 0.5);
+        }
+    }
     /**
      * Sets the hatch intake double solenoid to off.
      *

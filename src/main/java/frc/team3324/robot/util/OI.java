@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import frc.team3324.robot.arm.commands.ControlArm;
 import frc.team3324.robot.arm.commands.OneEightyDegree;
+import frc.team3324.robot.arm.commands.ResetArm;
 import frc.team3324.robot.arm.commands.ZeroDegree;
 import frc.team3324.robot.climber.commands.teleop.ToggleFrontClimb;
 import frc.team3324.robot.climber.commands.teleop.ToggleBackClimb;
@@ -55,7 +56,6 @@ public class OI {
 
     public static final Button SECONDARY_LEFT_BUMPER = new JoystickButton(secondaryController, LEFT_BUMPER);
     public static final Button SECONDARY_RIGHT_BUMPER = new JoystickButton(secondaryController, RIGHT_BUMPER);
-
     /**
      * Creates an instance of the OI class.
      */
@@ -79,6 +79,6 @@ public class OI {
         SECONDARY_RIGHT_BUMPER.whenPressed(new OneEightyDegree());
         SECONDARY_LEFT_BUMPER.whenPressed(new ZeroDegree());
 
-        SECONDARY_START_BUTTON.whenPressed(new ControlArm());
+        SECONDARY_START_BUTTON.whenPressed(new ResetArm());
     }
 }

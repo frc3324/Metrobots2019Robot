@@ -71,6 +71,7 @@ public class Robot extends TimedRobot {
     }
 
     public void robotPeriodic() {
+        hatchIntake.updateRumble();
         Scheduler.getInstance().run();
 
         compressorPressure.setBoolean(compressor.getPressureSwitchValue());

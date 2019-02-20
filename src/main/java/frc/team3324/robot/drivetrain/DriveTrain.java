@@ -49,18 +49,22 @@ public class DriveTrain extends Subsystem {
 
     public static AHRS gyro = new AHRS(SPI.Port.kMXP);
 
-    public WPI_TalonSRX flMotor        = new WPI_TalonSRX(Constants.DriveTrain.FL_MOTOR_PORT);
-    public WPI_TalonSRX blMotor        = new WPI_TalonSRX(Constants.DriveTrain.BL_MOTOR_PORT);
+    public Victor flMotor        = new Victor(Constants.DriveTrain.FL_MOTOR_PORT);
+    public Victor blMotor        = new Victor(Constants.DriveTrain.BL_MOTOR_PORT);
     private SpeedControllerGroup lMotors = new SpeedControllerGroup(flMotor, blMotor);
 
-    public WPI_TalonSRX frMotor        = new WPI_TalonSRX(Constants.DriveTrain.FR_MOTOR_PORT);
-    public WPI_TalonSRX brMotor        = new WPI_TalonSRX(Constants.DriveTrain.BR_MOTOR_PORT);
+    public Victor frMotor        = new Victor(Constants.DriveTrain.FR_MOTOR_PORT);
+    public Victor brMotor        = new Victor(Constants.DriveTrain.BR_MOTOR_PORT);
 
     private SpeedControllerGroup rMotors = new SpeedControllerGroup(frMotor, brMotor);
 
     public DifferentialDrive mDrive = new DifferentialDrive(lMotors, rMotors);
 
     public DriveTrain() {
+        flMotor.setInverted(true);
+        brMotor.setInverted(false);
+        blMotor.setInverted(true);
+        flMotor.setInverted(false);
         BadLog.createTopic("drivetrain/Total Current", "Amps", () -> getTotalCurrent());
         BadLog.createTopic("drivetrain/FL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT));
         BadLog.createTopic("drivetrain/BL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.BL_PDP_MOTOR_PORT));
@@ -73,8 +77,6 @@ public class DriveTrain extends Subsystem {
         BadLog.createTopic("drivetrain/Right Distance", "m", () ->rEncoder.getDistance());
         BadLog.createTopic("drivetrain/Left Rate", "m/s", () -> lEncoder.getRate());
         BadLog.createTopic("drivetrain/Right Rate", "m/s", () -> rEncoder.getRate());
-        BadLog.createTopic("drivetrain/Left Voltage", "V", () -> (Robot.driveTrain.blMotor.getMotorOutputVoltage() + Robot.driveTrain.flMotor.getMotorOutputVoltage()));
-        BadLog.createTopic("drivetrain/Right Voltage", "V", () -> (Robot.driveTrain.brMotor.getMotorOutputVoltage() + Robot.driveTrain.frMotor.getMotorOutputVoltage()));
         BadLog.createTopic("drivetrain/Right Velocity", "m/s", () -> Robot.characterizer.getRightVelocity());
         BadLog.createTopic("drivetrain/Left Velocity", "m/s", () -> Robot.characterizer.getLeftVelocity());
 
@@ -125,19 +127,9 @@ public class DriveTrain extends Subsystem {
         return gyro.getYaw();
     }
 
-    public void setBrakeMode() {
-        frMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
-        brMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
-        blMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
-        flMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
-    }
+    public void setBrakeMode() { }
 
-    public void setCoastMode() {
-        frMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
-        brMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
-        blMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
-        flMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
-    }
+    public void setCoastMode() { }
 
     public void setHighGear() {
         gearShifter.set(DoubleSolenoid.Value.kForward);

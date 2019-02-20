@@ -4,14 +4,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import frc.team3324.robot.Robot;
-import frc.team3324.robot.climber.commands.teleop.PushDown;
-import frc.team3324.robot.climber.commands.teleop.PushUp;
-import frc.team3324.robot.intake.Intake;
-import frc.team3324.robot.drivetrain.commands.teleop.ShiftGears;
-import frc.team3324.robot.drivetrain.commands.auto.JaciPathfinding;
-import frc.team3324.robot.drivetrain.commands.auto.PathGenerator;
-
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -39,7 +31,7 @@ public class OI {
     public static final Button PRIMARY_RIGHT_BUMPER = new JoystickButton(primaryController, RIGHT_BUMPER);
     public static final Button PRIMARY_LEFT_BUMPER = new JoystickButton(primaryController, LEFT_BUMPER);
     public static final Button PRIMARY_START_BUTTON = new JoystickButton(primaryController, BUTTON_START);
-    public static final Button PRIMARY_BACK_BUTTON = new JoystickButton(primaryController, BUTTON_BACK)
+    public static final Button PRIMARY_BACK_BUTTON = new JoystickButton(primaryController, BUTTON_BACK);
 
 
     /**
@@ -62,14 +54,6 @@ public class OI {
      * aButton -> Shift gears
      */
     public OI() {
-        PRIMARY_RIGHT_BUMPER.whenPressed(new ShiftGears());
-        PRIMARY_X_BUTTON.whenPressed(new JaciPathfinding(PathGenerator.path.DEFAULT, true, false));
-        PRIMARY_A_BUTTON.whenPressed(new JaciPathfinding(PathGenerator.path.LEFT_CLOSE_ROCKET, true ,true));
-        PRIMARY_Y_BUTTON.whenPressed(Robot.characterizer);
-        PRIMARY_START_BUTTON.whenPressed(new PushDown());
-        PRIMARY_BACK_BUTTON.whenPressed(new PushUp());
-        PRIMARY_LEFT_BUMPER.whenPressed(new Intake());
-        //Secondary button commands
     }
 }
 

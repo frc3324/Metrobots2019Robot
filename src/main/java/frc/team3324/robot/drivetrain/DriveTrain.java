@@ -1,7 +1,5 @@
 package frc.team3324.robot.drivetrain;
 
-import badlog.lib.BadLog;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -14,6 +12,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.team3324.robot.Robot;
 import frc.team3324.robot.drivetrain.commands.teleop.Drive;
 import frc.team3324.robot.util.Constants;
+import frc.team3324.robot.wrappers.Logger;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -26,10 +25,13 @@ import edu.wpi.first.wpilibj.SPI;
 
 import static frc.team3324.robot.Robot.pdp;
 
+import badlog.lib.BadLog;
+
 /**
  * Subsystem class to control the drivetrain and peripheral drivetrain systems.
  */
 public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsystem (class)
+
     private ShuffleboardTab sensorTab = Shuffleboard.getTab("Encoder Values");
 
     private NetworkTableEntry leftDistance = sensorTab.add("Left Encoder Distance", 0).withPosition(0, 0).getEntry();
@@ -66,11 +68,49 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
 
     public DifferentialDrive mDrive = new DifferentialDrive(lMotors, rMotors);
 
+//    private Object[][] encoderValues = new Object[][] {
+//            { "Left Encoder Distance",        0, 0, 0 },
+//            { "Right Encoder Distance",       0, 1, 0 },
+//            { "Left Encoder Raw",             0, 2, 0 },
+//            { "Right Encoder Raw",            0, 3, 0 },
+//            { "Left Encoder Rate",            0, 4, 0 },
+//            { "Right Encoder Rate",           0, 5, 0 },
+//            { "Left Encoder Distance Graph",  0, 0, 1 },
+//            { "Right Encoder Distance Graph", 0, 1, 1 },
+//            { "Left Encoder Raw Graph",       0, 2, 1 },
+//            { "Right Encoder Raw Graph",      0, 3, 1 },
+//            { "Left Encoder Rate Graph",      0, 4, 1 },
+//            { "Right Encoder Rate Graph",     0, 5, 1 }
+//    };
+//
+//    private Object[][] loggerInformation = new Object[][] {
+//            { "drivetrain/Total Current",  "Amps",  getTotalCurrent() },
+//            { "drivetrain/FL Current",     "Amps",  pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT)},
+//            { "drivetrain/BL Current",     "Amps",  pdp.getCurrent(Constants.DriveTrain.BL_PDP_MOTOR_PORT)},
+//            { "drivetrain/FR Current",     "Amps",  pdp.getCurrent(Constants.DriveTrain.FR_PDP_MOTOR_PORT)},
+//            { "drivetrain/BR Current",     "Amps",  pdp.getCurrent(Constants.DriveTrain.BR_PDP_MOTOR_PORT)},
+//            { "drivetrain/Left Raw",       "Ticks", (double)lEncoder.getRaw()},
+//            { "drivetrain/Right Raw",      "Ticks", (double)rEncoder.getRaw()},
+//            { "drivetrain/Left Distance",  "m",     lEncoder.getDistance()},
+//            { "drivetrain/Right Distance", "m",     rEncoder.getDistance()},
+//            { "drivetrain/Left Rate",      "m/s",   lEncoder.getRate()},
+//            { "drivetrain/Right Rate",     "m/s",   rEncoder.getRate()},
+//            { "drivetrain/Left Voltage",   "V",     Robot.driveTrain.blMotor.getMotorOutputVoltage()
+//                    + Robot.driveTrain.flMotor.getMotorOutputVoltage()},
+//            { "drivetrain/Right Voltage",  "V",     Robot.driveTrain.brMotor.getMotorOutputVoltage()
+//                    + Robot.driveTrain.frMotor.getMotorOutputVoltage()}
+//    };
+//
+//    private Object[][] anArray = new Object[][] {
+//            {"something", "something", 9},
+//            { "something" }
+//    };
+
     /**
      * Creates an instance of the DriveTrain class.
      * <p>Configures motor controller current limits, durations.</p>
      * <p>Slaves motor controllers to TalonSRXs.</p>
-     * <p>Initializes badlog.</p>
+     * <p>Initializes logger.</p>
      * <p>Enables drivetrain motor controller safety mode.</p>
      * <p>Set drivetrain distance per pulse.</p>
      */
@@ -89,8 +129,7 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
         brMotor.follow(frMotor);
         flMotor.follow(blMotor);
 
-        initializeBadLog();
-
+        initializeLogger();
         mDrive.setSafetyEnabled(true);
 
         lEncoder.setDistancePerPulse(Constants.DriveTrain.DISTANCE_PER_PULSE);
@@ -98,11 +137,11 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
     }
 
     /**
-     * Populates the badlog with basic robot information (current, encoder values, distance, velocity, voltage).
+     * Populates the logger with basic robot information (current, encoder values, distance, velocity, voltage).
      *
-     * @see BadLog
+     * @see Logger
      */
-    private void initializeBadLog() {
+    private void initializeLogger() {
         BadLog.createTopic("drivetrain/Total Current", "Amps", () -> getTotalCurrent());
         BadLog.createTopic("drivetrain/FL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT));
         BadLog.createTopic("drivetrain/BL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.BL_PDP_MOTOR_PORT));
@@ -116,9 +155,10 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
         BadLog.createTopic("drivetrain/Left Rate", "m/s", () -> lEncoder.getRate());
         BadLog.createTopic("drivetrain/Right Rate", "m/s", () -> rEncoder.getRate());
         BadLog.createTopic("drivetrain/Left Voltage", "V",
-                           () -> (Robot.driveTrain.blMotor.getMotorOutputVoltage() + Robot.driveTrain.flMotor.getMotorOutputVoltage()));
+                () -> (Robot.driveTrain.blMotor.getMotorOutputVoltage() + Robot.driveTrain.flMotor.getMotorOutputVoltage()));
         BadLog.createTopic("drivetrain/Right Voltage", "V",
-                           () -> (Robot.driveTrain.brMotor.getMotorOutputVoltage() + Robot.driveTrain.frMotor.getMotorOutputVoltage()));
+                () -> (Robot.driveTrain.brMotor.getMotorOutputVoltage() + Robot.driveTrain.frMotor.getMotorOutputVoltage()));
+
     }
 
     /**

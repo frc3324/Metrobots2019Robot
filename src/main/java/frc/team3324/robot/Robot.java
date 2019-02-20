@@ -10,9 +10,11 @@ import frc.team3324.robot.climber.Climber;
 import frc.team3324.robot.intake.cargo.CargoIntake;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.intake.HatchIntake;
+import frc.team3324.robot.util.LED;
+import frc.team3324.robot.util.OI;
+import frc.team3324.robot.wrappers.Logger;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.team3324.robot.util.OI;
 
 /**
  * Main robot class. Declares and instantiates subsystems and peripheral systems (OI, LEDs, etc.).
@@ -27,26 +29,24 @@ public class Robot extends TimedRobot {
     public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
     public static Arm arm;
-    public static DriveTrain driveTrain;
     public static CargoIntake cargoIntake;
-    public static HatchIntake hatchIntake;
     public static Climber climber;
+    public static DriveTrain driveTrain;
+    public static HatchIntake hatchIntake;
     public static OI oi;
-
-    //public static LED led;
-
-    private static BadLog logger;
+    public static LED led;
+    public static Logger genericLogger;
 
     public void robotInit() {
-        logger = BadLog.init("/home/lvuser/log.bag" + System.currentTimeMillis(), true);
         {
             arm = new Arm();
             cargoIntake = new CargoIntake();
+            climber = new Climber();
             driveTrain = new DriveTrain();
             hatchIntake = new HatchIntake();
-           // led = new LED();
+            led = new LED();
+            genericLogger = new Logger("/home/lvuser/log.bag" + System.currentTimeMillis(), true);
             oi = new OI();
-            climber = new Climber();
 
             BadLog.createTopic("System/Battery Voltage", "V", () -> RobotController.getBatteryVoltage());
             BadLog.createTopic("Match Time", "s", () -> DriverStation.getInstance().getMatchTime());
@@ -54,7 +54,7 @@ public class Robot extends TimedRobot {
         compressor.start();
 
         driveTrain.clearGyro();
-        logger.finishInitialization();
+        genericLogger.finishInitialization();
         Shuffleboard.startRecording();
         CameraServer.getInstance().startAutomaticCapture(0);
         CameraServer.getInstance().startAutomaticCapture(1);
@@ -64,8 +64,8 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         Scheduler.getInstance().run();
         Robot.driveTrain.printEncoderDistance();
-        logger.updateTopics();
-        logger.log();
+        genericLogger.updateTopics();
+        genericLogger.log();
 
         CameraServer.getInstance().getVideo();
     }

@@ -41,8 +41,8 @@ public class Arm extends Subsystem {
     public static Encoder encoder =
             new Encoder(Constants.Arm.ENCODER_PORT_A, Constants.Arm.ENCODER_PORT_B, true, Encoder.EncodingType.k4X);
     private WPI_TalonSRX armMotorOne = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_ONE);
-    private WPI_VictorSPX armMotorTwo = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_TWO);
-    private WPI_TalonSRX armMotorThree = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_THREE);
+    private WPI_TalonSRX armMotorTwo = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_TWO);
+    private WPI_VictorSPX armMotorThree = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_THREE);
 
     /**
      * Creates an instance of the Arm class.
@@ -56,7 +56,7 @@ public class Arm extends Subsystem {
         armMotorOne.enableCurrentLimit(true);
 
         armMotorOne.setInverted(true);
-        armMotorThree.setInverted(true);
+        armMotorTwo.setInverted(false);
 
         setBrakeMode();
     }
@@ -77,7 +77,7 @@ public class Arm extends Subsystem {
     }
 
     public void updateShuffleBoard() {
-        armEncoder.setNumber(encoder.get());
+        armEncoder.setNumber(Math.toDegrees(getArmRadians()));
         armPDP.setNumber(getPDPMax());
         frontLimitSwitch.setBoolean(frontSwitch.get());
         backLimitSwitch.setBoolean(backSwitch.get());
@@ -99,13 +99,11 @@ public class Arm extends Subsystem {
         if ((encoder.get() <= 0 && speed < 0)|| (encoder.get() >= (Constants.Arm.ENCODER_TICKS_PER_REV) / 2 && speed > 0) || ((frontSwitch.get() && speed < 0) || (backSwitch.get() && speed > 0))) {
             speed = 0;
         }
-        armMotorOne.set(-speed);
+        double feedforward = 0.05 * Math.cos(getArmRadians());
+        double adjustedSpeed = speed + feedforward;
+        armMotorOne.set(adjustedSpeed);
 
-        SmartDashboard.putNumber("Motor One", armMotorOne.getMotorOutputPercent());
-        SmartDashboard.putNumber("Motor 2", armMotorTwo.getMotorOutputPercent());
-        SmartDashboard.putNumber("Motor 3", armMotorThree.getMotorOutputPercent());
-
-        armSpeed.setDouble(speed);
+        armSpeed.setDouble(adjustedSpeed);
     }
 
     public void setRawArmSpeed(double speed) {

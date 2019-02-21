@@ -6,12 +6,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.Robot;
 import frc.team3324.robot.util.OI;
 
-public class OneEightyDegree extends PIDCommand{
+public class OneEightyDegree extends PIDCommand {
 
-    private double goal = 2.96705973;
+    private double goal = Math.toRadians(175);
 
     public OneEightyDegree() {
-        super(0.25, 0.005, 1);
+        super(0.95, 0, 0);
         requires(Robot.arm);
     }
 
@@ -33,8 +33,7 @@ public class OneEightyDegree extends PIDCommand{
 
     @Override
     protected void usePIDOutput(double output) {
-        double feedforward = 0.2 * Math.cos(Robot.arm.getArmRadians());
         Robot.arm.updateShuffleBoard();
-        Robot.arm.setArmSpeed(output + feedforward);
+        Robot.arm.setArmSpeed(output);
     }
 }

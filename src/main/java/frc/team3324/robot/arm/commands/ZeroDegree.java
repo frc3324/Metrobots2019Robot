@@ -12,7 +12,7 @@ public class ZeroDegree extends PIDCommand{
     private double goal = 0.0175;
 
     public ZeroDegree() {
-        super(0.3, 0.002, 1);
+        super(0.5, 0, 0);
         requires(Robot.arm);
     }
 

@@ -51,22 +51,19 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
     private DoubleSolenoid gearShifter = new DoubleSolenoid(Constants.DriveTrain.DRIVETRAIN_PCM_MODULE, Constants.DriveTrain.DRIVETRAIN_PORT_FORWARD, Constants.DriveTrain.DRIVETRAIN_PORT_REVERSE);
 
     public static Encoder lEncoder =
-        new Encoder(Constants.DriveTrain.LEFT_ENCODER_PORT_A, Constants.DriveTrain.LEFT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);
+            new Encoder(Constants.DriveTrain.LEFT_ENCODER_PORT_A, Constants.DriveTrain.LEFT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);
     public static Encoder rEncoder =
-        new Encoder(Constants.DriveTrain.RIGHT_ENCODER_PORT_A, Constants.DriveTrain.RIGHT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);
+            new Encoder(Constants.DriveTrain.RIGHT_ENCODER_PORT_A, Constants.DriveTrain.RIGHT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);
 
     public static AHRS gyro = new AHRS(SPI.Port.kMXP);
 
     public WPI_VictorSPX flMotor = new WPI_VictorSPX(Constants.DriveTrain.FL_MOTOR_PORT);
     public WPI_TalonSRX blMotor = new WPI_TalonSRX(Constants.DriveTrain.BL_MOTOR_PORT);
-    private SpeedControllerGroup lMotors = new SpeedControllerGroup(flMotor, blMotor);
 
     public WPI_TalonSRX frMotor = new WPI_TalonSRX(Constants.DriveTrain.FR_MOTOR_PORT);
     public WPI_VictorSPX brMotor = new WPI_VictorSPX(Constants.DriveTrain.BR_MOTOR_PORT);
 
-    private SpeedControllerGroup rMotors = new SpeedControllerGroup(frMotor, brMotor);
-
-    public DifferentialDrive mDrive = new DifferentialDrive(lMotors, rMotors);
+    public DifferentialDrive mDrive = new DifferentialDrive(frMotor, blMotor);
 
 //    private Object[][] encoderValues = new Object[][] {
 //            { "Left Encoder Distance",        0, 0, 0 },
@@ -115,13 +112,16 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      * <p>Set drivetrain distance per pulse.</p>
      */
     public DriveTrain() {
-        frMotor.configPeakCurrentLimit(400);
-        frMotor.configPeakCurrentDuration(200);
-        frMotor.configContinuousCurrentLimit(200);
+        frMotor.configPeakCurrentLimit(0);
+        frMotor.configPeakCurrentDuration(0);
+        frMotor.configContinuousCurrentLimit(50);
 
-        blMotor.configPeakCurrentLimit(400);
-        blMotor.configPeakCurrentDuration(200);
-        blMotor.configContinuousCurrentLimit(200);
+        blMotor.configPeakCurrentLimit(0);
+        blMotor.configPeakCurrentDuration(0);
+        blMotor.configContinuousCurrentLimit(50);
+
+        frMotor.enableCurrentLimit(true);
+        blMotor.enableCurrentLimit(true);
 
         brMotor.setInverted(false);
         frMotor.setInverted(false);
@@ -241,7 +241,12 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      *
      * @see DoubleSolenoid
      */
-    public void setHighGear() { gearShifter.set(DoubleSolenoid.Value.kForward); }
+    public void shiftGears() { if (gearShifter.get() == DoubleSolenoid.Value.kForward) {
+        gearShifter.set(DoubleSolenoid.Value.kReverse);
+    } else {
+        gearShifter.set(DoubleSolenoid.Value.kForward);
+    }
+    }
 
     /**
      * Sets drivetrain to low gear using a double solenoid.
@@ -260,6 +265,6 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      */
     public double getTotalCurrent() {
         return pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT) + pdp.getCurrent(Constants.DriveTrain.BL_PDP_MOTOR_PORT) +
-            pdp.getCurrent(Constants.DriveTrain.FR_PDP_MOTOR_PORT) + pdp.getCurrent(Constants.DriveTrain.BR_PDP_MOTOR_PORT);
+                pdp.getCurrent(Constants.DriveTrain.FR_PDP_MOTOR_PORT) + pdp.getCurrent(Constants.DriveTrain.BR_PDP_MOTOR_PORT);
     }
 }

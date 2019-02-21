@@ -5,12 +5,9 @@ import frc.team3324.robot.Robot;
 
 public class Compress extends Command {
 
-    public Compress() {
-    }
-
     @Override
-    protected void initialize() {
-        Robot.compressor.stop();
+    protected void execute() {
+        Robot.compressor.start();
     }
 
     @Override
@@ -18,8 +15,4 @@ public class Compress extends Command {
         return true;
     }
 
-    @Override
-    protected void end() {
-        Robot.compressor.stop();
-    }
 }

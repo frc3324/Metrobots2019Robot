@@ -11,31 +11,15 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ShiftGears extends Command {
 
-    private boolean gearShifterStatus = false;
-
     /**
      * Creates an instance of the ShiftGears class.
      */
     public ShiftGears() { super("ShiftGears"); }
 
-    protected void initialize() {}
-
     protected void execute() {
-        SmartDashboard.putBoolean("SHIFTING", true);
-        if (OI.primaryController.getAButton()) {
-            if (gearShifterStatus) {
-                Robot.driveTrain.setHighGear();
-                gearShifterStatus = !gearShifterStatus;
-            } else {
-                Robot.driveTrain.setLowGear();
-                gearShifterStatus = !gearShifterStatus;
-            }
-        }
+        Robot.driveTrain.shiftGears();
     }
 
     protected boolean isFinished() { return true; }
 
-    protected void end() {}
-
-    protected void interrupted() {}
 }

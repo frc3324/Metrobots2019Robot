@@ -4,18 +4,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import frc.team3324.robot.Robot;
+import frc.team3324.robot.arm.commands.ControlArm;
 import frc.team3324.robot.arm.commands.OneEightyDegree;
+import frc.team3324.robot.arm.commands.ResetArm;
 import frc.team3324.robot.arm.commands.ZeroDegree;
-import frc.team3324.robot.climber.commands.teleop.PushDown;
-import frc.team3324.robot.climber.commands.teleop.PushUp;
-import frc.team3324.robot.drivetrain.commands.auto.Odometry;
+import frc.team3324.robot.climber.commands.teleop.ToggleFrontClimb;
+import frc.team3324.robot.climber.commands.teleop.ToggleBackClimb;
 import frc.team3324.robot.drivetrain.commands.teleop.ShiftGears;
-import frc.team3324.robot.drivetrain.commands.auto.JaciPathfinding;
-import frc.team3324.robot.drivetrain.commands.auto.PathGenerator;
-import frc.team3324.robot.intake.HatchIntake;
 import frc.team3324.robot.intake.cargo.commands.Intake;
 import frc.team3324.robot.intake.cargo.commands.Outtake;
+import frc.team3324.robot.intake.hatch.commands.SwitchIntake;
 
 /**
  * Class to bind the controls on the physical operator interface to the
@@ -45,6 +43,7 @@ public class OI {
     private static final Button PRIMARY_START_BUTTON = new JoystickButton(primaryController, BUTTON_START);
     private static final Button PRIMARY_BACK_BUTTON = new JoystickButton(primaryController, BUTTON_BACK);
     public static final Button PRIMARY_RIGHT_BUMPER = new JoystickButton(primaryController, RIGHT_BUMPER);
+    public static final Button PRIMARY_LEFT_BUMPER = new JoystickButton(primaryController, LEFT_BUMPER);
 
     public static final Button SECONDARY_A_BUTTON = new JoystickButton(secondaryController, BUTTON_A);
     public static final Button SECONDARY_B_BUTTON = new JoystickButton(secondaryController, BUTTON_B);
@@ -57,20 +56,29 @@ public class OI {
 
     public static final Button SECONDARY_LEFT_BUMPER = new JoystickButton(secondaryController, LEFT_BUMPER);
     public static final Button SECONDARY_RIGHT_BUMPER = new JoystickButton(secondaryController, RIGHT_BUMPER);
-
     /**
      * Creates an instance of the OI class.
      */
     public OI() {
-        PRIMARY_RIGHT_BUMPER.whenPressed(new ShiftGears());
-        PRIMARY_START_BUTTON.whenPressed(new PushDown());
-        PRIMARY_BACK_BUTTON.whenPressed(new PushUp());
-        PRIMARY_B_BUTTON.whenPressed(new Compress());
+        PRIMARY_RIGHT_BUMPER.whenPressed(new SwitchIntake());
+        PRIMARY_LEFT_BUMPER.whenPressed(new ShiftGears());
 
-        SECONDARY_LEFT_BUMPER.whileHeld(new Outtake());
-        SECONDARY_RIGHT_BUMPER.whileHeld(new Intake());
+        PRIMARY_START_BUTTON.whenPressed(new ToggleFrontClimb());
+        PRIMARY_BACK_BUTTON.whenPressed(new ToggleBackClimb());
 
-        SECONDARY_A_BUTTON.whenPressed(new frc.team3324.robot.intake.hatch.commands.Intake());
-        SECONDARY_B_BUTTON.whenPressed(new frc.team3324.robot.intake.hatch.commands.Outtake());
+        PRIMARY_A_BUTTON.whenPressed(new Compress());
+        PRIMARY_B_BUTTON.whenPressed(new StopCompress());
+
+
+        SECONDARY_Y_BUTTON.whileHeld(new Outtake());
+        SECONDARY_X_BUTTON.whileHeld(new Intake());
+
+        SECONDARY_A_BUTTON.whenPressed(new SwitchIntake());
+        SECONDARY_B_BUTTON.whenPressed(new SwitchIntake());
+
+        SECONDARY_RIGHT_BUMPER.whenPressed(new OneEightyDegree());
+        SECONDARY_LEFT_BUMPER.whenPressed(new ZeroDegree());
+
+        SECONDARY_START_BUTTON.whenPressed(new ResetArm());
     }
 }

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team3324.robot.util.Constants;
 
 /**
- * Subsystem class to control the climber. This class will get and set the climber status.
+ * Subsystem class to control the frontClimber. This class will get and set the frontClimber status.
  */
 public class Climber extends Subsystem {
 
@@ -22,26 +22,33 @@ public class Climber extends Subsystem {
      */
     public Climber() { }
 
-    private DoubleSolenoid climber = new DoubleSolenoid(Constants.Climber.CLIMBER_PORT_FORWARD, Constants.Climber.CLIMBER_PORT_BACKWARD);
-
+    private DoubleSolenoid frontClimber = new DoubleSolenoid(Constants.Climber.CLIMBER_BACK_FORWARD, Constants.Climber.CLIMBER_BACK_BACKWARD);
+    private DoubleSolenoid backClimber = new DoubleSolenoid(Constants.Climber.CLIMBER_FRONT_FORWARD, Constants.Climber.CLIMBER_FRONT_BACKWARD);
     /**
-     * Sets the climber double solenoid status to forward.
+     * Sets the frontClimber double solenoid status to forward.
      */
-    public void pushDown() {
-        climber.set(DoubleSolenoid.Value.kForward);
-        status = Status.Down;
+
+    public void switchFrontClimb() {
+        if (frontClimber.get() == DoubleSolenoid.Value.kForward) {
+            frontClimber.set(DoubleSolenoid.Value.kReverse);
+        } else {
+            frontClimber.set(DoubleSolenoid.Value.kForward);
+        }
     }
 
-    /**
-     * Sets the climber double solenoid status to reverse.
-     */
-    public void pushUp() {
-        climber.set(DoubleSolenoid.Value.kReverse);
-        status = Status.Up;
+    public void switchBackClimb() {
+        if (backClimber.get() == DoubleSolenoid.Value.kForward) {
+            backClimber.set(DoubleSolenoid.Value.kReverse);
+        } else {
+            backClimber.set(DoubleSolenoid.Value.kForward);
+        }
     }
+    /**
+     * Sets the frontClimber double solenoid status to reverse.
+     */
 
     /**
-     * Gets status of climber double solenoid.
+     * Gets status of frontClimber double solenoid.
      *
      * @return boolean, 1 or 0.
      */

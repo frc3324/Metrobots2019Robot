@@ -19,7 +19,6 @@ public class OneEightyDegree extends Command {
     private double error;
     Notifier notifier = new Notifier(() ->{ executePID(); });
 
-
     public OneEightyDegree() {
         requires(Robot.arm);
     }
@@ -51,6 +50,10 @@ public class OneEightyDegree extends Command {
     @Override
     protected void interrupted() {
         end();
+    }
+    protected void usePIDOutput(double output) {
+        Robot.arm.updateShuffleBoard();
+        Robot.arm.setArmSpeed(output);
     }
 }
 

@@ -40,8 +40,8 @@ public class Constants {
         public final static double LOW_GEAR_MAX_ACCELERATION = 6.51;
 
         // Drivetrain ports
-        public final static int DRIVETRAIN_PORT_FORWARD = 2;
-        public final static int DRIVETRAIN_PORT_REVERSE = 3;
+        public final static int DRIVETRAIN_PORT_FORWARD = 0;
+        public final static int DRIVETRAIN_PORT_REVERSE = 1;
     }
 
     public class Arm {
@@ -63,8 +63,8 @@ public class Constants {
     }
 
     public class HatchIntake {
-        public final static int HATCH_INTAKE_PORT_FORWARD = 4;
-        public final static int HATCH_INTAKE_PORT_BACKWARD = 5;
+        public final static int HATCH_INTAKE_PORT_FORWARD = 2;
+        public final static int HATCH_INTAKE_PORT_BACKWARD = 3;
     }
 
     public class CargoIntake {
@@ -76,8 +76,8 @@ public class Constants {
     }
 
     public class Climber {
-        public final static int CLIMBER_BACK_FORWARD = 0;
-        public final static int CLIMBER_BACK_BACKWARD = 1;
+        public final static int CLIMBER_BACK_FORWARD = 4;
+        public final static int CLIMBER_BACK_BACKWARD = 5;
 
         public final static int CLIMBER_FRONT_FORWARD = 6;
         public final static int CLIMBER_FRONT_BACKWARD = 7;

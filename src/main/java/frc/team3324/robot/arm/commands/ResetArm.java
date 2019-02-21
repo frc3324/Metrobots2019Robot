@@ -20,6 +20,5 @@ public class ResetArm extends Command {
 
     @Override
     protected void end() {
-        Robot.arm.setArmSpeed(0);
     }
 }

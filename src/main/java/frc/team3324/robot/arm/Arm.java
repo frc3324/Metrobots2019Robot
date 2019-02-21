@@ -52,7 +52,7 @@ public class Arm extends Subsystem {
 
     public Arm() {
         initializeBadlog();
-        armMotorOne.configContinuousCurrentLimit(6, 0);
+        armMotorOne.configContinuousCurrentLimit(8, 0);
         armMotorThree.follow(armMotorOne);
         armMotorTwo.follow(armMotorOne);
         armMotorOne.enableCurrentLimit(true);

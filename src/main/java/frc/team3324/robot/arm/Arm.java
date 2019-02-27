@@ -1,15 +1,11 @@
 package frc.team3324.robot.arm;
 
-import badlog.lib.BadLog;
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.Robot;
 import frc.team3324.robot.arm.commands.ControlArm;
 import frc.team3324.robot.util.Constants;
@@ -18,8 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.team3324.robot.util.OI;
-import org.opencv.core.Mat;
+import frc.team3324.robot.wrappers.Logger;
 
 /**
  * Subsystem class to control the arm. This class will set the arm motor velocities.
@@ -34,17 +29,14 @@ public class Arm extends Subsystem {
     private NetworkTableEntry frontLimitSwitch = armTab.add("Front Switch", false).withPosition(3, 0).getEntry();
     private NetworkTableEntry backLimitSwitch = armTab.add("Back Switch", false).withPosition(4, 0).getEntry();
 
-    // TODO Invert stuff
-    DigitalInput frontSwitch = new DigitalInput(9);
-    DigitalInput backSwitch = new DigitalInput(8);
+    private DigitalInput frontSwitch = new DigitalInput(9);
+    private DigitalInput backSwitch = new DigitalInput(8);
 
-    public static Encoder encoder =
+    private static Encoder encoder =
             new Encoder(Constants.Arm.ENCODER_PORT_A, Constants.Arm.ENCODER_PORT_B, true, Encoder.EncodingType.k4X);
     private WPI_TalonSRX armMotorOne = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_ONE);
     private WPI_VictorSPX armMotorTwo = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_TWO);
     private WPI_TalonSRX armMotorThree = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_THREE);
-
-    private SpeedControllerGroup armMotors = new SpeedControllerGroup(armMotorOne, armMotorTwo, armMotorThree);
 
     /**
      * Creates an instance of the Arm class.
@@ -53,9 +45,9 @@ public class Arm extends Subsystem {
     public Arm() {
         initializeBadlog();
         armMotorOne.configContinuousCurrentLimit(8, 0);
-        armMotorThree.follow(armMotorOne);
-        armMotorTwo.follow(armMotorOne);
         armMotorOne.enableCurrentLimit(true);
+        armMotorTwo.follow(armMotorOne);
+        armMotorThree.follow(armMotorOne);
         setBrakeMode();
     }
 
@@ -66,12 +58,12 @@ public class Arm extends Subsystem {
         armMotorThree.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
     }
 
-    public void initializeBadlog() {
-        BadLog.createTopic("arm/Arm Current One", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_ONE));
-        BadLog.createTopic("arm/Arm Current Two", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_TWO));
-        BadLog.createTopic("arm/Arm Current Three", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_THREE));
-        BadLog.createTopic("arm/Arm Current Max", "amps", () -> getPDPMax());
-        BadLog.createTopic("arm/Arm Radians", "rad", () -> getArmRadians());
+    private void initializeBadlog() {
+        Logger.createTopic("arm/Arm Current One", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_ONE));
+        Logger.createTopic("arm/Arm Current Two", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_TWO));
+        Logger.createTopic("arm/Arm Current Three", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_THREE));
+        Logger.createTopic("arm/Arm Current Max", "amps", () -> getPDPMax());
+        Logger.createTopic("arm/Arm Radians", "rad", () -> getArmRadians());
     }
 
     public void updateShuffleBoard() {
@@ -94,16 +86,16 @@ public class Arm extends Subsystem {
         if (frontSwitch.get()) {
             encoder.reset();
         }
-        if ((encoder.get() <= 0 && speed < 0)|| (encoder.get() >= (Constants.Arm.ENCODER_TICKS_PER_REV) / 2 && speed > 0) || ((frontSwitch.get() && speed < 0) || (backSwitch.get() && speed > 0))) {
+        if (stopArmIfOnSwitchOrAtHardstop(speed)) {
             speed = 0;
         }
         armMotorOne.set(speed);
 
-        SmartDashboard.putNumber("Motor One", armMotorOne.getMotorOutputPercent());
-        SmartDashboard.putNumber("Motor 2", armMotorTwo.getMotorOutputPercent());
-        SmartDashboard.putNumber("Motor 3", armMotorThree.getMotorOutputPercent());
-
         armSpeed.setDouble(speed);
+    }
+
+    private boolean stopArmIfOnSwitchOrAtHardstop(double speed) {
+        return (encoder.get() <= 0 && speed < 0)|| (encoder.get() >= (Constants.Arm.ENCODER_TICKS_PER_REV) / 2 && speed > 0) || ((frontSwitch.get() && speed < 0) || (backSwitch.get() && speed > 0));
     }
 
     public void setRawArmSpeed(double speed) {

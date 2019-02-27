@@ -86,8 +86,8 @@ public class Constants {
     public class LED {
         public final static int LED_PCM_MODULE = 1;
 
-        public final static int RED_LED_PORT = 6;
-        public final static int GREEN_LED_PORT = 7;
-        public final static int BLUE_LED_PORT = 8;
+        public final static int RED_LED_PORT = 5;
+        public final static int GREEN_LED_PORT = 6;
+        public final static int BLUE_LED_PORT = 7;
     }
 }

@@ -6,6 +6,9 @@ import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -14,18 +17,12 @@ import frc.team3324.robot.drivetrain.commands.teleop.Drive;
 import frc.team3324.robot.util.Constants;
 import frc.team3324.robot.wrappers.Logger;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.SPI;
 
 import static frc.team3324.robot.Robot.pdp;
 
-import badlog.lib.BadLog;
 
 /**
  * Subsystem class to control the drivetrain and peripheral drivetrain systems.
@@ -55,53 +52,16 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
     public static Encoder rEncoder =
             new Encoder(Constants.DriveTrain.RIGHT_ENCODER_PORT_A, Constants.DriveTrain.RIGHT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);
 
-    public static AHRS gyro = new AHRS(SPI.Port.kMXP);
+    private static AHRS gyro = new AHRS(SPI.Port.kMXP);
 
-    public WPI_VictorSPX flMotor = new WPI_VictorSPX(Constants.DriveTrain.FL_MOTOR_PORT);
-    public WPI_TalonSRX blMotor = new WPI_TalonSRX(Constants.DriveTrain.BL_MOTOR_PORT);
+    private WPI_VictorSPX flMotor = new WPI_VictorSPX(Constants.DriveTrain.FL_MOTOR_PORT);
+    private WPI_TalonSRX blMotor = new WPI_TalonSRX(Constants.DriveTrain.BL_MOTOR_PORT);
 
-    public WPI_TalonSRX frMotor = new WPI_TalonSRX(Constants.DriveTrain.FR_MOTOR_PORT);
-    public WPI_VictorSPX brMotor = new WPI_VictorSPX(Constants.DriveTrain.BR_MOTOR_PORT);
+    private WPI_TalonSRX frMotor = new WPI_TalonSRX(Constants.DriveTrain.FR_MOTOR_PORT);
+    private WPI_VictorSPX brMotor = new WPI_VictorSPX(Constants.DriveTrain.BR_MOTOR_PORT);
 
     public DifferentialDrive mDrive = new DifferentialDrive(frMotor, blMotor);
 
-//    private Object[][] encoderValues = new Object[][] {
-//            { "Left Encoder Distance",        0, 0, 0 },
-//            { "Right Encoder Distance",       0, 1, 0 },
-//            { "Left Encoder Raw",             0, 2, 0 },
-//            { "Right Encoder Raw",            0, 3, 0 },
-//            { "Left Encoder Rate",            0, 4, 0 },
-//            { "Right Encoder Rate",           0, 5, 0 },
-//            { "Left Encoder Distance Graph",  0, 0, 1 },
-//            { "Right Encoder Distance Graph", 0, 1, 1 },
-//            { "Left Encoder Raw Graph",       0, 2, 1 },
-//            { "Right Encoder Raw Graph",      0, 3, 1 },
-//            { "Left Encoder Rate Graph",      0, 4, 1 },
-//            { "Right Encoder Rate Graph",     0, 5, 1 }
-//    };
-//
-//    private Object[][] loggerInformation = new Object[][] {
-//            { "drivetrain/Total Current",  "Amps",  getTotalCurrent() },
-//            { "drivetrain/FL Current",     "Amps",  pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT)},
-//            { "drivetrain/BL Current",     "Amps",  pdp.getCurrent(Constants.DriveTrain.BL_PDP_MOTOR_PORT)},
-//            { "drivetrain/FR Current",     "Amps",  pdp.getCurrent(Constants.DriveTrain.FR_PDP_MOTOR_PORT)},
-//            { "drivetrain/BR Current",     "Amps",  pdp.getCurrent(Constants.DriveTrain.BR_PDP_MOTOR_PORT)},
-//            { "drivetrain/Left Raw",       "Ticks", (double)lEncoder.getRaw()},
-//            { "drivetrain/Right Raw",      "Ticks", (double)rEncoder.getRaw()},
-//            { "drivetrain/Left Distance",  "m",     lEncoder.getDistance()},
-//            { "drivetrain/Right Distance", "m",     rEncoder.getDistance()},
-//            { "drivetrain/Left Rate",      "m/s",   lEncoder.getRate()},
-//            { "drivetrain/Right Rate",     "m/s",   rEncoder.getRate()},
-//            { "drivetrain/Left Voltage",   "V",     Robot.driveTrain.blMotor.getMotorOutputVoltage()
-//                    + Robot.driveTrain.flMotor.getMotorOutputVoltage()},
-//            { "drivetrain/Right Voltage",  "V",     Robot.driveTrain.brMotor.getMotorOutputVoltage()
-//                    + Robot.driveTrain.frMotor.getMotorOutputVoltage()}
-//    };
-//
-//    private Object[][] anArray = new Object[][] {
-//            {"something", "something", 9},
-//            { "something" }
-//    };
 
     /**
      * Creates an instance of the DriveTrain class.
@@ -142,21 +102,21 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      * @see Logger
      */
     private void initializeLogger() {
-        BadLog.createTopic("drivetrain/Total Current", "Amps", () -> getTotalCurrent());
-        BadLog.createTopic("drivetrain/FL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT));
-        BadLog.createTopic("drivetrain/BL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.BL_PDP_MOTOR_PORT));
-        BadLog.createTopic("drivetrain/FR Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FR_PDP_MOTOR_PORT));
-        BadLog.createTopic("drivetrain/BR Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.BR_PDP_MOTOR_PORT));
+        Logger.createTopic("drivetrain/Total Current", "Amps", () -> getTotalCurrent());
+        Logger.createTopic("drivetrain/FL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT));
+        Logger.createTopic("drivetrain/BL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.BL_PDP_MOTOR_PORT));
+        Logger.createTopic("drivetrain/FR Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FR_PDP_MOTOR_PORT));
+        Logger.createTopic("drivetrain/BR Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.BR_PDP_MOTOR_PORT));
 
-        BadLog.createTopic("drivetrain/Left Raw", "Ticks", () -> (double)lEncoder.getRaw());
-        BadLog.createTopic("drivetrain/Right Raw", "Ticks", () -> (double)rEncoder.getRaw());
-        BadLog.createTopic("drivetrain/Left Distance", "m", () -> lEncoder.getDistance());
-        BadLog.createTopic("drivetrain/Right Distance", "m", () -> rEncoder.getDistance());
-        BadLog.createTopic("drivetrain/Left Rate", "m/s", () -> lEncoder.getRate());
-        BadLog.createTopic("drivetrain/Right Rate", "m/s", () -> rEncoder.getRate());
-        BadLog.createTopic("drivetrain/Left Voltage", "V",
+        Logger.createTopic("drivetrain/Left Raw", "Ticks", () -> (double)lEncoder.getRaw());
+        Logger.createTopic("drivetrain/Right Raw", "Ticks", () -> (double)rEncoder.getRaw());
+        Logger.createTopic("drivetrain/Left Distance", "m", () -> lEncoder.getDistance());
+        Logger.createTopic("drivetrain/Right Distance", "m", () -> rEncoder.getDistance());
+        Logger.createTopic("drivetrain/Left Rate", "m/s", () -> lEncoder.getRate());
+        Logger.createTopic("drivetrain/Right Rate", "m/s", () -> rEncoder.getRate());
+        Logger.createTopic("drivetrain/Left Voltage", "V",
                 () -> (Robot.driveTrain.blMotor.getMotorOutputVoltage() + Robot.driveTrain.flMotor.getMotorOutputVoltage()));
-        BadLog.createTopic("drivetrain/Right Voltage", "V",
+        Logger.createTopic("drivetrain/Right Voltage", "V",
                 () -> (Robot.driveTrain.brMotor.getMotorOutputVoltage() + Robot.driveTrain.frMotor.getMotorOutputVoltage()));
 
     }
@@ -247,13 +207,6 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
         gearShifter.set(DoubleSolenoid.Value.kForward);
     }
     }
-
-    /**
-     * Sets drivetrain to low gear using a double solenoid.
-     *
-     * @see DoubleSolenoid
-     */
-    public void setLowGear() { gearShifter.set(DoubleSolenoid.Value.kReverse); }
 
     protected void initDefaultCommand() { setDefaultCommand(new Drive()); }
 

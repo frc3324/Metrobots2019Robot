@@ -45,21 +45,21 @@ public class Robot extends TimedRobot {
     public static Logger genericLogger;
 
     public void robotInit() {
+        genericLogger = new Logger("/home/lvuser/log.bag" + System.currentTimeMillis(), true);
         {
             arm = new Arm();
             cargoIntake = new CargoIntake();
             climber = new Climber();
             driveTrain = new DriveTrain();
             hatchIntake = new HatchIntake();
+
             led = new LED();
-            genericLogger = new Logger("/home/lvuser/log.bag" + System.currentTimeMillis(), true);
+
             oi = new OI();
 
             BadLog.createTopic("System/Battery Voltage", "V", () -> RobotController.getBatteryVoltage());
             BadLog.createTopic("Match Time", "s", () -> DriverStation.getInstance().getMatchTime());
         }
-
-        compressor.start();
 
         driveTrain.clearGyro();
         genericLogger.finishInitialization();
@@ -76,7 +76,6 @@ public class Robot extends TimedRobot {
 
         compressorPressure.setBoolean(compressor.getPressureSwitchValue());
         Robot.driveTrain.printEncoderDistance();
-        genericLogger.updateTopics();
         genericLogger.log();
 
         CameraServer.getInstance().getVideo();

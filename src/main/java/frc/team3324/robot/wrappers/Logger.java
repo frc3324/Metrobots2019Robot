@@ -5,7 +5,6 @@ import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
-import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 /**
@@ -22,7 +21,7 @@ public class Logger {
      * @param compress, whether to compress
      */
     public Logger(String path, Boolean compress) {
-        logger.init(path, compress);
+        logger = BadLog.init(path, compress);
     }
 
     class InvalidArrayException extends Exception {
@@ -104,11 +103,8 @@ public class Logger {
     }
 
     public void log() {
-        logger.log();
-    }
-
-    public void updateTopics() {
         logger.updateTopics();
+        logger.log();
     }
 
     public void finishInitialization() {
@@ -133,11 +129,19 @@ public class Logger {
                 }
             }
             // TODO: Type check loggerStrings
-            logger.createTopic(loggerStrings[i][0].toString(), loggerStrings[i][1].toString(), (Supplier<Double>)loggerStrings[i][2], attributes);
+            BadLog.createTopic(loggerStrings[i][0].toString(), loggerStrings[i][1].toString(), (Supplier<Double>)loggerStrings[i][2], attributes);
         }
     }
 
-    public void createTopic(String name, String unit, Supplier<Double> supplier, String... attributes) {
-        logger.createTopic(name, unit, supplier, attributes);
+    public static void createTopic(String name, String unit, Supplier<Double> supplier, String... attributes) {
+        BadLog.createTopic(name, unit, supplier, attributes);
+    }
+
+    public static  double boolToDouble(boolean bool) {
+       if (bool) {
+           return 1;
+       } else {
+           return 0;
+       }
     }
 }

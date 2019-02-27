@@ -12,7 +12,7 @@ public class ZeroDegree extends PIDCommand{
     private double goal = 0.0175;
 
     public ZeroDegree() {
-        super(0.25, 0.002, 1);
+        super(0.45, 0.0003, 0.05, 0.02);
         requires(Robot.arm);
     }
 
@@ -23,7 +23,7 @@ public class ZeroDegree extends PIDCommand{
 
     @Override
     protected boolean isFinished() {
-        return (goal == getPosition() || (OI.secondaryController.getY(GenericHID.Hand.kLeft) > 0));
+        return (goal == getPosition() || (OI.secondaryController.getY(GenericHID.Hand.kLeft) > 0) || (OI.secondaryController.getBButton()));
     }
 
     @Override

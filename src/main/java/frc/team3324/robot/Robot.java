@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.team3324.robot.arm.Arm;
-import frc.team3324.robot.arm.commands.ResetArm;
 import frc.team3324.robot.climber.Climber;
 import frc.team3324.robot.intake.cargo.CargoIntake;
 import frc.team3324.robot.intake.hatch.HatchIntake;
@@ -16,8 +15,6 @@ import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.util.LED;
 import frc.team3324.robot.util.OI;
 import frc.team3324.robot.wrappers.Logger;
-
-import edu.wpi.first.wpilibj.TimedRobot;
 
 /**
  * Main robot class. Declares and instantiates subsystems and peripheral systems (OI, LEDs, etc.).
@@ -64,10 +61,15 @@ public class Robot extends TimedRobot {
         driveTrain.clearGyro();
         genericLogger.finishInitialization();
         Shuffleboard.startRecording();
+
+        compressor.setClosedLoopControl(true);
+
+        driveTrain.clearGyro();
+
         CameraServer.getInstance().startAutomaticCapture(1);
         CameraServer.getInstance().startAutomaticCapture(0);
 
-        CameraServer.getInstance().putVideo("Camera output", 1280, 720);
+        CameraServer.getInstance().putVideo("Camera output", 240, 144);
     }
 
     public void robotPeriodic() {
@@ -90,7 +92,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Scheduler.getInstance().add(new ResetArm());
+
     }
 
     @Override

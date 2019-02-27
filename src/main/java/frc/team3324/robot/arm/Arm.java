@@ -12,7 +12,6 @@ import frc.team3324.robot.util.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team3324.robot.wrappers.Logger;
 
@@ -67,10 +66,14 @@ public class Arm extends Subsystem {
     }
 
     public void updateShuffleBoard() {
-        armEncoder.setNumber(encoder.get());
+        armEncoder.setNumber(Math.toDegrees(getArmRadians()));
         armPDP.setNumber(getPDPMax());
         frontLimitSwitch.setBoolean(frontSwitch.get());
         backLimitSwitch.setBoolean(backSwitch.get());
+    }
+
+    public double getArmRadians() {
+        return encoder.get() * ((Math.PI * 2)/Constants.Arm.ENCODER_TICKS_PER_REV);
     }
 
     public double getPDPMax() {
@@ -92,6 +95,8 @@ public class Arm extends Subsystem {
         armMotorOne.set(speed);
 
         armSpeed.setDouble(speed);
+        double feedforward = 0.09 * Math.cos(getArmRadians());
+        armSpeed.setDouble(speed + feedforward);
     }
 
     private boolean stopArmIfOnSwitchOrAtHardstop(double speed) {
@@ -105,10 +110,6 @@ public class Arm extends Subsystem {
         }
         armMotorOne.set(speed);
     }
-    public double getArmRadians() {
-        return encoder.get() * ((Math.PI * 2)/Constants.Arm.ENCODER_TICKS_PER_REV);
-    }
-
     public boolean getFrontSwitch() {
         return frontSwitch.get();
     }

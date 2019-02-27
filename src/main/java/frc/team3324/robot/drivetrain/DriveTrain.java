@@ -72,13 +72,13 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      * <p>Set drivetrain distance per pulse.</p>
      */
     public DriveTrain() {
-        frMotor.configPeakCurrentLimit(0);
-        frMotor.configPeakCurrentDuration(0);
-        frMotor.configContinuousCurrentLimit(50);
+        frMotor.configPeakCurrentLimit(100);
+        frMotor.configPeakCurrentDuration(200);
+        frMotor.configContinuousCurrentLimit(40);
 
-        blMotor.configPeakCurrentLimit(0);
-        blMotor.configPeakCurrentDuration(0);
-        blMotor.configContinuousCurrentLimit(50);
+        blMotor.configPeakCurrentLimit(100);
+        blMotor.configPeakCurrentDuration(200);
+        blMotor.configContinuousCurrentLimit(40);
 
         frMotor.enableCurrentLimit(true);
         blMotor.enableCurrentLimit(true);

@@ -8,10 +8,10 @@ import frc.team3324.robot.util.OI;
 
 public class OneEightyDegree extends PIDCommand{
 
-    private double goal = 2.96705973;
+    private double goal = Math.PI;
 
     public OneEightyDegree() {
-        super(0.25, 0.005, 1);
+        super(0.45, 0.0003, 0.05, 0.02);
         requires(Robot.arm);
     }
 
@@ -22,7 +22,7 @@ public class OneEightyDegree extends PIDCommand{
 
     @Override
     protected boolean isFinished() {
-        return (goal == getPosition() || (OI.secondaryController.getY(GenericHID.Hand.kLeft) > 0));
+        return (goal == getPosition() || (OI.secondaryController.getY(GenericHID.Hand.kLeft) > 0) || (OI.secondaryController.getBButton()));
     }
 
     @Override
@@ -33,8 +33,7 @@ public class OneEightyDegree extends PIDCommand{
 
     @Override
     protected void usePIDOutput(double output) {
-        double feedforward = 0.2 * Math.cos(Robot.arm.getArmRadians());
         Robot.arm.updateShuffleBoard();
-        Robot.arm.setArmSpeed(output + feedforward);
+        Robot.arm.setArmSpeed(output);
     }
 }

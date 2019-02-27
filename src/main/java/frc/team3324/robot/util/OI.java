@@ -4,10 +4,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import frc.team3324.robot.arm.commands.ControlArm;
-import frc.team3324.robot.arm.commands.OneEightyDegree;
-import frc.team3324.robot.arm.commands.ResetArm;
-import frc.team3324.robot.arm.commands.ZeroDegree;
+import frc.team3324.robot.arm.commands.*;
 import frc.team3324.robot.climber.commands.teleop.ToggleFrontClimb;
 import frc.team3324.robot.climber.commands.teleop.ToggleBackClimb;
 import frc.team3324.robot.drivetrain.commands.teleop.ShiftGears;
@@ -73,8 +70,7 @@ public class OI {
         SECONDARY_Y_BUTTON.whileHeld(new Outtake());
         SECONDARY_X_BUTTON.whileHeld(new Intake());
 
-        SECONDARY_A_BUTTON.whenPressed(new SwitchIntake());
-        SECONDARY_B_BUTTON.whenPressed(new SwitchIntake());
+        SECONDARY_A_BUTTON.whenPressed(new NinetyDegree());
 
         SECONDARY_RIGHT_BUMPER.whenPressed(new OneEightyDegree());
         SECONDARY_LEFT_BUMPER.whenPressed(new ZeroDegree());

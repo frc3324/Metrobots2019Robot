@@ -10,7 +10,7 @@ public class NinetyDegree extends PIDCommand {
     private double goal = Math.PI/2.0;
 
     public NinetyDegree() {
-        super(0, 0, 0);
+        super(0.6, 0.0001, 1, 0.02);
         requires(Robot.arm);
     }
 
@@ -21,7 +21,7 @@ public class NinetyDegree extends PIDCommand {
 
     @Override
     protected boolean isFinished() {
-        return (goal == getPosition() || (OI.secondaryController.getY(GenericHID.Hand.kLeft) > 0));
+        return (goal == getPosition() || (OI.secondaryController.getY(GenericHID.Hand.kLeft) > 0) || (OI.secondaryController.getY(GenericHID.Hand.kRight) > 0) || (OI.secondaryController.getBButton()));
     }
 
     @Override

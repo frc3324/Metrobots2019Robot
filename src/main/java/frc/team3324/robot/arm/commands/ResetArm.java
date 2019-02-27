@@ -5,10 +5,12 @@ import frc.team3324.robot.Robot;
 
 public class ResetArm extends Command {
 
-
+    public ResetArm() {
+        requires(Robot.arm);
+    }
     @Override
     protected void execute() {
-        Robot.arm.setRawArmSpeed(-0.7);
+        Robot.arm.setRawArmSpeed(-0.5);
     }
 
     @Override

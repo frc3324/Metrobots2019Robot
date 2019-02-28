@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
 
         compressorPressure.setBoolean(compressor.getPressureSwitchValue());
-        Robot.driveTrain.printEncoderDistance();
+        Robot.driveTrain.updateSensors();
         genericLogger.log();
 
         CameraServer.getInstance().getVideo();

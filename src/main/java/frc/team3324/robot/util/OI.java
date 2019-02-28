@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.team3324.robot.arm.commands.*;
 import frc.team3324.robot.climber.commands.teleop.ToggleFrontClimb;
 import frc.team3324.robot.climber.commands.teleop.ToggleBackClimb;
+import frc.team3324.robot.drivetrain.commands.teleop.LineUp;
 import frc.team3324.robot.drivetrain.commands.teleop.ShiftGears;
 import frc.team3324.robot.intake.cargo.commands.Intake;
 import frc.team3324.robot.intake.cargo.commands.Outtake;
@@ -65,6 +66,7 @@ public class OI {
 
         PRIMARY_A_BUTTON.whenPressed(new Compress());
         PRIMARY_B_BUTTON.whenPressed(new StopCompress());
+        PRIMARY_X_BUTTON.whenPressed(new LineUp());
 
 
         SECONDARY_Y_BUTTON.whileHeld(new Outtake());

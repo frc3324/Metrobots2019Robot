@@ -39,7 +39,6 @@ public class Odometry extends Command {
         this.x = x;
         this.y = y;
         this.theta = theta;
-        this.trajectory = trajectory;
     }
 
     // Called just before this Command runs the first time

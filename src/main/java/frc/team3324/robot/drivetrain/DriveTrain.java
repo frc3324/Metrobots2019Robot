@@ -45,6 +45,8 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
     private NetworkTableEntry rightRateGraph = sensorTab.add("Right Encoder Rate Graph", 0).withPosition(4, 1).withWidget(BuiltInWidgets.kGraph).getEntry();
     private NetworkTableEntry leftRateGraph = sensorTab.add("Left Encoder Rate Graph", 0).withPosition(5, 1).withWidget(BuiltInWidgets.kGraph).getEntry();
 
+    private NetworkTableEntry  gyroYaw = sensorTab.add("Gyro Yaw", 0).withPosition(0, 2).getEntry();
+
     private DoubleSolenoid gearShifter = new DoubleSolenoid(Constants.DriveTrain.DRIVETRAIN_PCM_MODULE, Constants.DriveTrain.DRIVETRAIN_PORT_FORWARD, Constants.DriveTrain.DRIVETRAIN_PORT_REVERSE);
 
     public static Encoder lEncoder =
@@ -137,7 +139,7 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      *
      * @see NetworkTableEntry
      */
-    public void printEncoderDistance() {
+    public void updateSensors() {
         rightDistance.setDouble(rEncoder.getDistance());
         leftDistance.setDouble(lEncoder.getDistance());
 
@@ -155,6 +157,8 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
 
         rightRateGraph.setDouble(rEncoder.getRate());
         leftRateGraph.setDouble(lEncoder.getRate());
+
+        gyroYaw.setNumber(getYaw());
     }
 
     /**

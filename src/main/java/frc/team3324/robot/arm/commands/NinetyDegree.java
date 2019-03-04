@@ -10,7 +10,7 @@ public class NinetyDegree extends PIDCommand {
     private double goal = Math.PI/2.0;
 
     public NinetyDegree() {
-        super(0.6, 0.0001, 1, 0.02);
+        super(0.7, 0.0001, 1, 0.02);
         requires(Robot.arm);
     }
 

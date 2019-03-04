@@ -14,6 +14,7 @@ import frc.team3324.robot.intake.hatch.HatchIntake;
 import frc.team3324.robot.drivetrain.DriveTrain;
 import frc.team3324.robot.util.LED;
 import frc.team3324.robot.util.OI;
+import frc.team3324.robot.wrappers.Log;
 import frc.team3324.robot.wrappers.Logger;
 
 /**
@@ -42,7 +43,7 @@ public class Robot extends TimedRobot {
     public static Logger genericLogger;
 
     public void robotInit() {
-        genericLogger = new Logger("/home/lvuser/log.bag" + System.currentTimeMillis(), true);
+        genericLogger = new Logger("/home/lvuser/Log.bag" + System.currentTimeMillis(), true);
         {
             arm = new Arm();
             cargoIntake = new CargoIntake();
@@ -60,7 +61,7 @@ public class Robot extends TimedRobot {
 
         driveTrain.clearGyro();
         genericLogger.finishInitialization();
-        Shuffleboard.startRecording();
+        Scheduler.getInstance().add(new Log());
 
         compressor.setClosedLoopControl(true);
 
@@ -73,21 +74,14 @@ public class Robot extends TimedRobot {
     }
 
     public void robotPeriodic() {
-        hatchIntake.updateRumble();
         Scheduler.getInstance().run();
 
-        compressorPressure.setBoolean(compressor.getPressureSwitchValue());
         Robot.driveTrain.updateSensors();
-        genericLogger.log();
 
         CameraServer.getInstance().getVideo();
     }
 
     public void disabledInit() {
-    }
-
-    @Override
-    public void disabledPeriodic() {
     }
 
     @Override

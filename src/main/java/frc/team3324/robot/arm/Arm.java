@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.team3324.robot.Robot;
@@ -13,6 +14,7 @@ import frc.team3324.robot.util.Constants;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.team3324.robot.util.OI;
 import frc.team3324.robot.wrappers.Logger;
 
 /**
@@ -90,12 +92,14 @@ public class Arm extends Subsystem {
             encoder.reset();
         }
         if (stopArmIfOnSwitchOrAtHardstop(speed)) {
+            OI.secondaryController.setRumble(GenericHID.RumbleType.kLeftRumble, 0.2);
             speed = 0;
+        } else {
+            OI.secondaryController.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
         }
-        armMotorOne.set(speed);
+        double feedforward = 0.06 * Math.cos(getArmRadians());
+        armMotorOne.set(speed + feedforward);
 
-        armSpeed.setDouble(speed);
-        double feedforward = 0.09 * Math.cos(getArmRadians());
         armSpeed.setDouble(speed + feedforward);
     }
 

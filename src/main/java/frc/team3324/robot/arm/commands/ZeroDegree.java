@@ -13,7 +13,7 @@ public class ZeroDegree extends Command {
 
     private double goal = 0.0175;
     private double kP = 0.5;
-    private double kI = 0.0003;
+    private double kI = 0.001;
     private double kD = 0;
     private double integral = 0;
     private double error;
@@ -40,6 +40,7 @@ public class ZeroDegree extends Command {
     }
     @Override
     protected boolean isFinished() {
+        end();
         return (OI.secondaryController.getY(GenericHID.Hand.kLeft) > 0) || (OI.secondaryController.getBButton());
     }
 

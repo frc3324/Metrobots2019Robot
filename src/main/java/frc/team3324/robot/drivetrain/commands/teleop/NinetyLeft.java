@@ -1,4 +1,4 @@
-package frc.team3324.robot.arm.commands;
+package frc.team3324.robot.drivetrain.commands.teleop;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Notifier;
@@ -9,10 +9,10 @@ import frc.team3324.robot.Robot;
 import frc.team3324.robot.util.Constants;
 import frc.team3324.robot.util.OI;
 
-public class ZeroDegree extends Command {
+public class NinetyLeft extends Command {
 
-    private double goal = 0.0175;
-    private double kP = 0.5;
+    private double goal = Math.toRadians(-90);
+    private double kP = 0.7;
     private double kI = 0.001;
     private double kD = 0;
     private double integral = 0;
@@ -20,7 +20,7 @@ public class ZeroDegree extends Command {
     Notifier notifier = new Notifier(() ->{ executePID(); });
 
 
-    public ZeroDegree() {
+    public NinetyLeft() {
         requires(Robot.arm);
     }
 
@@ -31,16 +31,15 @@ public class ZeroDegree extends Command {
     }
 
     private void executePID() {
-        double position = Robot.arm.getArmRadians();
+        double position = Math.toRadians(Robot.driveTrain.getYaw());
         error = goal - position;
         double proportional = error * kP;
         integral = integral + error;
-        Robot.arm.updateShuffleBoard();
-        Robot.arm.setArmSpeed(proportional + (integral * kI));
+        Robot.driveTrain.mDrive.arcadeDrive(0,proportional + (integral * kI), false);
     }
     @Override
     protected boolean isFinished() {
-        return (OI.secondaryController.getY(GenericHID.Hand.kLeft) > 0) || (OI.secondaryController.getBButton());
+        return OI.primaryController.getX(GenericHID.Hand.kRight) > 0 || OI.primaryController.getY(GenericHID.Hand.kLeft) > 0;
     }
 
     @Override
@@ -55,5 +54,3 @@ public class ZeroDegree extends Command {
         end();
     }
 }
-
-

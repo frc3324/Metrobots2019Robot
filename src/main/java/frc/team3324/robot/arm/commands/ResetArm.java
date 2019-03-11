@@ -10,7 +10,7 @@ public class ResetArm extends Command {
     }
     @Override
     protected void execute() {
-        Robot.arm.setRawArmSpeed(-0.5);
+        Robot.arm.resetArmSpeed(-0.5);
     }
 
     @Override

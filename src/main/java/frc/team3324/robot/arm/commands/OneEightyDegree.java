@@ -38,19 +38,21 @@ public class OneEightyDegree extends Command {
         Robot.arm.updateShuffleBoard();
         Robot.arm.setArmSpeed(proportional + (integral * kI));
     }
+
     @Override
     protected boolean isFinished() {
-        end();
         return (OI.secondaryController.getY(GenericHID.Hand.kLeft) > 0) || (OI.secondaryController.getBButton());
     }
 
     @Override
     protected void end() {
         notifier.stop();
+        notifier.stop();
     }
 
     @Override
     protected void interrupted() {
+        notifier.stop();
         end();
     }
 }

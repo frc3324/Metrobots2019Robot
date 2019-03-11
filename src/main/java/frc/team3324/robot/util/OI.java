@@ -8,6 +8,7 @@ import frc.team3324.robot.arm.commands.*;
 import frc.team3324.robot.climber.commands.teleop.ToggleFrontClimb;
 import frc.team3324.robot.climber.commands.teleop.ToggleBackClimb;
 import frc.team3324.robot.drivetrain.commands.teleop.NinetyLeft;
+import frc.team3324.robot.drivetrain.commands.teleop.NinetyRight;
 import frc.team3324.robot.drivetrain.commands.teleop.ShiftGears;
 import frc.team3324.robot.intake.cargo.commands.Intake;
 import frc.team3324.robot.intake.cargo.commands.Outtake;
@@ -65,6 +66,7 @@ public class OI {
         PRIMARY_BACK_BUTTON.whenPressed(new ToggleBackClimb());
 
         PRIMARY_X_BUTTON.whenPressed(new NinetyLeft());
+        PRIMARY_B_BUTTON.whenPressed(new NinetyRight());
 
 
         SECONDARY_Y_BUTTON.whileHeld(new Outtake());

@@ -21,7 +21,7 @@ public class NinetyRight extends Command {
 
 
     public NinetyRight() {
-        requires(Robot.arm);
+        requires(Robot.driveTrain);
     }
 
     @Override

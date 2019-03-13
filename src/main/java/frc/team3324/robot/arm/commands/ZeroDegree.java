@@ -1,58 +1,30 @@
 package frc.team3324.robot.arm.commands;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.PIDCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.Robot;
-import frc.team3324.robot.util.Constants;
 import frc.team3324.robot.util.OI;
+import frc.team3324.robot.wrappers.PIDCommand;
 
-public class ZeroDegree extends Command {
-
-    private double goal = 0.0175;
-    private double kP = 0.5;
-    private double kI = 0.001;
-    private double kD = 0;
-    private double integral = 0;
-    private double error;
-    Notifier notifier = new Notifier(() ->{ executePID(); });
-
+public class ZeroDegree extends PIDCommand {
 
     public ZeroDegree() {
-        requires(Robot.arm);
+        super(0.5, 0.001, 0, 0.0175, Robot.arm, 0.01);
     }
 
     @Override
-    protected void initialize() {
-        integral = 0;
-        notifier.startPeriodic(0.01);
+    protected void usePIDOutput(double output) {
+        Robot.arm.updateShuffleBoard();
+        Robot.arm.setArmSpeed(output);
     }
 
-    private void executePID() {
-        double position = Robot.arm.getArmRadians();
-        error = goal - position;
-        double proportional = error * kP;
-        integral = integral + error;
-        Robot.arm.updateShuffleBoard();
-        Robot.arm.setArmSpeed(proportional + (integral * kI));
+    @Override
+    protected double returnPIDInput() {
+        return Robot.arm.getArmRadians();
     }
+
     @Override
     protected boolean isFinished() {
         return (OI.secondaryController.getY(GenericHID.Hand.kLeft) > 0) || (OI.secondaryController.getBButton());
-    }
-
-    @Override
-    protected void end() {
-        notifier.stop();
-        notifier.stop();
-    }
-
-    @Override
-    protected void interrupted() {
-        notifier.stop();
-        end();
     }
 }
 

@@ -39,15 +39,30 @@ repositories {
     jcenter()
 }
 
-// Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
-// Also defines JUnit 4.
 dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
     compile wpi.deps.wpilib()
     compile wpi.deps.vendor.java()
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     compile 'com.github.dominikWin:badlog:d3f791967f'
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
-    testCompile 'junit:junit:4.12'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
+    afterSuite { desc, result ->
+        if (!desc.parent) {
+            println "\nTest result: ${result.resultType}"
+            println "Test summary: ${result.testCount} tests, " +
+                    "${result.successfulTestCount} succeeded, " +
+                    "${result.failedTestCount} failed, " +
+                    "${result.skippedTestCount} skipped"
+        }
+    }
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

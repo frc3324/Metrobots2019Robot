@@ -1,5 +1,6 @@
 package frc.team3324.robot.drivetrain.commands.auto;
 
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.Robot;
@@ -7,15 +8,14 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.team3324.robot.util.Constants;
-import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 
-import java.nio.file.Path;
 
 /**
  * Command class to determine position of the robot udtgy
  */
 public class Odometry extends Command {
+
     private double x, y, theta, phi, middleEncoder, lEncoder, rEncoder;
     private int segment = 0;
     private Trajectory trajectory;
@@ -24,9 +24,6 @@ public class Odometry extends Command {
     NetworkTableEntry robotX = table.getEntry("robotX");
     NetworkTableEntry robotY = table.getEntry("robotY");
     NetworkTableEntry robotHeading = table.getEntry("robotHeading");
-    NetworkTableEntry pathX = table.getEntry("pathX");
-    NetworkTableEntry pathY = table.getEntry("pathY");
-    NetworkTableEntry pathHeading = table.getEntry("pathHeading");
 
     /**
      * Creates an instance of the Odometry class.
@@ -49,7 +46,7 @@ public class Odometry extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    private void track() {
 
         lEncoder = Robot.driveTrain.lEncoder.getDistance();
         rEncoder = Robot.driveTrain.rEncoder.getDistance();
@@ -72,10 +69,6 @@ public class Odometry extends Command {
 
     protected boolean isFinished() { return false; }
 
-    // Called once after isFinished returns true
-    protected void end() {}
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {}
+    protected void end() {
+    }
 }

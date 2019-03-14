@@ -52,7 +52,7 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
     public static Encoder lEncoder =
             new Encoder(Constants.DriveTrain.LEFT_ENCODER_PORT_A, Constants.DriveTrain.LEFT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);
     public static Encoder rEncoder =
-            new Encoder(Constants.DriveTrain.RIGHT_ENCODER_PORT_A, Constants.DriveTrain.RIGHT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);
+            new Encoder(Constants.DriveTrain.RIGHT_ENCODER_PORT_A, Constants.DriveTrain.RIGHT_ENCODER_PORT_B, true, Encoder.EncodingType.k4X);
 
     private static AHRS gyro = new AHRS(SPI.Port.kMXP);
 

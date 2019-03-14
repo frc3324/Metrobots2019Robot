@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.climber.Climber;
+import frc.team3324.robot.drivetrain.commands.auto.Odometry;
 import frc.team3324.robot.intake.cargo.CargoIntake;
 import frc.team3324.robot.intake.hatch.HatchIntake;
 import frc.team3324.robot.drivetrain.DriveTrain;
@@ -25,7 +26,6 @@ public class Robot extends TimedRobot {
     public Robot() { super(0.02); }
     public static Compressor compressor = new Compressor(0);
     private ShuffleboardTab compressorTab = Shuffleboard.getTab("Compressor");
-    private NetworkTableEntry compressorPressure = compressorTab.add("Compressor Pressure", false).withPosition(0, 0).getEntry();
 
 
     /*
@@ -61,7 +61,9 @@ public class Robot extends TimedRobot {
 
         driveTrain.clearGyro();
         genericLogger.finishInitialization();
+
         Scheduler.getInstance().add(new Log());
+        Scheduler.getInstance().add(new Odometry(1.233/3.281, 17.714/3.281, 0));
 
         compressor.setClosedLoopControl(true);
 

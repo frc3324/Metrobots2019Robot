@@ -76,7 +76,6 @@ public class JaciPathfinding extends Command {
     }
 
     private void follow() {
-        odometry.execute();
         double lOutput = left.calculate(Robot.driveTrain.lEncoder.getRaw());
         double rOutput = right.calculate(Robot.driveTrain.rEncoder.getRaw());
         double gyroHeading = Robot.driveTrain.getYaw(); // Assuming the gyro is giving a value in degrees

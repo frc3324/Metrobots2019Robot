@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.team3324.robot.arm.commands.*;
 import frc.team3324.robot.climber.commands.teleop.ToggleFrontClimb;
 import frc.team3324.robot.climber.commands.teleop.ToggleBackClimb;
+import frc.team3324.robot.drivetrain.commands.auto.Odometry;
 import frc.team3324.robot.drivetrain.commands.teleop.NinetyLeft;
 import frc.team3324.robot.drivetrain.commands.teleop.NinetyRight;
 import frc.team3324.robot.drivetrain.commands.teleop.ShiftGears;

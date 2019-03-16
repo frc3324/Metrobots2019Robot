@@ -17,7 +17,7 @@ public class NinetyLeft extends Command {
     private double kD = 0;
     private double integral = 0;
     private double error;
-    Notifier notifier = new Notifier(() ->{ executePID(); });
+    private Notifier notifier = new Notifier(() ->{ executePID(); });
 
 
     public NinetyLeft() {
@@ -35,11 +35,12 @@ public class NinetyLeft extends Command {
         error = goal - position;
         double proportional = error * kP;
         integral = integral + error;
-        Robot.driveTrain.mDrive.arcadeDrive(0,proportional + (integral * kI), false);
+        double calculatedValue = proportional + (integral * kI);
+        Robot.driveTrain.mDrive.arcadeDrive(0, -calculatedValue, false);
     }
     @Override
     protected boolean isFinished() {
-        return OI.primaryController.getX(GenericHID.Hand.kRight) > 0 || OI.primaryController.getY(GenericHID.Hand.kLeft) > 0;
+        return OI.primaryController.getYButton() || OI.primaryController.getY(GenericHID.Hand.kLeft) > 0.1 || OI.primaryController.getY(GenericHID.Hand.kRight) > 0.1;
     }
 
     @Override

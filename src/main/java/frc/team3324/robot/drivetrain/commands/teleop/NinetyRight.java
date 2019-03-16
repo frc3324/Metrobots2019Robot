@@ -35,11 +35,11 @@ public class NinetyRight extends Command {
         error = goal - position;
         double proportional = error * kP;
         integral = integral + error;
-        Robot.driveTrain.mDrive.arcadeDrive(0,proportional + (integral * kI), false);
+        Robot.driveTrain.mDrive.arcadeDrive(0,-proportional + (integral * kI), false);
     }
     @Override
     protected boolean isFinished() {
-        return OI.primaryController.getX(GenericHID.Hand.kRight) > 0 || OI.primaryController.getY(GenericHID.Hand.kLeft) > 0;
+        return OI.primaryController.getYButton() || OI.primaryController.getY(GenericHID.Hand.kLeft) > 0.1 || OI.primaryController.getY(GenericHID.Hand.kRight) > 0.1;
     }
 
     @Override

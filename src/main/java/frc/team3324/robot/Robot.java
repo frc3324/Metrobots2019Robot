@@ -5,6 +5,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.team3324.robot.arm.Arm;
@@ -43,6 +44,7 @@ public class Robot extends TimedRobot {
     public static Logger genericLogger;
 
     public void robotInit() {
+        LiveWindow.disableAllTelemetry();
         genericLogger = new Logger("/home/lvuser/Log.bag" + System.currentTimeMillis(), true);
         {
             arm = new Arm();
@@ -63,7 +65,6 @@ public class Robot extends TimedRobot {
         genericLogger.finishInitialization();
 
         Scheduler.getInstance().add(new Log());
-        Scheduler.getInstance().add(new Odometry(1.233/3.281, 17.714/3.281, 0));
 
         compressor.setClosedLoopControl(true);
 
@@ -88,6 +89,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        Scheduler.getInstance().add(new Odometry(5.239/3.281, 17.685/3.281, 0));
 
     }
 

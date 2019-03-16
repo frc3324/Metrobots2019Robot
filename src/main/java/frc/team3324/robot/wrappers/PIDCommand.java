@@ -15,17 +15,16 @@ public abstract class PIDCommand extends Command {
     protected double lastPosition = returnPIDInput();
     protected double integral = 0;
 
-    Notifier notifier = new Notifier(() -> {
+    protected Notifier notifier = new Notifier(() -> {
         executePID();
     });
 
-    public PIDCommand(double kP, double kI, double kD, double goal, Subsystem subsystem, double dt) {
+    public PIDCommand(double kP, double kI, double kD, double goal, double dt) {
         this.kP = kP;
         this.kI = kI;
         this.kD = kD;
         this.goal = goal;
-
-        requires(subsystem);
+        this.dt = dt;
     }
 
     @Override

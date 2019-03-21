@@ -20,6 +20,9 @@ import frc.team3324.robot.intake.hatch.commands.SwitchIntake;
  * commands and command groups to allow control of the robot.
  */
 public class OI {
+    public OneEightyDegree oneEightyDegree = new OneEightyDegree();
+    public ZeroDegree zeroDegree = new ZeroDegree();
+
     private static final int BUTTON_A = 1;
     private static final int BUTTON_B = 2;
     private static final int BUTTON_X = 3;
@@ -74,9 +77,10 @@ public class OI {
         SECONDARY_X_BUTTON.whileHeld(new Intake());
 
         SECONDARY_A_BUTTON.whenPressed(new NinetyDegree());
+        SECONDARY_B_BUTTON.whenPressed(new StopArm());
 
-        SECONDARY_RIGHT_BUMPER.whenPressed(new OneEightyDegree());
-        SECONDARY_LEFT_BUMPER.whenPressed(new ZeroDegree());
+        SECONDARY_RIGHT_BUMPER.whenPressed(oneEightyDegree);
+        SECONDARY_LEFT_BUMPER.whenPressed(zeroDegree);
 
         SECONDARY_START_BUTTON.whenPressed(new ResetArm());
     }

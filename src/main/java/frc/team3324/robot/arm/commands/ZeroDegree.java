@@ -11,8 +11,8 @@ import frc.team3324.robot.util.OI;
 
 public class ZeroDegree extends Command {
 
-    private double goal = 0.0175;
-    private double kP = 0.5;
+    private double goal = Math.toRadians(0);
+    private double kP = 0.55;
     private double kI = 0.001;
     private double kD = 0;
     private double integral = 0;
@@ -26,6 +26,7 @@ public class ZeroDegree extends Command {
 
     @Override
     protected void initialize() {
+        Robot.oi.oneEightyDegree.stopNotifier();
         integral = 0;
         notifier.startPeriodic(0.01);
     }
@@ -43,10 +44,14 @@ public class ZeroDegree extends Command {
         return (OI.secondaryController.getY(GenericHID.Hand.kLeft) > 0) || (OI.secondaryController.getBButton());
     }
 
+    public void stopNotifier() {
+        notifier.stop();
+        notifier.stop();
+    }
+
     @Override
     protected void end() {
-        notifier.stop();
-        notifier.stop();
+        stopNotifier();
     }
 
     @Override

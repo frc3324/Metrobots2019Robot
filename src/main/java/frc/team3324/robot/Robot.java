@@ -2,7 +2,6 @@ package frc.team3324.robot;
 
 import badlog.lib.BadLog;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -40,10 +39,10 @@ public class Robot extends TimedRobot {
     public static HatchIntake hatchIntake;
     public static OI oi;
     public static LED led;
-    public static Logger genericLogger;
+    public static Logger logger;
 
     public void robotInit() {
-        genericLogger = new Logger("/home/lvuser/Log.bag" + System.currentTimeMillis(), true);
+        logger = new Logger("/home/lvuser/Log.bag" + System.currentTimeMillis(), true);
         {
             arm = new Arm();
             cargoIntake = new CargoIntake();
@@ -60,7 +59,7 @@ public class Robot extends TimedRobot {
         }
 
         driveTrain.clearGyro();
-        genericLogger.finishInitialization();
+        logger.finishInitialization();
 
         Scheduler.getInstance().add(new Log());
         Scheduler.getInstance().add(new Odometry(1.233/3.281, 17.714/3.281, 0));

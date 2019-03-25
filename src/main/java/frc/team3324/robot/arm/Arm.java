@@ -14,7 +14,9 @@ import frc.team3324.robot.util.Constants;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.team3324.robot.util.MotorConstants.MiniCim;
 import frc.team3324.robot.util.OI;
+import frc.team3324.robot.util.PredictiveCurrentLimiting;
 import frc.team3324.robot.wrappers.Logger;
 
 /**
@@ -39,17 +41,26 @@ public class Arm extends Subsystem {
     private WPI_VictorSPX armMotorTwo = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_TWO);
     private WPI_TalonSRX armMotorThree = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_THREE);
 
+   MiniCim armMotor = new MiniCim();
+   PredictiveCurrentLimiting predictiveCurrentLimiting = new PredictiveCurrentLimiting(8, -8, 147, armMotor);
+
     /**
      * Creates an instance of the Arm class.
      */
 
     public Arm() {
-        initializeBadlog();
+        initializeLogger();
+        initializeCurrentLimiting();
+        setBrakeMode();
+        encoder.setDistancePerPulse(1.0/256.0);
+    }
+
+
+    private void initializeCurrentLimiting() {
         armMotorOne.configContinuousCurrentLimit(8, 0);
         armMotorOne.enableCurrentLimit(true);
         armMotorTwo.follow(armMotorOne);
         armMotorThree.follow(armMotorOne);
-        setBrakeMode();
     }
 
 
@@ -59,11 +70,9 @@ public class Arm extends Subsystem {
         armMotorThree.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
     }
 
-    private void initializeBadlog() {
-        Logger.createTopic("arm/Arm Current One", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_ONE));
-        Logger.createTopic("arm/Arm Current Two", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_TWO));
-        Logger.createTopic("arm/Arm Current Three", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_THREE));
-        Logger.createTopic("arm/Arm Current Max", "amps", () -> getPDPMax());
+    private void initializeLogger() {
+        Logger.createTopic("arm/Arm Current One", "amps", () -> armMotorOne.getOutputCurrent());
+        Logger.createTopic("arm/Arm Current Max", "amps", () -> armMotorOne.getOutputCurrent() * 3);
         Logger.createTopic("arm/Arm Radians", "rad", () -> getArmRadians());
     }
 
@@ -72,6 +81,10 @@ public class Arm extends Subsystem {
         armPDP.setNumber(getPDPMax());
         frontLimitSwitch.setBoolean(frontSwitch.get());
         backLimitSwitch.setBoolean(backSwitch.get());
+    }
+
+    public double getArmRPM() {
+        return encoder.getRate();
     }
 
     public double getArmRadians() {
@@ -98,9 +111,10 @@ public class Arm extends Subsystem {
             OI.secondaryController.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
         }
         double feedforward = 0.06 * Math.cos(getArmRadians());
-        armMotorOne.set(speed + feedforward);
+        speed = predictiveCurrentLimiting.getVoltage(speed + feedforward, getArmRPM());
+        armMotorOne.set(speed);
 
-        armSpeed.setDouble(speed + feedforward);
+        armSpeed.setDouble(speed);
     }
 
     private boolean armIsOnLimitSwitchOrHardstop(double speed) {

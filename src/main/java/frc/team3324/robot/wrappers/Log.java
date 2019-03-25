@@ -13,7 +13,7 @@ public class Log extends Command {
     }
 
     private void log() {
-        Robot.genericLogger.log();
+        Robot.logger.log();
     }
 
     @Override

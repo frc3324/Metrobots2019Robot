@@ -7,7 +7,9 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.team3324.robot.arm.commands.*;
 import frc.team3324.robot.climber.commands.teleop.ToggleFrontClimb;
 import frc.team3324.robot.climber.commands.teleop.ToggleBackClimb;
-import frc.team3324.robot.drivetrain.commands.teleop.LineUp;
+import frc.team3324.robot.drivetrain.commands.auto.Odometry;
+import frc.team3324.robot.drivetrain.commands.teleop.NinetyLeft;
+import frc.team3324.robot.drivetrain.commands.teleop.NinetyRight;
 import frc.team3324.robot.drivetrain.commands.teleop.ShiftGears;
 import frc.team3324.robot.intake.cargo.commands.Intake;
 import frc.team3324.robot.intake.cargo.commands.Outtake;
@@ -18,6 +20,9 @@ import frc.team3324.robot.intake.hatch.commands.SwitchIntake;
  * commands and command groups to allow control of the robot.
  */
 public class OI {
+    public OneEightyDegree oneEightyDegree = new OneEightyDegree();
+    public ZeroDegree zeroDegree = new ZeroDegree();
+
     private static final int BUTTON_A = 1;
     private static final int BUTTON_B = 2;
     private static final int BUTTON_X = 3;
@@ -64,17 +69,16 @@ public class OI {
         PRIMARY_START_BUTTON.whenPressed(new ToggleFrontClimb());
         PRIMARY_BACK_BUTTON.whenPressed(new ToggleBackClimb());
 
-        PRIMARY_A_BUTTON.whenPressed(new Compress());
-        PRIMARY_B_BUTTON.whenPressed(new StopCompress());
-        PRIMARY_X_BUTTON.whenPressed(new ZeroDegree());
-        PRIMARY_Y_BUTTON.whenPressed(new OneEightyDegree());
+        PRIMARY_X_BUTTON.whenPressed(new NinetyLeft());
+        PRIMARY_B_BUTTON.whenPressed(new NinetyRight());
 
         SECONDARY_Y_BUTTON.whileHeld(new Outtake());
         SECONDARY_X_BUTTON.whileHeld(new Intake());
         SECONDARY_A_BUTTON.whenPressed(new NinetyDegree());
+        SECONDARY_B_BUTTON.whenPressed(new StopArm());
 
-        SECONDARY_RIGHT_BUMPER.whenPressed(new OneEightyDegree());
-        SECONDARY_LEFT_BUMPER.whenPressed(new ZeroDegree());
+        SECONDARY_RIGHT_BUMPER.whenPressed(oneEightyDegree);
+        SECONDARY_LEFT_BUMPER.whenPressed(zeroDegree);
 
         SECONDARY_START_BUTTON.whenPressed(new ResetArm());
     }

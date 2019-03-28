@@ -8,8 +8,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.team3324.robot.util.Constants;
-import jaci.pathfinder.Trajectory;
-
 
 /**
  * Command class to determine position of the robot udtgy
@@ -17,14 +15,15 @@ import jaci.pathfinder.Trajectory;
 public class Odometry extends Command {
 
     private double x, y, theta, phi, middleEncoder, lEncoder, rEncoder;
-    private int segment = 0;
-    private Trajectory trajectory;
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
     NetworkTable table = inst.getTable("Live_Dashboard");
     NetworkTableEntry robotX = table.getEntry("robotX");
     NetworkTableEntry robotY = table.getEntry("robotY");
     NetworkTableEntry robotHeading = table.getEntry("robotHeading");
 
+    Notifier notifier = new Notifier(() -> {
+        followRobot();
+    });
     /**
      * Creates an instance of the Odometry class.
      *
@@ -40,13 +39,13 @@ public class Odometry extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        SmartDashboard.putString("Initialized", "Initialized");
         inst.startDSClient(); // recommended if running on DS computer; this gets the robot IP from the DS
-        Robot.driveTrain.clearEncoder();
-        Robot.driveTrain.clearGyro();
+        notifier.startPeriodic(0.01);
     }
 
     // Called repeatedly when this Command is scheduled to run
-    private void track() {
+    protected void followRobot() {
 
         lEncoder = Robot.driveTrain.lEncoder.getDistance();
         rEncoder = Robot.driveTrain.rEncoder.getDistance();
@@ -69,6 +68,7 @@ public class Odometry extends Command {
 
     protected boolean isFinished() { return false; }
 
-    protected void end() {
-    }
+    // Called once after isFinished returns true
+    protected void end() { notifier.stop(); }
+
 }

@@ -7,7 +7,7 @@ import frc.team3324.robot.util.OI;
 
 public class NinetyDegree extends PIDCommand {
 
-    private double goal = Math.PI/2.0;
+    private double goal = Math.toRadians(90);
 
     public NinetyDegree() {
         super(0.7, 0.0001, 1, 0.02);

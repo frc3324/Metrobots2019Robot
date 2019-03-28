@@ -1,4 +1,4 @@
-package frc.team3324.robot.arm.commands;
+package frc.team3324.robot.drivetrain.commands.teleop;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Notifier;
@@ -9,49 +9,44 @@ import frc.team3324.robot.Robot;
 import frc.team3324.robot.util.Constants;
 import frc.team3324.robot.util.OI;
 
-public class ZeroDegree extends Command {
+public class NinetyLeft extends Command {
 
-    private double goal = Math.toRadians(0);
-    private double kP = 0.55;
+    private double goal = Math.toRadians(-90);
+    private double kP = 0.7;
     private double kI = 0.001;
     private double kD = 0;
     private double integral = 0;
     private double error;
-    Notifier notifier = new Notifier(() ->{ executePID(); });
+    private Notifier notifier = new Notifier(() ->{ executePID(); });
 
 
-    public ZeroDegree() {
-        requires(Robot.arm);
+    public NinetyLeft() {
+        requires(Robot.driveTrain);
     }
 
     @Override
     protected void initialize() {
-        Robot.oi.oneEightyDegree.stopNotifier();
         integral = 0;
         notifier.startPeriodic(0.01);
     }
 
     private void executePID() {
-        double position = Robot.arm.getArmRadians();
+        double position = Math.toRadians(Robot.driveTrain.getYaw());
         error = goal - position;
         double proportional = error * kP;
         integral = integral + error;
-        Robot.arm.updateShuffleBoard();
-        Robot.arm.setArmSpeed(proportional + (integral * kI));
+        double calculatedValue = proportional + (integral * kI);
+        Robot.driveTrain.mDrive.arcadeDrive(0, -calculatedValue, false);
     }
     @Override
     protected boolean isFinished() {
-        return (OI.secondaryController.getY(GenericHID.Hand.kLeft) > 0) || (OI.secondaryController.getBButton());
-    }
-
-    public void stopNotifier() {
-        notifier.stop();
-        notifier.stop();
+        return OI.primaryController.getYButton() || OI.primaryController.getY(GenericHID.Hand.kLeft) > 0.1 || OI.primaryController.getY(GenericHID.Hand.kRight) > 0.1;
     }
 
     @Override
     protected void end() {
-        stopNotifier();
+        notifier.stop();
+        notifier.stop();
     }
 
     @Override
@@ -60,4 +55,3 @@ public class ZeroDegree extends Command {
         end();
     }
 }
-

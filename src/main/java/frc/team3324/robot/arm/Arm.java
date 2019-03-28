@@ -30,8 +30,8 @@ public class Arm extends Subsystem {
     private NetworkTableEntry frontLimitSwitch = armTab.add("Front Switch", false).withPosition(3, 0).getEntry();
     private NetworkTableEntry backLimitSwitch = armTab.add("Back Switch", false).withPosition(4, 0).getEntry();
 
-    private DigitalInput frontSwitch = new DigitalInput(9);
-    private DigitalInput backSwitch = new DigitalInput(8);
+    private DigitalInput frontSwitch = new DigitalInput(Constants.Arm.FRONT_LIMIT_SWITCH);
+    private DigitalInput backSwitch = new DigitalInput(Constants.Arm.BACK_LIMIT_SWITCH);
 
     private static Encoder encoder =
             new Encoder(Constants.Arm.ENCODER_PORT_A, Constants.Arm.ENCODER_PORT_B, true, Encoder.EncodingType.k4X);
@@ -96,7 +96,7 @@ public class Arm extends Subsystem {
         if (frontSwitch.get()) {
             encoder.reset();
         }
-        if (stopArmIfOnSwitchOrAtHardstop(speed)) {
+        if (armIsOnLimitSwitchOrHardstop(speed)) {
             OI.secondaryController.setRumble(GenericHID.RumbleType.kLeftRumble, 0.2);
             speed = 0;
         } else {
@@ -109,17 +109,22 @@ public class Arm extends Subsystem {
         armSpeed.setDouble(speed + feedforward);
     }
 
-    private boolean stopArmIfOnSwitchOrAtHardstop(double speed) {
+    private boolean armIsOnLimitSwitchOrHardstop(double speed) {
         return (encoder.get() <= 0 && speed < 0)|| (encoder.get() >= (Constants.Arm.ENCODER_TICKS_PER_REV) / 2 && speed > 0) || ((frontSwitch.get() && speed < 0) || (backSwitch.get() && speed > 0));
     }
 
-    public void setRawArmSpeed(double speed) {
+    public void resetArmSpeed(double speed) {
         if (frontSwitch.get()) {
             armMotorOne.set(0);
             encoder.reset();
         }
         armMotorOne.set(-speed);
     }
+
+    public void setRawArm(double speed) {
+            armMotorOne.set(speed);
+    }
+
     public boolean getFrontSwitch() {
         return frontSwitch.get();
     }

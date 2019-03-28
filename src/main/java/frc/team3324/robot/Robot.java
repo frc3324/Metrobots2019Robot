@@ -5,10 +5,12 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.team3324.robot.arm.Arm;
 import frc.team3324.robot.climber.Climber;
+import frc.team3324.robot.drivetrain.commands.auto.Odometry;
 import frc.team3324.robot.intake.cargo.CargoIntake;
 import frc.team3324.robot.intake.hatch.HatchIntake;
 import frc.team3324.robot.drivetrain.DriveTrain;
@@ -25,7 +27,6 @@ public class Robot extends TimedRobot {
     public Robot() { super(0.02); }
     public static Compressor compressor = new Compressor(0);
     private ShuffleboardTab compressorTab = Shuffleboard.getTab("Compressor");
-    private NetworkTableEntry compressorPressure = compressorTab.add("Compressor Pressure", false).withPosition(0, 0).getEntry();
 
 
     /*
@@ -43,6 +44,7 @@ public class Robot extends TimedRobot {
     public static Logger genericLogger;
 
     public void robotInit() {
+        LiveWindow.disableAllTelemetry();
         genericLogger = new Logger("/home/lvuser/Log.bag" + System.currentTimeMillis(), true);
         {
             arm = new Arm();
@@ -61,6 +63,7 @@ public class Robot extends TimedRobot {
 
         driveTrain.clearGyro();
         genericLogger.finishInitialization();
+
         Scheduler.getInstance().add(new Log());
 
         compressor.setClosedLoopControl(true);
@@ -86,6 +89,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        Scheduler.getInstance().add(new Odometry(5.239/3.281, 17.685/3.281, 0));
 
     }
 

@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team3324.robot.intake.cargo.commands.Intake;
+import frc.team3324.robot.intake.cargo.commands.ManualCargo;
 import frc.team3324.robot.util.Constants;
 
 import static frc.team3324.robot.Robot.pdp;
@@ -23,8 +24,8 @@ public class CargoIntake extends Subsystem {
      * <p>Populate badlog with limit switch status and current (amps) value.</p>
      */
     public CargoIntake() {
-//        BadLog.createTopic("cargointake/isIntook", "Boolean", () -> getLimitSwitchAsDouble());
         intakeMotor.setInverted(true);
+        intakeMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
         BadLog.createTopic("cargointake/Current Draw", "amps", () -> pdp.getCurrent(Constants.CargoIntake.CARGO_INTAKE_PDP_PORT));
     }
 
@@ -50,5 +51,7 @@ public class CargoIntake extends Subsystem {
         return !intakeLimitSwitch.get();
     }
 
-    public void initDefaultCommand() { }
+    public void initDefaultCommand() {
+        setDefaultCommand(new ManualCargo());
+    }
 }

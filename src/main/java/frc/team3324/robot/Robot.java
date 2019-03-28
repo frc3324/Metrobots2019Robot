@@ -14,7 +14,6 @@ import frc.team3324.robot.drivetrain.commands.auto.Odometry;
 import frc.team3324.robot.intake.cargo.CargoIntake;
 import frc.team3324.robot.intake.hatch.HatchIntake;
 import frc.team3324.robot.drivetrain.DriveTrain;
-import frc.team3324.robot.util.LED;
 import frc.team3324.robot.util.OI;
 import frc.team3324.robot.wrappers.Log;
 import frc.team3324.robot.wrappers.Logger;
@@ -25,7 +24,7 @@ import frc.team3324.robot.wrappers.Logger;
 public class Robot extends TimedRobot {
 
     public Robot() { super(0.02); }
-    public static Compressor compressor = new Compressor(0);
+    public static Compressor compressor = new Compressor(1);
     private ShuffleboardTab compressorTab = Shuffleboard.getTab("Compressor");
 
 
@@ -40,7 +39,6 @@ public class Robot extends TimedRobot {
     public static DriveTrain driveTrain;
     public static HatchIntake hatchIntake;
     public static OI oi;
-    public static LED led;
     public static Logger genericLogger;
 
     public void robotInit() {
@@ -52,8 +50,6 @@ public class Robot extends TimedRobot {
             climber = new Climber();
             driveTrain = new DriveTrain();
             hatchIntake = new HatchIntake();
-
-            led = new LED();
 
             oi = new OI();
 
@@ -79,8 +75,6 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         Scheduler.getInstance().run();
 
-        Robot.driveTrain.updateSensors();
-
         CameraServer.getInstance().getVideo();
     }
 
@@ -89,6 +83,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        Robot.driveTrain.clearGyro();
         Scheduler.getInstance().add(new Odometry(5.239/3.281, 17.685/3.281, 0));
 
     }

@@ -51,8 +51,9 @@ public class Arm extends Subsystem {
         armMotorTwo.follow(armMotorOne);
         armMotorThree.follow(armMotorOne);
 
-        armMotorOne.setInverted(true);
+        armMotorOne.setInverted(false);
         armMotorTwo.setInverted(false);
+        armMotorThree.setInverted(false);
 
         setBrakeMode();
     }

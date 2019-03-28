@@ -53,7 +53,7 @@ public class Constants {
         public final static int MOTOR_PORT_PDP_TWO = 14;
         public final static int MOTOR_PORT_PDP_THREE = 2;
 
-        public final static int ENCODER_PORT_A = 5;
+        public final static int ENCODER_PORT_A = 7;
         public final static int ENCODER_PORT_B = 6;
 
         public final static int ENCODER_TICKS_PER_REV = 256;
@@ -63,8 +63,8 @@ public class Constants {
     }
 
     public class HatchIntake {
-        public final static int HATCH_INTAKE_PORT_FORWARD = 2;
-        public final static int HATCH_INTAKE_PORT_BACKWARD = 3;
+        public final static int HATCH_INTAKE_PORT_FORWARD = 6;
+        public final static int HATCH_INTAKE_PORT_BACKWARD = 7;
     }
 
     public class CargoIntake {
@@ -76,11 +76,11 @@ public class Constants {
     }
 
     public class Climber {
-        public final static int CLIMBER_BACK_FORWARD = 4;
-        public final static int CLIMBER_BACK_BACKWARD = 5;
+        public final static int CLIMBER_BACK_FORWARD = 1;
+        public final static int CLIMBER_BACK_BACKWARD = 0;
 
-        public final static int CLIMBER_FRONT_FORWARD = 6;
-        public final static int CLIMBER_FRONT_BACKWARD = 7;
+        public final static int CLIMBER_FRONT_FORWARD = 5;
+        public final static int CLIMBER_FRONT_BACKWARD = 4;
     }
 
     public class LED {

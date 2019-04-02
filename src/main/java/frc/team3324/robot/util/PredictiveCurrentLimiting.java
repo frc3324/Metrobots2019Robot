@@ -8,14 +8,14 @@ public class PredictiveCurrentLimiting {
     private double maxCurrent, minCurrent, gearRatio;
     private Motor motor;
 
-    public PredictiveCurrentLimiting(double max, double min, double gearRatio, Motor motor) {
+    public PredictiveCurrentLimiting(double min, double max, double gearRatio, Motor motor) {
         motor.reduce(gearRatio);
-        setCurrentLimits(max, min);
+        setCurrentLimits(min, max);
         this.gearRatio = gearRatio;
         this.motor = motor;
     }
 
-    public void setCurrentLimits(double max, double min) {
+    public void setCurrentLimits(double min, double max) {
        this.minCurrent = min;
        this.maxCurrent = max;
     }

@@ -8,13 +8,16 @@ public class MotorConstants {
         public double FREE_SPEED = 5330;
         public double FREE_CURRENT = 2.7;
         public double STALL_CURRENT = 131;
-        public double R = 12 / STALL_CURRENT;
-        public double kW = (12 - FREE_CURRENT * R) / FREE_SPEED;
-        public double kT = STALL_TORQUE / STALL_CURRENT;
+        public double R;
+
+        public Cim(double numberOfMotors) {
+            STALL_CURRENT *= numberOfMotors;
+            R = 12 / STALL_CURRENT;
+        }
 
         @Override
         public double getR() {
-            return R;
+            return 12 / STALL_CURRENT;
         }
 
         @Override
@@ -29,12 +32,12 @@ public class MotorConstants {
 
         @Override
         public double getKt() {
-            return kT;
+            return STALL_TORQUE / STALL_CURRENT;
         }
 
         @Override
         public double getKW() {
-            return kW;
+            return (12 - FREE_CURRENT * R) / FREE_SPEED;
         }
 
         @Override
@@ -47,26 +50,30 @@ public class MotorConstants {
             return STALL_TORQUE;
         }
 
+        @Override
         public void reduce(double reduction) {
             FREE_SPEED =  FREE_SPEED / reduction;
             STALL_TORQUE = STALL_TORQUE * reduction;
-            kW = (12 - FREE_CURRENT * R) / FREE_SPEED;
-            kT = STALL_TORQUE / STALL_CURRENT;
         }
     }
 
     public static class MiniCim implements Motor {
+
         public double STALL_TORQUE = 1.41;
         public double FREE_SPEED = 5840;
         public double FREE_CURRENT = 3;
         public double STALL_CURRENT = 89;
-        public double R = 12 / STALL_CURRENT;
-        public double kW = (12 - FREE_CURRENT * R) / FREE_SPEED;
-        public double kT = STALL_TORQUE / STALL_CURRENT;
+        public double R;
+
+        public MiniCim(double numberOfMotors) {
+            //STALL_TORQUE *= numberOfMotors;
+            STALL_CURRENT *= numberOfMotors;
+            R = 12 / STALL_CURRENT;
+        }
 
         @Override
         public double getR() {
-            return R;
+            return 12 / STALL_CURRENT;
         }
 
         @Override
@@ -81,12 +88,12 @@ public class MotorConstants {
 
         @Override
         public double getKt() {
-            return kT;
+            return STALL_TORQUE / STALL_CURRENT;
         }
 
         @Override
         public double getKW() {
-            return kW;
+            return (12 - FREE_CURRENT * R) / FREE_SPEED;
         }
 
         @Override
@@ -103,8 +110,6 @@ public class MotorConstants {
         public void reduce(double reduction) {
             FREE_SPEED =  FREE_SPEED / reduction;
             STALL_TORQUE = STALL_TORQUE * reduction;
-            kW = (12 - FREE_CURRENT * R) / FREE_SPEED;
-            kT = STALL_TORQUE / STALL_CURRENT;
         }
     }
 
@@ -114,12 +119,14 @@ public class MotorConstants {
         public double FREE_CURRENT = 1.8;
         public double STALL_CURRENT = 53;
         public double R = 12 / STALL_CURRENT;
-        public double kW = (12 - FREE_CURRENT * R) / FREE_SPEED;
-        public double kT = STALL_TORQUE / STALL_CURRENT;
+
+        public Bag(double numberOfMotors) {
+            STALL_TORQUE *= numberOfMotors;
+        }
 
         @Override
         public double getR() {
-            return R;
+            return 12 / STALL_CURRENT;
         }
 
         @Override
@@ -134,12 +141,12 @@ public class MotorConstants {
 
         @Override
         public double getKt() {
-            return kT;
+            return STALL_TORQUE / STALL_CURRENT;
         }
 
         @Override
         public double getKW() {
-            return kW;
+            return (12 - FREE_CURRENT * R) / FREE_SPEED;
         }
 
         @Override
@@ -156,8 +163,6 @@ public class MotorConstants {
         public void reduce(double reduction) {
             FREE_SPEED =  FREE_SPEED / reduction;
             STALL_TORQUE = STALL_TORQUE * reduction;
-            kW = (12 - FREE_CURRENT * R) / FREE_SPEED;
-            kT = STALL_TORQUE / STALL_CURRENT;
         }
     }
 

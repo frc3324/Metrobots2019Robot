@@ -41,7 +41,7 @@ public class Arm extends Subsystem {
     private WPI_VictorSPX armMotorTwo = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_TWO);
     private WPI_TalonSRX armMotorThree = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_THREE);
 
-   MiniCim armMotor = new MiniCim();
+   MiniCim armMotor = new MiniCim(3);
    PredictiveCurrentLimiting predictiveCurrentLimiting = new PredictiveCurrentLimiting(8, -8, 147, armMotor);
 
     /**

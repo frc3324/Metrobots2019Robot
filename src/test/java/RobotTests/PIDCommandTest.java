@@ -10,7 +10,7 @@ public class PIDCommandTest extends PIDCommand {
     private double integral = 0;
 
     public PIDCommandTest(double kP, double kI, double kD, double goal, Subsystem subsystem) {
-        super(kP, kI, kD, goal, subsystem, 0.01);
+        super(kP, kI, kD, goal, 0.01);
     }
 
     @Override

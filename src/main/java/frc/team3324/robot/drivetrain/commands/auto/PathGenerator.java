@@ -15,24 +15,10 @@ import java.nio.file.Path;
  */
 public class PathGenerator {
     public enum path {
-        LEFT_CLOSE_HUMAN_STATION,
-        LEFT_CLOSE_ROCKET,
-        LEFT_CLOSE_CARGO,
-        LEFT_MIDDLE_CARGO,
-        LEFT_FAR_CARGO,
-        LEFT_MIDDLE_ROCKET,
-        LEFT_FAR_ROCKET,
-        RIGHT_CLOSE_ROCKET,
-        RIGHT_MIDDLE_ROCKET,
-        RIGHT_FAR_ROCKET,
-        RIGHT_CLOSE_CARGO,
-        RIGHT_MIDDLE_CARGO,
-        RIGHT_FAR_CARGO,
-        LEFT_HAB_LEFT_MID_CARGO,
-        MID_HAB_LEFT_MID_CARGO,
-        MID_LEFT_CARGO_LEFT_PS,
-        HATCH_TO_FEEDER,
-        DEFAULT
+        LEFT_LEVEL_1,
+        LEFT_LEVEL_2,
+        RIGHT_LEVEL_1,
+        RIGHT_LEVEL_2
     }
 
     /**
@@ -49,26 +35,11 @@ public class PathGenerator {
         Trajectory trajectory;
         File file;
 
-        String defaultPath = "/home/lvuser/default.traj";
-        String leftCloseHumanStationPath = "";
-        String leftCloseRocketPath = "/home/lvuser/deploy/paths/Left_Close_Left_Rocket.pf1.csv";
-        String leftMiddleRocketPath = "Left_Mid_Left_Rocket.pf1.csv";
-        String leftFarRocketPath = "Left_Far_Left_Rocket.pf1.csv";
-        String leftCloseCargoPath = "Left_Close_Cargo.pf1.csv";
-        String leftMiddleCargoPath = "Left_Mid_Cargo.pf1.csv";
-        String leftFarCargoPath = "Left_Far_Cargo.pf1.csv";
+        String leftLevelOne = "/home/lvuser/deploy/paths/leftLevelOne.pf1.csv";
+        String leftLevelTwo = "/home/lvuser/deploy/paths/leftLevelTwo.pf1.csv";
 
-        String rightCloseRocketPath = "Right_Close_Cargo.pf1.csv";
-        String rightMiddleRocketPath = "Right_Mid_Cargo.pf1.csv";
-        String rightFarRocketPath = "/home/lvuser/rightFarRocket.traj";
-        String rightCloseCargoPath = "/home/lvuser/rightCloseCargo.traj";
-        String rightMiddleCargoPath = "/home/lvuser/rightMiddleCargo.traj";
-        String rightFarCargoPath = "/home/lvuser/rightMiddleCargo.traj";
-
-        String leftHabLeftMidCargo = "/home/lvuser/deploy/paths/Left_Hab_Left_Mid_Cargo.pf1.csv";
-        String midHabLeftMidCargo = "/home/lvuser/deploy/paths/Mid_Hab_Left_Mid_Cargo.pf1.csv";
-        String midLeftCargoLeftPS = "/home/lvuser/deploy/paths/Mid_Left_Cargo_Left_PS.pf1.csv";
-        String hatch_to_feeder = "/home/lvuser/deploy/paths/hatch_to_feeder.pf1.csv";
+        String rightLevelOne = "/home/lvuser/deploy/paths/rightLevelOne.pf1.csv";
+        String rightLevelTwo = "/home/lvuser/deploy/paths/rightLevelTwo.pf1.csv";
 
         Waypoint[] defaultPoints = new Waypoint[] {
             new Waypoint(0, 0,
@@ -82,78 +53,26 @@ public class PathGenerator {
 
         try {
             switch (path) {
-            case LEFT_CLOSE_HUMAN_STATION:
-                file = new File(leftCloseHumanStationPath);
+                case LEFT_LEVEL_1:
+                file = new File(leftLevelOne);
                 trajectory = Pathfinder.readFromCSV(file);
                 break;
-            case LEFT_CLOSE_ROCKET:
-                file = new File(leftCloseRocketPath);
+                case LEFT_LEVEL_2:
+                file = new File(leftLevelTwo);
                 trajectory = Pathfinder.readFromCSV(file);
                 break;
-            case LEFT_MIDDLE_ROCKET:
-                file = new File(leftMiddleRocketPath);
+                case RIGHT_LEVEL_1:
+                file = new File(rightLevelOne);
                 trajectory = Pathfinder.readFromCSV(file);
                 break;
-            case LEFT_FAR_ROCKET:
-                file = new File(leftFarRocketPath);
+                case RIGHT_LEVEL_2:
+                file = new File(rightLevelTwo);
                 trajectory = Pathfinder.readFromCSV(file);
                 break;
-            case LEFT_CLOSE_CARGO:
-                file = new File(leftCloseCargoPath);
-                trajectory = Pathfinder.readFromCSV(file);
+                default:
+                trajectory = Pathfinder.generate(defaultPoints, config);
                 break;
-            case LEFT_MIDDLE_CARGO:
-                file = new File(leftMiddleCargoPath);
-                trajectory = Pathfinder.readFromCSV(file);
-                break;
-            case LEFT_FAR_CARGO:
-                file = new File(leftFarCargoPath);
-                trajectory = Pathfinder.readFromCSV(file);
-                break;
-            case RIGHT_CLOSE_ROCKET:
-                file = new File(rightCloseRocketPath);
-                trajectory = Pathfinder.readFromCSV(file);
-                break;
-            case RIGHT_MIDDLE_ROCKET:
-                file = new File(rightMiddleRocketPath);
-                trajectory = Pathfinder.readFromCSV(file);
-                break;
-            case RIGHT_FAR_ROCKET:
-                file = new File(rightFarRocketPath);
-                trajectory = Pathfinder.readFromCSV(file);
-                break;
-            case RIGHT_CLOSE_CARGO:
-                file = new File(rightCloseCargoPath);
-                trajectory = Pathfinder.readFromCSV(file);
-                break;
-            case RIGHT_MIDDLE_CARGO:
-                file = new File(rightMiddleCargoPath);
-                trajectory = Pathfinder.readFromCSV(file);
-                break;
-            case RIGHT_FAR_CARGO:
-                file = new File(rightFarCargoPath);
-                trajectory = Pathfinder.readFromCSV(file);
-                break;
-            case LEFT_HAB_LEFT_MID_CARGO:
-                file = new File(leftHabLeftMidCargo);
-                trajectory = Pathfinder.readFromCSV(file);
-                break;
-            case MID_HAB_LEFT_MID_CARGO:
-                file = new File(midHabLeftMidCargo);
-                trajectory = Pathfinder.readFromCSV(file);
-                break;
-            case MID_LEFT_CARGO_LEFT_PS:
-                file = new File(midLeftCargoLeftPS);
-                trajectory = Pathfinder.readFromCSV(file);
-                break;
-            case HATCH_TO_FEEDER:
-                file = new File(hatch_to_feeder);
-                trajectory = Pathfinder.readFromCSV(file);
-                break;
-            default:
-                file = new File(defaultPath);
-                trajectory = Pathfinder.readFromCSV(file);
-                break;
+
             }
         } catch (Exception CouldNotRunAuto) {
             BadLog.createValue("Auto Read Failed", "true");

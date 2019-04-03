@@ -2,16 +2,13 @@ package frc.team3324.robot.util;
 
 import frc.team3324.robot.wrappers.Motor;
 
-import java.util.function.DoubleSupplier;
-
 public class PredictiveCurrentLimiting {
-    private double maxCurrent, minCurrent, gearRatio;
+    private double maxCurrent, minCurrent;
     private Motor motor;
 
     public PredictiveCurrentLimiting(double min, double max, double gearRatio, Motor motor) {
         motor.reduce(gearRatio);
         setCurrentLimits(min, max);
-        this.gearRatio = gearRatio;
         this.motor = motor;
     }
 

@@ -11,7 +11,7 @@ public class MotorConstants {
         public double R;
 
         public Cim(double numberOfMotors) {
-            STALL_CURRENT *= numberOfMotors;
+            STALL_TORQUE *= numberOfMotors;
             R = 12 / STALL_CURRENT;
         }
 

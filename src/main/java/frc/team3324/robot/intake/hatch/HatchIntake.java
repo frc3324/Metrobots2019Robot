@@ -1,11 +1,9 @@
 package frc.team3324.robot.intake.hatch;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.util.Constants;
-import frc.team3324.robot.util.OI;
 
 /**
  * Subsystem class to control hatch intake/outtake system.

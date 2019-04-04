@@ -44,7 +44,9 @@ public class Arm extends Subsystem {
    MiniCim armMotor = new MiniCim(3);
    PredictiveCurrentLimiting predictiveCurrentLimiting = new PredictiveCurrentLimiting(8, -8, 147, armMotor);
 
-    /**
+   private double lastEncoderValue;
+   private double armRPM;
+   /**
      * Creates an instance of the Arm class.
      */
 
@@ -83,8 +85,15 @@ public class Arm extends Subsystem {
         backLimitSwitch.setBoolean(backSwitch.get());
     }
 
-    public double getArmRPM() {
-        return encoder.getRate();
+    public void updateRPM() {
+        double velocity = (encoder.get() - lastEncoderValue) / 0.02;
+        double RPM = velocity / Constants.Arm.ENCODER_TICKS_PER_REV * 60;
+        lastEncoderValue = encoder.get();
+        armRPM = RPM;
+    }
+
+    public double getRPM() {
+        return armRPM;
     }
 
     public double getArmRadians() {
@@ -111,7 +120,7 @@ public class Arm extends Subsystem {
             OI.secondaryController.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
         }
         double feedforward = 0.06 * Math.cos(getArmRadians());
-        speed = predictiveCurrentLimiting.getVoltage(speed + feedforward, getArmRPM());
+        speed = speed + feedforward;
         armMotorOne.set(speed);
 
         armSpeed.setDouble(speed);

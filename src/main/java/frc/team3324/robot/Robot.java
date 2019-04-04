@@ -83,6 +83,8 @@ public class Robot extends TimedRobot {
         Robot.driveTrain.updateSensors();
 
         CameraServer.getInstance().getVideo();
+
+        arm.updateRPM();
     }
 
     public void disabledInit() {

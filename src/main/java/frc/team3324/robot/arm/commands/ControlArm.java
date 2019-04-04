@@ -16,9 +16,6 @@ public class ControlArm extends Command {
      */
     public ControlArm() { requires(Robot.arm); }
 
-    protected void initialize() {
-    }
-
     protected void execute() {
         double leftY = OI.secondaryController.getY(GenericHID.Hand.kLeft);
         Robot.arm.updateShuffleBoard();

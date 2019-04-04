@@ -24,6 +24,9 @@ import frc.team3324.robot.wrappers.Logger;
  */
 public class Arm extends Subsystem {
 
+    private double lastEncoderValue;
+    private double armRPM;
+    private double gearRatio = 147;
     private ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
 
     private NetworkTableEntry armEncoder = armTab.add("Arm Encoder Distance", 0).withPosition(0, 0).getEntry();
@@ -42,10 +45,9 @@ public class Arm extends Subsystem {
     private WPI_TalonSRX armMotorThree = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_THREE);
 
    MiniCim armMotor = new MiniCim(3);
-   PredictiveCurrentLimiting predictiveCurrentLimiting = new PredictiveCurrentLimiting(8, -8, 147, armMotor);
+   PredictiveCurrentLimiting predictiveCurrentLimiting = new PredictiveCurrentLimiting(8, -8, gearRatio, armMotor);
 
-   private double lastEncoderValue;
-   private double armRPM;
+
    /**
      * Creates an instance of the Arm class.
      */
@@ -121,6 +123,7 @@ public class Arm extends Subsystem {
         }
         double feedforward = 0.06 * Math.cos(getArmRadians());
         speed = speed + feedforward;
+        speed = predictiveCurrentLimiting.getVoltage(speed * 12, gearRatio * getRPM());
         armMotorOne.set(speed);
 
         armSpeed.setDouble(speed);

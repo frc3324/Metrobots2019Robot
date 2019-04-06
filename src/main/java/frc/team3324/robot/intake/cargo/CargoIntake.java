@@ -50,5 +50,7 @@ public class CargoIntake extends Subsystem {
         return !intakeLimitSwitch.get();
     }
 
-    public void initDefaultCommand() { }
+    public void initDefaultCommand() {
+
+    }
 }

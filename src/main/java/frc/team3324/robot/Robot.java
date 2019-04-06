@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.team3324.robot.arm.Arm;
+import frc.team3324.robot.arm.commands.ResetArm;
 import frc.team3324.robot.climber.Climber;
 import frc.team3324.robot.drivetrain.commands.auto.JaciPathfinding;
 import frc.team3324.robot.drivetrain.commands.auto.Odometry;
@@ -92,8 +93,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Scheduler.getInstance().add(new Odometry(5.239/3.281, 17.685/3.281, 0));
+        Scheduler.getInstance().add(new Odometry(1.301/3.281, 17.628/3.281, 0));
+       // Scheduler.getInstance().add(new Odometry(5.13/3.281, 17.659/3.281, 0));
         Scheduler.getInstance().add(new JaciPathfinding(PathGenerator.path.LEFT_LEVEL_2, true, false));
+        Scheduler.getInstance().add(new ResetArm());
     }
 
     @Override

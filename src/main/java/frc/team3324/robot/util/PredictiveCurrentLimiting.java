@@ -1,5 +1,6 @@
 package frc.team3324.robot.util;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.wrappers.Motor;
 
 public class PredictiveCurrentLimiting {
@@ -20,6 +21,9 @@ public class PredictiveCurrentLimiting {
     public double getVoltage(double voltage, double angularVelocity) {
         double voltage_min = minCurrent * motor.getR() + motor.getKW() * angularVelocity;
         double voltage_max = maxCurrent * motor.getR() + motor.getKW() * angularVelocity;
+        SmartDashboard.putNumber("voltage_min", voltage_min);
+        SmartDashboard.putNumber("voltage_max", voltage_max);
+        SmartDashboard.putNumber("voltage", voltage);
         voltage = Math.max(voltage, voltage_min);
         voltage = Math.min(voltage, voltage_max);
         return voltage;

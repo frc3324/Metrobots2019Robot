@@ -82,7 +82,7 @@ public class JaciPathfinding extends Command {
         double desiredHeading = Pathfinder.r2d(left.getHeading()); // Should also be in degrees
         angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
         turn = 2 * (-1.0 / 80.0) * angleDifference;
-        Robot.driveTrain.mDrive.tankDrive(-(lOutput + turn), -(rOutput - turn), false);
+        Robot.driveTrain.mDrive.tankDrive((lOutput + turn), (rOutput - turn), false);
 
         try {
             updateShuffleBoard(lOutput, rOutput, gyroHeading, desiredHeading);
@@ -95,7 +95,7 @@ public class JaciPathfinding extends Command {
         double gyroHeading = Robot.driveTrain.getYaw() + 180; // Assuming the gyro is giving a value in degrees
         double desiredHeading = Pathfinder.r2d(left.getHeading()); // Should also be in degrees
         angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
-        turn = 1.2 * (-1.0 / 80.0) * angleDifference;
+        turn = 1.5 * (-1.0 / 80.0) * angleDifference;
         Robot.driveTrain.mDrive.tankDrive((rOutput - turn), (lOutput + turn), false);
 
         updateShuffleBoard(lOutput, rOutput, gyroHeading, desiredHeading);

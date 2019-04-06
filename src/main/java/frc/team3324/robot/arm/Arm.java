@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.Robot;
 import frc.team3324.robot.arm.commands.ControlArm;
 import frc.team3324.robot.util.Constants;
@@ -92,6 +93,7 @@ public class Arm extends Subsystem {
         double RPM = velocity / Constants.Arm.ENCODER_TICKS_PER_REV * 60;
         lastEncoderValue = encoder.get();
         armRPM = RPM;
+        SmartDashboard.putNumber("RPM", armRPM * 147);
     }
 
     public double getRPM() {
@@ -123,7 +125,7 @@ public class Arm extends Subsystem {
         }
         double feedforward = 0.06 * Math.cos(getArmRadians());
         speed = speed + feedforward;
-        speed = predictiveCurrentLimiting.getVoltage(speed * 12, gearRatio * getRPM());
+//        speed = predictiveCurrentLimiting.getVoltage(speed * 12, getRPM()) / 12;
         armMotorOne.set(speed);
 
         armSpeed.setDouble(speed);

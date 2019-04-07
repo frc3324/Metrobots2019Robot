@@ -35,7 +35,7 @@ public class DriveArc extends Command {
     protected void initialize() {
         Robot.driveTrain.mDrive.tankDrive(0.0, 0.0, false);
 
-        DriveTrain.clearEncoder();
+        Robot.driveTrain.clearEncoder();
 
         innerSpeed = ((circleRadius * (2 / Constants.DriveTrain.DISTANCE_BETWEEN_WHEELS)) - 1) /
             ((circleRadius * (2 / Constants.DriveTrain.DISTANCE_BETWEEN_WHEELS)) + 1);
@@ -47,7 +47,7 @@ public class DriveArc extends Command {
         // Turning left
         if (circleAngle < 0) {
             double rightDistance = outerDistance;
-            double encoderDifference = rightDistance - DriveTrain.rEncoder.getDistance();
+            double encoderDifference = rightDistance - Robot.driveTrain.rEncoder.getDistance();
 
             if (Math.abs(encoderDifference) < 0.5) {
                 isFinished = true;
@@ -61,7 +61,7 @@ public class DriveArc extends Command {
         // Turning right
         else if (circleAngle > 0) {
             double leftDistance = outerDistance;
-            double encoderDifference = (leftDistance - DriveTrain.lEncoder.getDistance());
+            double encoderDifference = (leftDistance - Robot.driveTrain.lEncoder.getDistance());
 
             if (Math.abs(encoderDifference) < 0.1 || encoderDifference < 0) {
                 isFinished = true;

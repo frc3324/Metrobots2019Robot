@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.SPI;
 
+import java.util.function.Function;
+
 import static frc.team3324.robot.Robot.pdp;
 
 
@@ -28,6 +30,8 @@ import static frc.team3324.robot.Robot.pdp;
  * Subsystem class to control the drivetrain and peripheral drivetrain systems.
  */
 public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsystem (class)
+
+    private Function<Double, Double> curve = Function.identity();
 
     private ShuffleboardTab sensorTab = Shuffleboard.getTab("Encoder Values");
 
@@ -49,9 +53,9 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
 
     private DoubleSolenoid gearShifter = new DoubleSolenoid(Constants.DriveTrain.DRIVETRAIN_PCM_MODULE, Constants.DriveTrain.DRIVETRAIN_PORT_FORWARD, Constants.DriveTrain.DRIVETRAIN_PORT_REVERSE);
 
-    public static Encoder lEncoder =
+    public Encoder lEncoder =
             new Encoder(Constants.DriveTrain.LEFT_ENCODER_PORT_A, Constants.DriveTrain.LEFT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);
-    public static Encoder rEncoder =
+    public Encoder rEncoder =
             new Encoder(Constants.DriveTrain.RIGHT_ENCODER_PORT_A, Constants.DriveTrain.RIGHT_ENCODER_PORT_B, true, Encoder.EncodingType.k4X);
 
     private static AHRS gyro = new AHRS(SPI.Port.kMXP);
@@ -104,7 +108,7 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      * @see Logger
      */
     private void initializeLogger() {
-        Logger.createTopic("drivetrain/Total Current", "Amps", () -> getTotalCurrent());
+        Logger.createTopic("drivetrain/Total Current", "Amps", this::getTotalCurrent);
         Logger.createTopic("drivetrain/FL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT));
         Logger.createTopic("drivetrain/BL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.BL_PDP_MOTOR_PORT));
         Logger.createTopic("drivetrain/FR Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FR_PDP_MOTOR_PORT));
@@ -128,7 +132,7 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      *
      * @see Encoder
      */
-    public static void clearEncoder() {
+    public void clearEncoder() {
         lEncoder.reset();
         rEncoder.reset();
     }
@@ -161,6 +165,38 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
         gyroYaw.setNumber(getYaw());
     }
 
+    public void curvatureDrive(double forward, double rotation, boolean quickTurn) {
+        double left;
+        double right;
+
+        if (forward == 0) {
+            quickTurn = true;
+        }
+
+        if (quickTurn) {
+            left = forward + rotation;
+            right = forward - rotation;
+        } else {
+            left = forward + curve.apply(forward) * rotation;
+            right = forward - curve.apply(forward) * rotation;
+        }
+
+        double[] normalSpeed = normalizeSpeeds(left, right);
+
+        left = normalSpeed[0];
+        right = normalSpeed[1];
+
+        Robot.driveTrain.mDrive.tankDrive(left, right);
+    }
+
+    private double[] normalizeSpeeds(double left, double right) {
+        double maxMagnitude = Math.max(Math.abs(left), Math.abs(right));
+        if (maxMagnitude > 1) {
+            left /= maxMagnitude;
+            right /= maxMagnitude;
+        }
+        return new double[]{left, right};
+    }
     /**
      * Resets the gyro to zero.
      * <p>Avoid usage at all costs.</p>

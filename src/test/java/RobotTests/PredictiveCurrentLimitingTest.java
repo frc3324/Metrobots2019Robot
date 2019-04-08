@@ -10,8 +10,8 @@ import java.util.function.BooleanSupplier;
 
 @DisplayName("Predictive Current Limiting Test")
 public class PredictiveCurrentLimitingTest {
-    Cim cim = new Cim(1);
-    Cim gearReductionCim = new Cim(1);
+    private Cim cim = new Cim(1);
+    private Cim gearReductionCim = new Cim(1);
     enum condition { EQUAL, GREATER, LESS }
     private PredictiveCurrentLimiting predictiveCurrentLimiting = new PredictiveCurrentLimiting(-30, 30, 1, cim);
     private PredictiveCurrentLimiting predictiveCurrentLimitingGearRatio = new PredictiveCurrentLimiting(-30, 30, 2, gearReductionCim);
@@ -19,55 +19,25 @@ public class PredictiveCurrentLimitingTest {
 
     @Test
     public void getVoltageTestSame() {
-        double voltage = 12;
-        double predictedVoltage = predictiveCurrentLimiting.getVoltage(12, 0);
-        double voltage_max = 30 * cim.getR() + cim.getKW() * 0;
-        double voltage_min = -30 * cim.getR() + cim.getKW() * 0;
-        voltage = Math.max(voltage, voltage_min);
-        voltage = Math.min(voltage, voltage_max);
-        System.out.println("Predicted Voltage: " + predictedVoltage + "Test Voltage" + voltage);
-        assert(voltage == predictedVoltage);
+        getVoltageTest(predictiveCurrentLimiting, cim, 12, 12, 0, 0, condition.EQUAL);
     }
 
     @Test
     public void getVoltageTestDifferent() {
-        double voltage = 24;
-        double predictedVoltage = predictiveCurrentLimiting.getVoltage(12, 0);
-        double voltage_max = 30 * cim.getR() + cim.getKW() * 0;
-        double voltage_min = -30 * cim.getR() + cim.getKW() * 0;
-        voltage = Math.max(voltage, voltage_min);
-        voltage = Math.min(voltage, voltage_max);
-        System.out.println("Predicted Voltage: " + predictedVoltage + "Test Voltage" + voltage);
-        assert(voltage == predictedVoltage);
+        getVoltageTest(predictiveCurrentLimiting, cim, 12, 24, 0, 0, condition.EQUAL);
     }
 
     @Test
     public void getVoltageHighRPMTest() {
-        double voltage = 24;
-        double predictedVoltage = predictiveCurrentLimiting.getVoltage(12, 3000);
-        double voltage_max = 30 * cim.getR() + cim.getKW() * 3000;
-        double voltage_min = -30 * cim.getR() + cim.getKW() * 3000;
-        voltage = Math.max(voltage, voltage_min);
-        voltage = Math.min(voltage, voltage_max);
-        System.out.println("Predicted Voltage: " + predictedVoltage + "Test Voltage" + voltage);
-        assert(voltage == predictedVoltage);
+        getVoltageTest(predictiveCurrentLimiting, cim, 12, 24, 3000, 3000, condition.EQUAL);
     }
 
     @Test
     public void getVoltageDifferentGearRatioTest() {
-        double voltage = 12;
-        double predictedVoltage = predictiveCurrentLimitingGearRatio.getVoltage(12, 3000);
-        double voltage_max = 30 * cim.getR() + cim.getKW() * 1500;
-        double voltage_min = -30 * cim.getR() + cim.getKW() * 1500;
-        voltage = Math.max(voltage, voltage_min);
-        voltage = Math.min(voltage, voltage_max);
-        System.out.println("Predicted Voltage: " + predictedVoltage + "Test Voltage" + voltage);
-        assert(voltage < predictedVoltage);
+        getVoltageTest(predictiveCurrentLimitingGearRatio, cim, 12, 12, 1500, 3000, condition.GREATER);
     }
     @Test
     public void getVoltageGearRatioLowRPMTest() {
-        double voltage = 12;
-        double predictedVoltage = predictiveCurrentLimitingGearRatio.getVoltage(12, 1000);
         getVoltageTest(predictiveCurrentLimitingGearRatio, cim, 12, 12, 2000, 1000, condition.EQUAL);
     }
 

@@ -49,7 +49,7 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
     private NetworkTableEntry rightRateGraph = sensorTab.add("Right Encoder Rate Graph", 0).withPosition(4, 1).withWidget(BuiltInWidgets.kGraph).getEntry();
     private NetworkTableEntry leftRateGraph = sensorTab.add("Left Encoder Rate Graph", 0).withPosition(5, 1).withWidget(BuiltInWidgets.kGraph).getEntry();
 
-    private NetworkTableEntry  gyroYaw = sensorTab.add("Gyro Yaw", 0).withPosition(0, 2).getEntry();
+    private NetworkTableEntry gyroYaw = sensorTab.add("Gyro Yaw", 0).withPosition(0, 2).getEntry();
 
     private DoubleSolenoid gearShifter = new DoubleSolenoid(Constants.DriveTrain.DRIVETRAIN_PCM_MODULE, Constants.DriveTrain.DRIVETRAIN_PORT_FORWARD, Constants.DriveTrain.DRIVETRAIN_PORT_REVERSE);
 
@@ -114,8 +114,8 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
         Logger.createTopic("drivetrain/FR Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FR_PDP_MOTOR_PORT));
         Logger.createTopic("drivetrain/BR Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.BR_PDP_MOTOR_PORT));
 
-        Logger.createTopic("drivetrain/Left Raw", "Ticks", () -> (double)lEncoder.getRaw());
-        Logger.createTopic("drivetrain/Right Raw", "Ticks", () -> (double)rEncoder.getRaw());
+        Logger.createTopic("drivetrain/Left Raw", "Ticks", () -> (double) lEncoder.getRaw());
+        Logger.createTopic("drivetrain/Right Raw", "Ticks", () -> (double) rEncoder.getRaw());
         Logger.createTopic("drivetrain/Left Distance", "m", () -> lEncoder.getDistance());
         Logger.createTopic("drivetrain/Right Distance", "m", () -> rEncoder.getDistance());
         Logger.createTopic("drivetrain/Left Rate", "m/s", () -> lEncoder.getRate());
@@ -197,12 +197,16 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
         }
         return new double[]{left, right};
     }
+
     /**
      * Resets the gyro to zero.
      * <p>Avoid usage at all costs.</p>
+     *
      * @see AHRS
      */
-    public void clearGyro() { gyro.reset(); }
+    public void clearGyro() {
+        gyro.reset();
+    }
 
     /**
      * Gets current gyro yaw.
@@ -210,7 +214,9 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      * @return Current yaw value in degrees, -180.0 to 180.0.
      * @see AHRS
      */
-    public double getYaw() { return gyro.getYaw(); }
+    public double getYaw() {
+        return gyro.getYaw();
+    }
 
     /**
      * Sets drivetrain motors to brake mode (apply force to brake).
@@ -241,14 +247,17 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      *
      * @see DoubleSolenoid
      */
-    public void shiftGears() { if (gearShifter.get() == DoubleSolenoid.Value.kForward) {
-        gearShifter.set(DoubleSolenoid.Value.kReverse);
-    } else {
-        gearShifter.set(DoubleSolenoid.Value.kForward);
-    }
+    public void shiftGears() {
+        if (gearShifter.get() == DoubleSolenoid.Value.kForward) {
+            gearShifter.set(DoubleSolenoid.Value.kReverse);
+        } else {
+            gearShifter.set(DoubleSolenoid.Value.kForward);
+        }
     }
 
-    protected void initDefaultCommand() { setDefaultCommand(new Drive()); }
+    protected void initDefaultCommand() {
+        setDefaultCommand(new Drive());
+    }
 
     /**
      * Gets total current of drivetrain through PDP.

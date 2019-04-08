@@ -63,11 +63,10 @@ public class MotorConstants {
         public double FREE_SPEED = 6200;
         public double FREE_CURRENT = 1.5;
         public double STALL_CURRENT = 86;
-        public double R;
 
         public MiniCim(double numberOfMotors) {
             STALL_TORQUE *= numberOfMotors;
-            R = 12 / STALL_CURRENT;
+            FREE_CURRENT *= numberOfMotors;
         }
 
         @Override
@@ -92,7 +91,7 @@ public class MotorConstants {
 
         @Override
         public double getKW() {
-            return (12 - FREE_CURRENT * R) / FREE_SPEED;
+            return (12 - FREE_CURRENT * 12 / STALL_CURRENT) / FREE_SPEED;
         }
 
         @Override

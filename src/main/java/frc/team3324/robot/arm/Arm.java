@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.team3324.robot.Robot;
@@ -24,8 +25,7 @@ import frc.team3324.robot.wrappers.Logger;
  */
 public class Arm extends Subsystem {
 
-    private double lastEncoderValue;
-    private double armRPM;
+    private double lastEncoderValue, armRPM, lastTimeStep;
     private double gearRatio = 147;
     private ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
 
@@ -44,8 +44,8 @@ public class Arm extends Subsystem {
     private WPI_VictorSPX armMotorTwo = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_TWO);
     private WPI_TalonSRX armMotorThree = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_THREE);
 
-   MiniCim armMotor = new MiniCim(3);
-   PredictiveCurrentLimiting predictiveCurrentLimiting = new PredictiveCurrentLimiting(8, -8, gearRatio, armMotor);
+   private MiniCim armMotor = new MiniCim(3);
+   private PredictiveCurrentLimiting predictiveCurrentLimiting = new PredictiveCurrentLimiting(24, -24, gearRatio, armMotor);
 
 
    /**
@@ -57,6 +57,7 @@ public class Arm extends Subsystem {
         initializeCurrentLimiting();
         setBrakeMode();
         encoder.setDistancePerPulse(1.0/256.0);
+        lastTimeStep = Timer.getFPGATimestamp();
     }
 
 
@@ -88,10 +89,12 @@ public class Arm extends Subsystem {
     }
 
     public void updateRPM() {
-        double velocity = (encoder.get() - lastEncoderValue) / 0.02;
+        double timeDifference = Timer.getFPGATimestamp() - lastTimeStep;
+        double velocity = (encoder.get() - lastEncoderValue) / timeDifference;
         double RPM = velocity / Constants.Arm.ENCODER_TICKS_PER_REV * 60;
         lastEncoderValue = encoder.get();
         armRPM = RPM;
+        lastTimeStep = Timer.getFPGATimestamp();
     }
 
     public double getRPM() {

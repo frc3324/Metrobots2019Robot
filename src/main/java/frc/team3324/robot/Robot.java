@@ -58,18 +58,16 @@ public class Robot extends TimedRobot {
 
             oi = new OI();
 
-            BadLog.createTopic("System/Battery Voltage", "V", () -> RobotController.getBatteryVoltage());
+            BadLog.createTopic("System/Battery Voltage", "V",  RobotController::getBatteryVoltage);
             BadLog.createTopic("Match Time", "s", () -> DriverStation.getInstance().getMatchTime());
         }
 
-        driveTrain.clearGyro();
         logger.finishInitialization();
+        driveTrain.clearGyro();
 
         Scheduler.getInstance().add(new Log());
 
         compressor.setClosedLoopControl(true);
-
-        driveTrain.clearGyro();
 
         CameraServer.getInstance().startAutomaticCapture(1);
         CameraServer.getInstance().startAutomaticCapture(0);

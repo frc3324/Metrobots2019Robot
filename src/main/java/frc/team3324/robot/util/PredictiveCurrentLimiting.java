@@ -20,10 +20,6 @@ public class PredictiveCurrentLimiting {
     public double getVoltage(double voltage, double angularVelocity) {
         double voltage_min = minCurrent * motor.getR() + motor.getKW() * angularVelocity;
         double voltage_max = maxCurrent * motor.getR() + motor.getKW() * angularVelocity;
-        System.out.println("Kw" + motor.getKW());
-        System.out.println("R" + motor.getR());
-        System.out.println("volt max" + voltage_max);
-        System.out.println("volt min" + voltage_min);
         voltage = Math.max(voltage, voltage_min);
         voltage = Math.min(voltage, voltage_max);
         return voltage;

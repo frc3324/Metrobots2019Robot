@@ -8,9 +8,9 @@ public class PredictiveCurrentLimiting {
     private Motor motor;
 
     public PredictiveCurrentLimiting(double min, double max, double gearRatio, Motor motor) {
-        motor.reduce(gearRatio);
         setCurrentLimits(min, max);
         this.motor = motor;
+        this.motor.reduce(gearRatio);
     }
 
     public void setCurrentLimits(double min, double max) {

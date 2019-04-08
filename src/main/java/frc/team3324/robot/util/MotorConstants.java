@@ -57,14 +57,14 @@ public class MotorConstants {
 
     public static class MiniCim implements Motor {
 
-        public double STALL_TORQUE = 1.41;
-        public double FREE_SPEED = 5840;
-        public double FREE_CURRENT = 3;
-        public double STALL_CURRENT = 89;
+        public double STALL_TORQUE = 1.4;
+        public double FREE_SPEED = 6200;
+        public double FREE_CURRENT = 1.5;
+        public double STALL_CURRENT = 86;
 
         public MiniCim(double numberOfMotors) {
-            //STALL_TORQUE *= numberOfMotors;
-            STALL_CURRENT *= numberOfMotors;
+            STALL_TORQUE *= numberOfMotors;
+            FREE_CURRENT *= numberOfMotors;
         }
 
         @Override

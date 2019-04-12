@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.team3324.robot.arm.commands.*;
 import frc.team3324.robot.climber.commands.teleop.ToggleFrontClimb;
 import frc.team3324.robot.climber.commands.teleop.ToggleBackClimb;
+import frc.team3324.robot.drivetrain.commands.auto.Characterizer;
 import frc.team3324.robot.drivetrain.commands.auto.JaciPathfinding;
 import frc.team3324.robot.drivetrain.commands.auto.Odometry;
 import frc.team3324.robot.drivetrain.commands.auto.PathGenerator;
@@ -71,8 +72,8 @@ public class OI {
         PRIMARY_START_BUTTON.whenPressed(new ToggleFrontClimb());
         PRIMARY_BACK_BUTTON.whenPressed(new ToggleBackClimb());
 
-        PRIMARY_X_BUTTON.whenPressed(new NinetyLeft());
         PRIMARY_B_BUTTON.whenPressed(new JaciPathfinding(PathGenerator.path.LEFT_TWO_INTAKE_STATION, true, true));
+        PRIMARY_Y_BUTTON.whenPressed(new Characterizer());
 
 
         SECONDARY_Y_BUTTON.whileHeld(new Outtake());

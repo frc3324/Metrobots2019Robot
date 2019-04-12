@@ -169,9 +169,10 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
         double left;
         double right;
 
-        if (forward == 0) {
+        if (forward < 0.05) {
             quickTurn = true;
         }
+
 
         if (quickTurn) {
             left = forward + rotation;

@@ -127,7 +127,7 @@ public class Arm extends Subsystem {
         }
         double feedforward = 0.06 * Math.cos(getArmRadians());
         speed = speed + feedforward;
-        speed = predictiveCurrentLimiting.getVoltage(speed * 12, getRPM()) / 12;
+        //speed = predictiveCurrentLimiting.getVoltage(speed * 12, getRPM()) / 12;
         armMotorOne.set(speed);
 
         armSpeed.setDouble(speed);

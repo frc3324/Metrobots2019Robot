@@ -3,6 +3,7 @@ package frc.team3324.robot.drivetrain.commands.auto;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.util.Constants;
 import frc.team3324.robot.Robot;
 
@@ -14,7 +15,7 @@ import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
-//import static frc.team3324.robot.drivetrain.commands.auto.PathfinderShuffleboard.*;
+import static frc.team3324.robot.drivetrain.commands.auto.PathfinderShuffleboard.*;
 import static frc.team3324.robot.drivetrain.commands.auto.PathGenerator.*;
 
 /**
@@ -25,7 +26,7 @@ public class JaciPathfinding extends Command {
     private double angleDifference, turn;
     private boolean reversed, readFromFile;
     private PathGenerator.path path;
-    Odometry odometry;
+    private TankModifier modifier;
 
     private EncoderFollower left;
     private EncoderFollower right;
@@ -40,12 +41,12 @@ public class JaciPathfinding extends Command {
      * @see PathGenerator.path
      */
     public JaciPathfinding(PathGenerator.path path, boolean readFromFile, boolean reversed) {
+        requires(Robot.driveTrain);
         this.reversed = reversed;
         this.path = path;
         this.readFromFile = readFromFile;
-        requires(Robot.driveTrain);
         Trajectory trajectory = generateTrajectory(path, readFromFile);
-        TankModifier modifier = new TankModifier(trajectory).modify(Constants.DriveTrain.DISTANCE_BETWEEN_WHEELS);
+        modifier = new TankModifier(trajectory).modify(Constants.DriveTrain.DISTANCE_BETWEEN_WHEELS);
         left = new EncoderFollower(modifier.getLeftTrajectory());
         right = new EncoderFollower(modifier.getRightTrajectory());
         if (reversed) {
@@ -59,8 +60,8 @@ public class JaciPathfinding extends Command {
             right.configureEncoder(Robot.driveTrain.rEncoder.getRaw(), Constants.DriveTrain.TICKS,
                     Constants.DriveTrain.WHEEL_DIAMETER_METERS);
         }
-        left.configurePIDVA(0.3, 0, 0, 2.6516 / 12, 0.0070);
-        right.configurePIDVA(0.3, 0.0, 0,2.6660 / 12, 0.3057);
+        left.configurePIDVA(0.06, 0, 0, 2.5522  / 12, 0.0070 / 12);
+        right.configurePIDVA(0.06, 0.0, 0,2.5916 / 12, 0.3057 / 12);
         Robot.driveTrain.setBrakeMode();
     }
 
@@ -84,11 +85,14 @@ public class JaciPathfinding extends Command {
         double gyroHeading = Robot.driveTrain.getYaw(); // Assuming the gyro is giving a value in degrees
         double desiredHeading = Pathfinder.r2d(left.getHeading()); // Should also be in degrees
         angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
-        turn = 0.8 * (-1.0 / 80.0) * angleDifference;
-        double leftSpeed = (lOutput + turn);
-        double rightSpeed = (rOutput - turn);
-        double leftFeedforward = 1.5 * Math.signum(leftSpeed) / 12;
-        double rightFeedforward = 1.8 * Math.signum(rightSpeed) / 12;
+        turn = 0.5 * (-1.0 / 80.0) * angleDifference;
+        double leftSpeed = (rOutput + turn);
+        double rightSpeed = (lOutput - turn);
+        double leftFeedforward = 1.54 * Math.signum(leftSpeed) / 12;
+        double rightFeedforward = 1.43 * Math.signum(rightSpeed) / 12;
+
+        SmartDashboard.putNumber("Velocity Left", Robot.driveTrain.lEncoder.getRate());
+        SmartDashboard.putNumber("Velocity Right", Robot.driveTrain.rEncoder.getRate());
         Robot.driveTrain.mDrive.tankDrive(leftSpeed + leftFeedforward, rightSpeed + rightFeedforward, false);
 
         try {
@@ -111,17 +115,17 @@ public class JaciPathfinding extends Command {
     }
 
     private void updateShuffleBoard(double lOutput, double rOutput, double gyroHeading, double desiredHeading) {
-      //  leftOutput.setDouble(lOutput);
-       // rightOutput.setDouble(rOutput);
-        //finished.setBoolean(left.isFinished() && right.isFinished() && angleDifference < 3);
+        leftOutput.setDouble(lOutput);
+        rightOutput.setDouble(rOutput);
+        finished.setBoolean(left.isFinished() && right.isFinished() && angleDifference < 3);
         PathfinderShuffleboard.desiredHeading.setDouble(desiredHeading);
         if (reversed) {
-           // heading.setDouble(gyroHeading);
+            heading.setDouble(gyroHeading);
         } else {
-          //  heading.setDouble(gyroHeading);
+            heading.setDouble(gyroHeading);
         }
-        //angleError.setDouble(angleDifference);
-        //headingCorrectSpeed.setDouble(turn);
+        angleError.setDouble(angleDifference);
+        headingCorrectSpeed.setDouble(turn);
     }
 
     // Called once after isFinished returns true
@@ -131,7 +135,7 @@ public class JaciPathfinding extends Command {
         Robot.driveTrain.mDrive.tankDrive(0, 0, false);
     }
     protected boolean isFinished() {
-        return (left.isFinished() && right.isFinished() && Math.abs(angleDifference) < 3) || (OI.primaryController.getX(GenericHID.Hand.kLeft) > 0.05) || OI.primaryController.getXButton();
+        return (left.isFinished() && right.isFinished() && Math.abs(angleDifference) < 1) || (OI.primaryController.getX(GenericHID.Hand.kLeft) > 0.05) || OI.primaryController.getXButton();
     }
 
     @Override

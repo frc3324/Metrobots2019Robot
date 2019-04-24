@@ -70,15 +70,15 @@ public class Robot extends TimedRobot {
 
         compressor.setClosedLoopControl(true);
 
-//        CameraServer.getInstance().startAutomaticCapture(1);
-//        CameraServer.getInstance().startAutomaticCapture(0);
+        CameraServer.getInstance().startAutomaticCapture(1);
+        CameraServer.getInstance().startAutomaticCapture(0);
 //
-//        CameraServer.getInstance().putVideo("Camera output", 240, 144);
+        CameraServer.getInstance().putVideo("Camera output", 240, 144);
     }
 
     public void robotPeriodic() {
         Scheduler.getInstance().run();
-//        CameraServer.getInstance().getVideo();
+        CameraServer.getInstance().getVideo();
     }
 
     public void disabledInit() {
@@ -86,10 +86,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        //Scheduler.getInstance().add(new Odometry(3.018/3.281, 17.628/3.281, 0));
-        Scheduler.getInstance().add(new Odometry(3.018/3.281, 9.903/3.281, 0));
+        Scheduler.getInstance().add(new Odometry(3.018/3.281, 17.628/3.281, 0));
+        //Scheduler.getInstance().add(new Odometry(3.118/3.281, 9.903/3.281, 0));
         //Scheduler.getInstance().add(new Odometry(5.13/3.281, 17.659/3.281, 0));
-        Scheduler.getInstance().add(new JaciPathfinding(PathGenerator.path.RIGHT_LEVEL_1, true, false));
+       // Scheduler.getInstance().add(new JaciPathfinding(PathGenerator.path.RIGHT_LEVEL_1, true, false));
     }
 
     @Override

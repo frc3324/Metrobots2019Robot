@@ -21,7 +21,7 @@ public class Drive extends Command {
     protected void execute() {
         double leftY = OI.primaryController.getY(GenericHID.Hand.kLeft); // Get the Y (Up/Down) value of the LEFT Joystick
         double rightX = OI.primaryController.getX(GenericHID.Hand.kRight); // Get the X (Left/Right) value of the LEFT Joystick
-        Robot.driveTrain.curvatureDrive(-leftY, -rightX * 0.7, false);
+        Robot.driveTrain.curvatureDrive(-leftY * 0.4, -rightX * 0.35, false);
     }
 
     @Override

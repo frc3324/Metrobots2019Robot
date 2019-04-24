@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.SPI;
 
+import java.util.function.Function;
+
 import static frc.team3324.robot.Robot.pdp;
 
 
@@ -28,6 +30,8 @@ import static frc.team3324.robot.Robot.pdp;
  * Subsystem class to control the drivetrain and peripheral drivetrain systems.
  */
 public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsystem (class)
+
+    private Function<Double, Double> curve = Function.identity();
 
     private ShuffleboardTab sensorTab = Shuffleboard.getTab("Encoder Values");
 
@@ -45,13 +49,13 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
     private NetworkTableEntry rightRateGraph = sensorTab.add("Right Encoder Rate Graph", 0).withPosition(4, 1).withWidget(BuiltInWidgets.kGraph).getEntry();
     private NetworkTableEntry leftRateGraph = sensorTab.add("Left Encoder Rate Graph", 0).withPosition(5, 1).withWidget(BuiltInWidgets.kGraph).getEntry();
 
-    private NetworkTableEntry  gyroYaw = sensorTab.add("Gyro Yaw", 0).withPosition(0, 2).getEntry();
+    private NetworkTableEntry gyroYaw = sensorTab.add("Gyro Yaw", 0).withPosition(0, 2).getEntry();
 
     private DoubleSolenoid gearShifter = new DoubleSolenoid(Constants.DriveTrain.DRIVETRAIN_PCM_MODULE, Constants.DriveTrain.DRIVETRAIN_PORT_FORWARD, Constants.DriveTrain.DRIVETRAIN_PORT_REVERSE);
 
-    public static Encoder lEncoder =
+    public Encoder lEncoder =
             new Encoder(Constants.DriveTrain.LEFT_ENCODER_PORT_A, Constants.DriveTrain.LEFT_ENCODER_PORT_B, false, Encoder.EncodingType.k4X);
-    public static Encoder rEncoder =
+    public Encoder rEncoder =
             new Encoder(Constants.DriveTrain.RIGHT_ENCODER_PORT_A, Constants.DriveTrain.RIGHT_ENCODER_PORT_B, true, Encoder.EncodingType.k4X);
 
     private static AHRS gyro = new AHRS(SPI.Port.kMXP);
@@ -104,14 +108,14 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      * @see Logger
      */
     private void initializeLogger() {
-        Logger.createTopic("drivetrain/Total Current", "Amps", () -> getTotalCurrent());
+        Logger.createTopic("drivetrain/Total Current", "Amps", this::getTotalCurrent);
         Logger.createTopic("drivetrain/FL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FL_PDP_MOTOR_PORT));
         Logger.createTopic("drivetrain/BL Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.BL_PDP_MOTOR_PORT));
         Logger.createTopic("drivetrain/FR Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.FR_PDP_MOTOR_PORT));
         Logger.createTopic("drivetrain/BR Current", "Amps", () -> pdp.getCurrent(Constants.DriveTrain.BR_PDP_MOTOR_PORT));
 
-        Logger.createTopic("drivetrain/Left Raw", "Ticks", () -> (double)lEncoder.getRaw());
-        Logger.createTopic("drivetrain/Right Raw", "Ticks", () -> (double)rEncoder.getRaw());
+        Logger.createTopic("drivetrain/Left Raw", "Ticks", () -> (double) lEncoder.getRaw());
+        Logger.createTopic("drivetrain/Right Raw", "Ticks", () -> (double) rEncoder.getRaw());
         Logger.createTopic("drivetrain/Left Distance", "m", () -> lEncoder.getDistance());
         Logger.createTopic("drivetrain/Right Distance", "m", () -> rEncoder.getDistance());
         Logger.createTopic("drivetrain/Left Rate", "m/s", () -> lEncoder.getRate());
@@ -128,7 +132,7 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      *
      * @see Encoder
      */
-    public static void clearEncoder() {
+    public void clearEncoder() {
         lEncoder.reset();
         rEncoder.reset();
     }
@@ -161,12 +165,49 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
         gyroYaw.setNumber(getYaw());
     }
 
+    public void curvatureDrive(double forward, double rotation, boolean quickTurn) {
+        double left;
+        double right;
+
+        if (forward < 0.09) {
+            quickTurn = true;
+        }
+
+
+        if (quickTurn) {
+            left = forward + rotation;
+            right = forward - rotation;
+        } else {
+            left = forward + curve.apply(forward) * rotation;
+            right = forward - curve.apply(forward) * rotation;
+        }
+
+        double[] normalSpeed = normalizeSpeeds(left, right);
+
+        left = normalSpeed[0];
+        right = normalSpeed[1];
+
+        Robot.driveTrain.mDrive.tankDrive(left, right);
+    }
+
+    private double[] normalizeSpeeds(double left, double right) {
+        double maxMagnitude = Math.max(Math.abs(left), Math.abs(right));
+        if (maxMagnitude > 1) {
+            left /= maxMagnitude;
+            right /= maxMagnitude;
+        }
+        return new double[]{left, right};
+    }
+
     /**
      * Resets the gyro to zero.
      * <p>Avoid usage at all costs.</p>
+     *
      * @see AHRS
      */
-    public void clearGyro() { gyro.reset(); }
+    public void clearGyro() {
+        gyro.reset();
+    }
 
     /**
      * Gets current gyro yaw.
@@ -174,7 +215,9 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      * @return Current yaw value in degrees, -180.0 to 180.0.
      * @see AHRS
      */
-    public double getYaw() { return gyro.getYaw(); }
+    public double getYaw() {
+        return gyro.getYaw();
+    }
 
     /**
      * Sets drivetrain motors to brake mode (apply force to brake).
@@ -205,14 +248,17 @@ public class DriveTrain extends Subsystem { // Identify Drivetrain as a subsyste
      *
      * @see DoubleSolenoid
      */
-    public void shiftGears() { if (gearShifter.get() == DoubleSolenoid.Value.kForward) {
-        gearShifter.set(DoubleSolenoid.Value.kReverse);
-    } else {
-        gearShifter.set(DoubleSolenoid.Value.kForward);
-    }
+    public void shiftGears() {
+        if (gearShifter.get() == DoubleSolenoid.Value.kForward) {
+            gearShifter.set(DoubleSolenoid.Value.kReverse);
+        } else {
+            gearShifter.set(DoubleSolenoid.Value.kForward);
+        }
     }
 
-    protected void initDefaultCommand() { setDefaultCommand(new Drive()); }
+    protected void initDefaultCommand() {
+        setDefaultCommand(new Drive());
+    }
 
     /**
      * Gets total current of drivetrain through PDP.

@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.team3324.robot.intake.cargo.commands.CargoFeedforward;
 import frc.team3324.robot.intake.cargo.commands.Intake;
 import frc.team3324.robot.intake.cargo.commands.ManualCargo;
 import frc.team3324.robot.util.Constants;
@@ -52,6 +53,6 @@ public class CargoIntake extends Subsystem {
     }
 
     public void initDefaultCommand() {
-        setDefaultCommand(new ManualCargo());
+        setDefaultCommand(new CargoFeedforward());
     }
 }

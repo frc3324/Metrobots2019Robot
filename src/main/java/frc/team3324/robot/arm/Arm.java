@@ -5,8 +5,10 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3324.robot.Robot;
 import frc.team3324.robot.arm.commands.ControlArm;
 import frc.team3324.robot.util.Constants;
@@ -14,7 +16,9 @@ import frc.team3324.robot.util.Constants;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.team3324.robot.util.MotorConstants.MiniCim;
 import frc.team3324.robot.util.OI;
+import frc.team3324.robot.util.PredictiveCurrentLimiting;
 import frc.team3324.robot.wrappers.Logger;
 
 /**
@@ -22,6 +26,8 @@ import frc.team3324.robot.wrappers.Logger;
  */
 public class Arm extends Subsystem {
 
+    private double lastEncoderValue, armRPM, lastTimeStep;
+    private double gearRatio = 147;
     private ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
 
     private NetworkTableEntry armEncoder = armTab.add("Arm Encoder Distance", 0).withPosition(0, 0).getEntry();
@@ -39,12 +45,24 @@ public class Arm extends Subsystem {
     private WPI_TalonSRX armMotorTwo = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_TWO);
     private WPI_VictorSPX armMotorThree = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_THREE);
 
-    /**
+   private MiniCim armMotor = new MiniCim(3);
+   private PredictiveCurrentLimiting predictiveCurrentLimiting = new PredictiveCurrentLimiting(24, -24, gearRatio, armMotor);
+
+
+   /**
      * Creates an instance of the Arm class.
      */
 
     public Arm() {
-        initializeBadlog();
+        initializeLogger();
+        initializeCurrentLimiting();
+        setBrakeMode();
+        encoder.setDistancePerPulse(1.0/256.0);
+        lastTimeStep = Timer.getFPGATimestamp();
+    }
+
+
+    private void initializeCurrentLimiting() {
         armMotorOne.configContinuousCurrentLimit(8, 0);
         armMotorOne.enableCurrentLimit(true);
 
@@ -65,11 +83,9 @@ public class Arm extends Subsystem {
         armMotorThree.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
     }
 
-    private void initializeBadlog() {
-        Logger.createTopic("arm/Arm Current One", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_ONE));
-        Logger.createTopic("arm/Arm Current Two", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_TWO));
-        Logger.createTopic("arm/Arm Current Three", "amps", () -> Robot.pdp.getCurrent(Constants.Arm.MOTOR_PORT_PDP_THREE));
-        Logger.createTopic("arm/Arm Current Max", "amps", () -> getPDPMax());
+    private void initializeLogger() {
+        Logger.createTopic("arm/Arm Current One", "amps", () -> armMotorOne.getOutputCurrent());
+        Logger.createTopic("arm/Arm Current Max", "amps", () -> armMotorOne.getOutputCurrent() * 3);
         Logger.createTopic("arm/Arm Radians", "rad", () -> getArmRadians());
     }
 
@@ -78,6 +94,19 @@ public class Arm extends Subsystem {
         armPDP.setNumber(getPDPMax());
         frontLimitSwitch.setBoolean(frontSwitch.get());
         backLimitSwitch.setBoolean(backSwitch.get());
+    }
+
+    public void updateRPM() {
+        double timeDifference = Timer.getFPGATimestamp() - lastTimeStep;
+        double velocity = (encoder.get() - lastEncoderValue) / timeDifference;
+        double RPM = velocity / Constants.Arm.ENCODER_TICKS_PER_REV * 60;
+        lastEncoderValue = encoder.get();
+        armRPM = RPM;
+        lastTimeStep = Timer.getFPGATimestamp();
+    }
+
+    public double getRPM() {
+        return armRPM;
     }
 
     public double getArmRadians() {
@@ -105,9 +134,11 @@ public class Arm extends Subsystem {
         }
 
         double feedforward = 0.06 * Math.cos(getArmRadians());
-        armMotorOne.set(speed + feedforward);
+        speed = speed + feedforward;
+        //speed = predictiveCurrentLimiting.getVoltage(speed * 12, getRPM()) / 12;
+        armMotorOne.set(speed);
 
-        armSpeed.setDouble(speed + feedforward);
+        armSpeed.setDouble(speed);
     }
 
     private boolean armIsOnLimitSwitchOrHardstop(double speed) {

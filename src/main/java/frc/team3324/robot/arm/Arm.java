@@ -42,7 +42,7 @@ public class Arm extends Subsystem {
     private static Encoder encoder =
             new Encoder(Constants.Arm.ENCODER_PORT_A, Constants.Arm.ENCODER_PORT_B, true, Encoder.EncodingType.k4X);
     private WPI_TalonSRX armMotorOne = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_ONE);
-    private WPI_TalonSRX armMotorTwo = new WPI_TalonSRX(Constants.Arm.MOTOR_PORT_ARM_TWO);
+    private WPI_VictorSPX armMotorTwo = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_TWO);
     private WPI_VictorSPX armMotorThree = new WPI_VictorSPX(Constants.Arm.MOTOR_PORT_ARM_THREE);
 
    private MiniCim armMotor = new MiniCim(3);

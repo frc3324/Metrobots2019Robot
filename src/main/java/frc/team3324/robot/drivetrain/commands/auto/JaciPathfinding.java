@@ -86,8 +86,9 @@ public class JaciPathfinding extends Command {
         double desiredHeading = Pathfinder.r2d(left.getHeading()); // Should also be in degrees
         angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
         turn = 0.5 * (-1.0 / 80.0) * angleDifference;
-        double leftSpeed = (rOutput + turn);
-        double rightSpeed = (lOutput - turn);
+//        turn = 0;
+        double leftSpeed = (lOutput + turn);
+        double rightSpeed = (rOutput - turn);
         double leftFeedforward = 1.54 * Math.signum(leftSpeed) / 12;
         double rightFeedforward = 1.43 * Math.signum(rightSpeed) / 12;
 

@@ -16,7 +16,7 @@ import static frc.team3324.robot.Robot.pdp;
  * Subsystem class to control cargo intake/outtake system.
  */
 public class CargoIntake extends Subsystem {
-    public WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.CargoIntake.CARGO_INTAKE_MOTOR_PORT);
+    public WPI_TalonSRX intakeMotor = new WPI_TalonSRX(Constants.CargoIntake.CARGO_INTAKE_MOTOR_PORT);
 
     public DigitalInput intakeLimitSwitch = new DigitalInput(Constants.CargoIntake.LIMIT_SWITCH_PORT);
 
@@ -25,8 +25,9 @@ public class CargoIntake extends Subsystem {
      * <p>Populate badlog with limit switch status and current (amps) value.</p>
      */
     public CargoIntake() {
-        intakeMotor.setInverted(true);
         intakeMotor.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
+        intakeMotor.configContinuousCurrentLimit(15);
+        intakeMotor.enableCurrentLimit(true);
         BadLog.createTopic("cargointake/Current Draw", "amps", () -> pdp.getCurrent(Constants.CargoIntake.CARGO_INTAKE_PDP_PORT));
     }
 

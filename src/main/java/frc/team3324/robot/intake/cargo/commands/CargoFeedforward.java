@@ -11,7 +11,7 @@ public class CargoFeedforward extends Command {
 
     @Override
     protected void execute() {
-        Robot.cargoIntake.intakeMotor.set(0.2);
+        Robot.cargoIntake.intakeMotor.set(0.05);
     }
 
     @Override

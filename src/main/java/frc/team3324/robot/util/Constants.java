@@ -40,13 +40,13 @@ public class Constants {
         public final static double LOW_GEAR_MAX_ACCELERATION = 6.51;
 
         // Drivetrain ports
-        public final static int DRIVETRAIN_PORT_FORWARD = 2;
-        public final static int DRIVETRAIN_PORT_REVERSE = 3;
+        public final static int DRIVETRAIN_PORT_FORWARD = 0;
+        public final static int DRIVETRAIN_PORT_REVERSE = 1;
     }
 
     public class Arm {
         public final static int MOTOR_PORT_ARM_ONE = 2; // Talon
-        public final static int MOTOR_PORT_ARM_TWO = 4; // Talon
+        public final static int MOTOR_PORT_ARM_TWO = 3; // Victor
         public final static int MOTOR_PORT_ARM_THREE = 5; // Victor
 
         public final static int MOTOR_PORT_PDP_ONE = 15;
@@ -68,7 +68,7 @@ public class Constants {
     }
 
     public class CargoIntake {
-        public final static int CARGO_INTAKE_MOTOR_PORT = 3;
+        public final static int CARGO_INTAKE_MOTOR_PORT = 4;
 
         public final static int CARGO_INTAKE_PDP_PORT = 3;
 
@@ -86,8 +86,8 @@ public class Constants {
     public class LED {
         public final static int LED_PCM_MODULE = 1;
 
-        public final static int RED_LED_PORT = 5;
+        public final static int RED_LED_PORT = 7;
         public final static int GREEN_LED_PORT = 6;
-        public final static int BLUE_LED_PORT = 7;
+        public final static int BLUE_LED_PORT = 5;
     }
 }

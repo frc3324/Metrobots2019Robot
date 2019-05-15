@@ -13,6 +13,7 @@ import frc.team3324.robot.climber.Climber;
 import frc.team3324.robot.drivetrain.commands.auto.JaciPathfinding;
 import frc.team3324.robot.drivetrain.commands.auto.Odometry;
 import frc.team3324.robot.drivetrain.commands.auto.PathGenerator;
+import frc.team3324.robot.drivetrain.commands.teleop.Drive;
 import frc.team3324.robot.intake.cargo.CargoIntake;
 import frc.team3324.robot.intake.hatch.HatchIntake;
 import frc.team3324.robot.drivetrain.DriveTrain;
@@ -47,7 +48,7 @@ public class Robot extends TimedRobot {
     public static Logger logger;
 
     public void robotInit() {
-        LiveWindow.disableAllTelemetry();
+//        LiveWindow.disableAllTelemetry();
         logger = new Logger("/home/lvuser/Log.bag" + System.currentTimeMillis(), true);
         {
             arm = new Arm();
@@ -55,6 +56,7 @@ public class Robot extends TimedRobot {
             climber = new Climber();
             driveTrain = new DriveTrain();
             hatchIntake = new HatchIntake();
+            led = new  LED();
 
             oi = new OI();
 
@@ -65,6 +67,16 @@ public class Robot extends TimedRobot {
         logger.finishInitialization();
         driveTrain.clearGyro();
 
+        if (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Red) {
+            led.setRedLED(true);
+            led.setBlueLED(true);
+        } else if (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue) {
+            led.setRedLED(true);
+            led.setBlueLED(true);
+        } else {
+            led.setRedLED(true);
+            led.setBlueLED(true);
+        }
         Scheduler.getInstance().add(new Log());
 
         compressor.setClosedLoopControl(true);
@@ -78,6 +90,7 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         Scheduler.getInstance().run();
         CameraServer.getInstance().getVideo();
+//        driveTrain.updateSensors();
     }
 
     public void disabledInit() {
@@ -85,10 +98,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Scheduler.getInstance().add(new Odometry(3.018/3.281, 17.628/3.281, 0));
+        //Scheduler.getInstance().add(new Odometry(3.018/3.281, 17.628/3.281, 0));
         //Scheduler.getInstance().add(new Odometry(3.118/3.281, 9.903/3.281, 0));
         //Scheduler.getInstance().add(new Odometry(5.13/3.281, 17.659/3.281, 0));
-       // Scheduler.getInstance().add(new JaciPathfinding(PathGenerator.path.RIGHT_LEVEL_1, true, false));
+  //      Scheduler.getInstance().add(new JaciPathfinding(PathGenerator.path.RIGHT_LEVEL_2, true, false));
     }
 
     @Override

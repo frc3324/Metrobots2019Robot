@@ -1,5 +1,6 @@
 package frc.team3324.robot.util;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -62,9 +63,15 @@ public class LED {
     /**
      * Turn on all LED colors.
      */
-    public void setNeutralState() {
-        redLED.set(true);
-        greenLED.set(true);
-        blueLED.set(true);
+    public void setGreenLED(boolean value) {
+        greenLED.set(value);
+    }
+
+    public void setBlueLED(boolean value) {
+        blueLED.set(value);
+    }
+
+    public void setRedLED(boolean value) {
+        redLED.set(value);
     }
 }
